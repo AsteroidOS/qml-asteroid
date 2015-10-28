@@ -1,0 +1,5 @@
+module org.asteroid.controls
+
+plugin asteroidcontrolsplugin
+
+ProgressCircle 1.0 ProgressCircle.qml
