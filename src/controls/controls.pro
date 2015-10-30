@@ -14,7 +14,8 @@ HEADERS += \
 
 OTHER_FILES = \
     qmldir \
-    qml/ProgressCircle.qml
+    qml/ProgressCircle.qml \
+    qml/CircularScrollIndicator.qml
 
 qmldir.files = qmldir
 

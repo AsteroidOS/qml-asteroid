@@ -2,4 +2,5 @@ module org.asteroid.controls
 
 plugin asteroidcontrolsplugin
 
+CircularScrollIndicator 1.0 CircularScrollIndicator.qml
 ProgressCircle 1.0 ProgressCircle.qml

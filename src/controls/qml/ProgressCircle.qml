@@ -40,6 +40,9 @@ Canvas {
     /*! This defines the progress line width. */
     property real progressLineWidth: _radius / 13
 
+    /*! This defines if the animation is enabled. */
+    property alias animationEnabled: behaviorOnValue.enabled
+
     /*! \internal */
     property point _center: Qt.point(width / 2, height / 2)
 
@@ -81,5 +84,5 @@ Canvas {
         ctx.stroke()
     }
 
-    Behavior on value { NumberAnimation { } }
+    Behavior on value { id: behaviorOnValue; NumberAnimation { } }
 }
