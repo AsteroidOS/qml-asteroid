@@ -20,6 +20,24 @@
 import QtQuick 2.4
 import QtGraphicalEffects 1.0
 
+/*!
+    \qmltype Layer
+    \inqmlmodule org.asteroid.controls
+    \inherits FocusScope
+    \brief A swipable layer.
+
+    Use this through a LayerStack.
+
+    Example:
+    \qml
+    Layer {
+        stack: myLayerStack
+        Rectangle {
+            anchors.fill: parent
+        }
+    }
+    \endqml
+*/
 
 FocusScope {
     id: item
@@ -29,13 +47,19 @@ FocusScope {
 
     x: item.width
 
+    /*! The LayerStack. This only needs to be specified if LayerStack is not this Layer's parent. */
     property var stack: parent.objectName === "LayerStack" ? parent : null
-    property bool active: stack.currentLayer === item
-    enabled: active
+
+    /*! This property descripes whether the Layer is active. */
+    readonly property bool active: stack.currentLayer === item
+
     property bool isAboutToHide: x < -(width*(1/4)) || x > (width*(1/4))
+
+    enabled: active
 
     visible: x < item.width
 
+    /*! Hide this layer. */
     function hide() {
         stack.pop(this);
         hideAnimation.start();
@@ -45,12 +69,12 @@ FocusScope {
         backToOriginAnimation.start()
     }
 
+    /*! Show this layer. */
     function show () {
         forceActiveFocus();
         stack.push(this);
         showAnimation.start();
     }
-
 
     NumberAnimation {
         id: hideAnimation
