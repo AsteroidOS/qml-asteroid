@@ -1,6 +1,6 @@
 # Ionicons SVG
 This folder contains the Ionicons icon set. The MIT license applies for this files (see `LICENSE` for more information).
-Go to (https://github.com/driftyco/ionicons)[https://github.com/driftyco/ionicons] for the originial code.
+Go to [https://github.com/driftyco/ionicons](https://github.com/driftyco/ionicons) for the originial code.
 
 ## About Ionicons
 
