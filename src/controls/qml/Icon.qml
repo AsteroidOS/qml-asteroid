@@ -20,12 +20,13 @@
 import QtQuick 2.4
 import QtGraphicalEffects 1.0
 import QtQuick.Window 2.2
+import org.asteroid.controls 1.0
 
 
 Item {
     id: item
 
-    property real size: 24
+    property real size: Units.dp(24)
     property string name
     property color color: Style.palette.regular
 
