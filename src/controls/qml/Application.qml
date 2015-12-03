@@ -19,10 +19,17 @@
 
 import QtQuick 2.4
 import QtQuick.Window 2.2
+import org.asteroid.controls 1.0
 
 Window {
     id: application
-    title: "WatchApplication"
-    objectName: "WatchApplication"
+    title: "Application"
+    objectName: "Application"
     contentOrientation: Screen.orientation
+
+    Component.onCompleted: {
+        Units.pixelDensity = Qt.binding(function() {
+            return Screen.pixelDensity
+        });
+    }
 }
