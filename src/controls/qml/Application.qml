@@ -18,6 +18,7 @@
  */
 
 import QtQuick 2.4
+import QtQuick.Controls.Styles.Asteroid 1.0
 import QtQuick.Window 2.2
 import org.asteroid.controls 1.0
 
