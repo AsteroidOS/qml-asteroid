@@ -7,10 +7,14 @@ TARGET = $$qtLibraryTarget($$TARGET)
 uri = org.asteroid.controls
 
 SOURCES += \
-    src/controls_plugin.cpp
+    src/controls_plugin.cpp \
+    src/asteroidimageprovider.cpp \
+    src/themedaemonclient.cpp
 
 HEADERS += \
-    src/controls_plugin.h
+    src/controls_plugin.h \
+    src/asteroidimageprovider.h \
+    src/themedaemonclient.h \
 
 OTHER_FILES = \
     qmldir \

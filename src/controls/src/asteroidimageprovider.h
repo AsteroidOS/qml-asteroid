@@ -17,21 +17,20 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "controls_plugin.h"
-#include <QtQml>
-#include "asteroidimageprovider.h"
+#ifndef ASTEROIDIMAGEPROVIDER_H
+#define ASTEROIDIMAGEPROVIDER_H
 
-ControlsPlugin::ControlsPlugin(QObject *parent) : QQmlExtensionPlugin(parent)
-{
-}
+#include <QQuickImageProvider>
+#include <QDebug>
+#include "themedaemonclient.h"
 
-void ControlsPlugin::registerTypes(const char *uri)
+class AsteroidImageProvider : public QQuickImageProvider
 {
-    Q_ASSERT(uri == QLatin1String("org.asteroid.controls"));
-}
+public:
+    explicit AsteroidImageProvider();
+    QImage requestImage(const QString &id, QSize *size, const QSize &requestedSize);
+private:
+    ThemeDaemonClient* m_client;
+};
 
-void ControlsPlugin::initializeEngine(QQmlEngine *engine, const char *uri)
-{
-    QQmlExtensionPlugin::initializeEngine(engine, uri);
-    engine->addImageProvider(QLatin1String("theme"), new AsteroidImageProvider);
-}
+#endif // ASTEROIDIMAGEPROVIDER_H
