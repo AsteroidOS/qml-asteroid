@@ -4,7 +4,7 @@ QT += qml quick
 CONFIG += qt plugin
 
 TARGET = $$qtLibraryTarget($$TARGET)
-uri = org.asteroid.styles
+uri = QtQuick.Controls.Styles.Asteroid
 
 SOURCES += \
     src/styles_plugin.cpp

@@ -1,6 +1,4 @@
 /*
- * Qt Quick Controls Asteroid - User interface components for AsteroidOS
- *
  * Copyright (C) 2015 - Florent Revest <revestflo@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,22 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef STYLESPLUGIN_H
-#define STYLESPLUGIN_H
+import QtQuick.Controls.Styles 1.1
 
-#include <QQmlExtensionPlugin>
-
-class QQmlEngine;
-class StylesPlugin : public QQmlExtensionPlugin
-{
-    Q_OBJECT
-    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QQmlExtensionInterface")
-
-public:
-    explicit StylesPlugin(QObject *parent = 0);
-    void registerTypes(const char *uri);
-    void initializeEngine(QQmlEngine *engine, const char *uri);
-};
-
-#endif // STYLESPLUGIN_H
-
+BusyIndicatorStyle {
+}
