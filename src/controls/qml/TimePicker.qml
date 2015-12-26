@@ -281,18 +281,18 @@ Rectangle {
 
         function findAlpha(x, y) {
 
-            var alpha = (Math.atan((y - bg.centerY)/(x - bg.centerX)) * 180) / 3.14 + 90
-            if (x < bg.centerX)
+            var alpha = (Math.atan((y - timePicker.centerY)/(x - timePicker.centerX)) * 180) / 3.14 + 90
+            if (x < timePicker.centerX)
                 alpha += 180
 
             return alpha
         }
 
         function chooseHandler(mouseX, mouseY) {
-            var radius = Math.sqrt(Math.pow(bg.centerX - mouseX, 2) + Math.pow(bg.centerY - mouseY, 2));
-            if (radius <= bg.width * 0.25)
+            var radius = Math.sqrt(Math.pow(timePicker.centerX - mouseX, 2) + Math.pow(timePicker.centerY - mouseY, 2));
+            if (radius <= timePicker.width * 0.25)
                 return 0
-            else if(radius < bg.width * 0.5)
+            else if(radius < timePicker.width * 0.5)
                 return 1
             return -1
         }
