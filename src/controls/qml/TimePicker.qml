@@ -33,6 +33,9 @@ Rectangle {
     property int minuteGradDelta: 6
     property int hourGradDelta: 30
 
+    property int centerX: width/2
+    property int centerY: height/2
+
     signal startInteraction
     signal stopInteraction
 
@@ -220,15 +223,27 @@ Rectangle {
         property real previousAlpha: -1
 
         onPressed: {
-            startInteraction()
-            currentHandler = chooseHandler(mouseX, mouseY)
-            previousAlpha = findAlpha(mouseX, mouseY)
+            var radius = Math.sqrt(Math.pow(timePicker.centerX - mouseX, 2) + Math.pow(timePicker.centerY - mouseY, 2));
+            if (radius <= timePicker.width/2) {
+                startInteraction()
+                currentHandler = chooseHandler(mouseX, mouseY)
+                previousAlpha = findAlpha(mouseX, mouseY)
+            }
+            else {
+                mouse.accepted = false
+            }
         }
 
         onReleased: {
-            stopInteraction()
-            currentHandler = -1
-            previousAlpha = -1
+            var radius = Math.sqrt(Math.pow(timePicker.centerX - mouseX, 2) + Math.pow(timePicker.centerY - mouseY, 2));
+            if (radius <= timePicker.width/2) {
+                stopInteraction()
+                currentHandler = -1
+                previousAlpha = -1
+            }
+            else {
+                mouse.accepted = false
+            }
         }
 
         onPositionChanged: {
