@@ -91,7 +91,6 @@ Item {
         anchors.fill: parent
 
         hoverEnabled: true
-        propagateComposedEvents: true
 
         property int proposedX: layersStack.currentLayer ? mouseArea.mouseX-layersStack.currentLayer.width/2 : 0
 
