@@ -68,6 +68,12 @@ Canvas {
     /*! \internal */
     property real _radius: Math.min(width / 2, height / 2.15)
 
+    /*! \internal */
+    property real _start_angle: 0
+
+    /*! \internal */
+    property real _end_angle: Math.PI * 2
+
     antialiasing: true
 
     height: 200
@@ -78,8 +84,6 @@ Canvas {
     onBackgroundColorChanged: requestPaint()
 
     onPaint: {
-        var start_angle = 0
-        var end_angle = Math.PI * 2
         var ctx = getContext('2d')
 
         ctx.reset()
@@ -89,17 +93,14 @@ Canvas {
         ctx.lineWidth = backgroundLineWidth
 
         ctx.beginPath()
-        ctx.arc(_center.x, _center.y, _radius, start_angle, end_angle)
+        ctx.arc(_center.x, _center.y, _radius, root._start_angle, root._end_angle)
         ctx.stroke()
-
-        start_angle = 0
-        end_angle = Math.PI * value * 2
 
         ctx.strokeStyle = color
         ctx.lineWidth = progressLineWidth
 
         ctx.beginPath()
-        ctx.arc(_center.x, _center.y, _radius, start_angle, end_angle)
+        ctx.arc(_center.x, _center.y, _radius, _start_angle, 2*Math.PI*value + _start_angle)
         ctx.stroke()
     }
 
