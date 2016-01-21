@@ -57,7 +57,7 @@ FocusScope {
 
     enabled: active
 
-    visible: x < item.width
+    // visible: x < item.width TODO: For some reasons hidding layers at creation messes up some rendering (e.g: the TimePicker)
 
     /*! Hide this layer. */
     function hide() {
