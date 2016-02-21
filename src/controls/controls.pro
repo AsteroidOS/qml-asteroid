@@ -9,12 +9,14 @@ uri = org.asteroid.controls
 SOURCES += \
     src/controls_plugin.cpp \
     src/asteroidimageprovider.cpp \
-    src/themedaemonclient.cpp
+    src/themedaemonclient.cpp \
+    src/deviceinfo.cpp
 
 HEADERS += \
     src/controls_plugin.h \
     src/asteroidimageprovider.h \
     src/themedaemonclient.h \
+    src/deviceinfo.h
 
 OTHER_FILES = \
     qmldir \

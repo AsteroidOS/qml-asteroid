@@ -17,23 +17,14 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "controls_plugin.h"
-#include <QtQml>
-#include "asteroidimageprovider.h"
 #include "deviceinfo.h"
 
-ControlsPlugin::ControlsPlugin(QObject *parent) : QQmlExtensionPlugin(parent)
+bool DeviceInfo::hasRoundScreen()
 {
+#ifdef ROUND_SCREEN
+    return true;
+#else
+    return false;
+#endif
 }
 
-void ControlsPlugin::registerTypes(const char *uri)
-{
-    Q_ASSERT(uri == QLatin1String("org.asteroid.controls"));
-    qmlRegisterSingletonType<DeviceInfo>(uri, 1,0, "DeviceInfo", &DeviceInfo::qmlInstance);
-}
-
-void ControlsPlugin::initializeEngine(QQmlEngine *engine, const char *uri)
-{
-    QQmlExtensionPlugin::initializeEngine(engine, uri);
-    engine->addImageProvider(QLatin1String("theme"), new AsteroidImageProvider);
-}
