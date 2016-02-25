@@ -1,7 +1,8 @@
 /*
  * Qt Quick Controls Asteroid - User interface components for AsteroidOS
  *
- * Copyright (C) 2015 Tim Süberkrüb <tim.sueberkrueb@web.de>
+ * Copyright (C) 2016 Florent Revest <revestflo@gmail.com>
+ *               2015 Tim Süberkrüb <tim.sueberkrueb@web.de>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -27,42 +28,29 @@ import QtQuick 2.4
 
     Example:
     \qml
-    LayerStack {
-        id: watchLayerStack
+    Component {
+        id: blueRect
+        Rectangle { color: "blue" }
+    }
 
-        Layer {
-            id: myWatchLayer
-            Rectangle {
-                anchors.fill: parent
-                color: "green"
-
-                Button {
-                    anchors.centerIn: parent
-                    text: "Sub"
-                    onClicked: {
-                        mySubWL.show();
-                    }
-                }
-
-            }
-        }
-
-        Layer {
-            z:5
-            id: mySubWL
-            Rectangle {
-                anchors.fill: parent
+    Component {
+        id: redRect
+        Rectangle { color: "red"
+            Button {
+                text: "Open 2nd Layer"
+                anchors.centerIn: parent
+                onClicked: layerStack.push(blueRect)
             }
         }
     }
 
     Button {
-        anchors.bottom: parent.bottom
-        text: "Action"
-        onClicked: {
-            myWatchLayer.show();
-        }
+        text: "Open Layer"
+        anchors.centerIn: parent
+        onClicked: layerStack.push(redRect)
     }
+
+    LayerStack { id: layerStack }
     \endqml
 */
 
@@ -75,53 +63,111 @@ Item {
     property var layers: []
     property var currentLayer: layers.length > 0 ? layers[layers.length-1] : null
 
-    function push(layer) {
-        if (currentLayer !== layer)
-            layers.push(layer);
+    Component { // Blocks mouse events between layers
+        id: layer
+        MouseArea {
+            property alias sourceComponent: load.sourceComponent
+            Loader {id: load ; anchors.fill: parent}
+        }
+    }
+
+    function push(component) {
+        if (component.status === Component.Ready)
+            layers.push(layer.createObject(parent, {"sourceComponent": component, "width": width, "height": height}));
+        parent.setOverridesSystemGestures(layers.length > 0) // /!\ TODO: find AppWindow instead of using parent
         layersChanged();
     }
 
     function pop(layer) {
         layers.pop(layer);
+        parent.setOverridesSystemGestures(layers.length > 0) // /!\ TODO: find AppWindow instead of using parent
         layersChanged();
     }
 
-    MouseArea {
-        id: mouseArea
+    BorderGestureArea {
+        id: gestureArea
         anchors.fill: parent
+        enabled: layers.length > 0
 
-        hoverEnabled: true
+        property real swipeThreshold: 0.15
 
-        property int proposedX: layersStack.currentLayer ? mouseArea.mouseX-layersStack.currentLayer.width/2 : 0
-
-        onClicked: {
-            mouse.accepted = false;
+        onGestureStarted: {
+            swipeAnimation.stop()
+            cancelAnimation.stop()
+            if(gesture == "right")
+                state = "swipe"
         }
 
-        onPressed: {
-            if (layersStack.currentLayer)
-                layersStack.currentLayer.x = Qt.binding(function(){return mouseArea.proposedX < 0 ? 0 : mouseArea.proposedX;})
-            else
-                mouse.accepted = false;
+        onGestureFinished: {
+            if(gesture == "right") {
+                if (gestureArea.progress >= swipeThreshold) {
+                    swipeAnimation.valueTo = inverted ? -max : max
+                    swipeAnimation.start()
+                } else
+                    cancelAnimation.start()
+            } else
+                cancelAnimation.start()
         }
 
-        onPressAndHold: {
-            mouse.accepted = false;
+        states: [
+            State {
+                name: "swipe"
+
+                PropertyChanges {
+                    target: gestureArea
+                    delayReset: true
+                }
+
+                PropertyChanges {
+                    target: currentLayer
+                    x: gestureArea.horizontal ? gestureArea.value : 0
+                }
+            }
+        ]
+
+        SequentialAnimation {
+            id: cancelAnimation
+
+            NumberAnimation {
+                target: gestureArea
+                property: "value"
+                to: 0
+                duration: 200
+                easing.type: Easing.OutQuint
+            }
+
+            PropertyAction {
+                target: gestureArea
+                property: "state"
+                value: ""
+            }
         }
 
-        onReleased: {
-            layersStack.currentLayer.x = layersStack.currentLayer.x;
-            if (layersStack.currentLayer.isAboutToHide)
-                layersStack.currentLayer.hide();
-            else
-                layersStack.currentLayer.cancelHide();
-            mouse.accepted = false;
-        }
-        onPositionChanged: {
-            mouse.accepted = false;
-        }
-        onDoubleClicked: {
-            mouse.accepted = false;
+        SequentialAnimation {
+            id: swipeAnimation
+
+            property alias valueTo: valueAnimation.to
+
+            NumberAnimation {
+                id: valueAnimation
+                target: gestureArea
+                property: "value"
+                duration: 200
+                easing.type: Easing.OutQuint
+            }
+
+            ScriptAction {
+                script: {
+                    currentLayer.destroy()
+                    pop(currentLayer)
+                }
+            }
+
+            PropertyAction {
+                target: gestureArea
+                property: "state"
+                value: ""
+            }
         }
     }
 }

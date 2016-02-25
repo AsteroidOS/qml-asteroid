@@ -10,18 +10,26 @@ SOURCES += \
     src/controls_plugin.cpp \
     src/asteroidimageprovider.cpp \
     src/themedaemonclient.cpp \
-    src/deviceinfo.cpp
+    src/deviceinfo.cpp \
+    src/application_p.cpp
 
 HEADERS += \
     src/controls_plugin.h \
     src/asteroidimageprovider.h \
     src/themedaemonclient.h \
-    src/deviceinfo.h
+    src/deviceinfo.h \
+    src/application_p.h
 
 OTHER_FILES = \
     qmldir \
+    qml/Application.qml \
+    qml/BorderGestureArea.qml \
+    qml/CircularScrollIndicator.qml \
+    qml/IconButton.qml \
+    qml/LayerStack.qml \
     qml/ProgressCircle.qml \
-    qml/CircularScrollIndicator.qml
+    qml/TimePicker.qml \
+    qml/Units.qml
 
 qmldir.files = qmldir
 
