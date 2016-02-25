@@ -1,7 +1,8 @@
 /*
  * Qt Quick Controls Asteroid - User interface components for AsteroidOS
  *
- * Copyright (C) 2015 Tim Süberkrüb <tim.sueberkrueb@web.de>
+ * Copyright (C) 2016 Florent Revest <revestflo@gmail.com>
+ *               2015 Tim Süberkrüb <tim.sueberkrueb@web.de>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -18,15 +19,14 @@
  */
 
 import QtQuick 2.4
-import QtQuick.Controls.Styles.Asteroid 1.0
 import QtQuick.Window 2.2
+import QtQuick.Controls.Styles.Asteroid 1.0
 import org.asteroid.controls 1.0
 
-Window {
+Application_p {
     id: application
-    title: "Application"
     objectName: "Application"
-    contentOrientation: Screen.orientation
+    anchors.fill: parent
 
     Component.onCompleted: {
         Units.pixelDensity = Qt.binding(function() {

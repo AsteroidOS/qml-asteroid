@@ -21,6 +21,7 @@
 #include <QtQml>
 #include "asteroidimageprovider.h"
 #include "deviceinfo.h"
+#include "application_p.h"
 
 ControlsPlugin::ControlsPlugin(QObject *parent) : QQmlExtensionPlugin(parent)
 {
@@ -30,6 +31,7 @@ void ControlsPlugin::registerTypes(const char *uri)
 {
     Q_ASSERT(uri == QLatin1String("org.asteroid.controls"));
     qmlRegisterSingletonType<DeviceInfo>(uri, 1,0, "DeviceInfo", &DeviceInfo::qmlInstance);
+    qmlRegisterType<Application_p>(uri, 1, 0, "Application_p");
 }
 
 void ControlsPlugin::initializeEngine(QQmlEngine *engine, const char *uri)
