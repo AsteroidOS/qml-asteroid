@@ -70,10 +70,14 @@ Item {
             Loader {id: load ; anchors.fill: parent}
         }
     }
+    function push(component, params) {
+        if (typeof params === 'undefined') params = {}
+        params["sourceComponent"] = component
+        params["width"] = width
+        params["height"] = height
 
-    function push(component) {
         if (component.status === Component.Ready)
-            layers.push(layer.createObject(parent, {"sourceComponent": component, "width": width, "height": height}));
+            layers.push(layer.createObject(parent, params));
         parent.setOverridesSystemGestures(layers.length > 0) // /!\ TODO: find AppWindow instead of using parent
         layersChanged();
     }
