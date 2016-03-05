@@ -92,6 +92,7 @@ Item {
         id: gestureArea
         anchors.fill: parent
         enabled: layers.length > 0
+        acceptsRight: true
 
         property real swipeThreshold: 0.15
 

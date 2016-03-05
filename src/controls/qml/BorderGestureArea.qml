@@ -50,21 +50,26 @@ MouseArea {
     property bool horizontal: gesture === "left" || gesture === "right"
     property bool inverted: gesture === "left" || gesture === "up"
 
+    property bool acceptsRight: false
+    property bool acceptsLeft: false
+    property bool acceptsDown: false
+    property bool acceptsUp: false
+
     // Internal
     property int _mouseStart
     property variant _gestures: ["down", "left", "up", "right"]
 
     onPressed: {
-        if (mouse.x < boundary) {
+        if (mouse.x < boundary && acceptsRight) {
             gesture = "right"
             max = width - mouse.x
-        } else if (width - mouse.x < boundary) {
+        } else if (width - mouse.x < boundary && acceptsLeft) {
             gesture = "left"
             max = mouse.x
-        } else if (mouse.y < boundary) {
+        } else if (mouse.y < boundary && acceptsDown) {
             gesture = "down"
             max = height - mouse.y
-        } else if (height - mouse.y < boundary) {
+        } else if (height - mouse.y < boundary && acceptsUp) {
             gesture = "up"
             max = mouse.y
         } else {
