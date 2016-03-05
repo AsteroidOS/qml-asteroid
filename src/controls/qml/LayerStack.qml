@@ -65,19 +65,19 @@ Item {
 
     Component { // Blocks mouse events between layers
         id: layer
-        MouseArea {
-            property alias sourceComponent: load.sourceComponent
-            Loader {id: load ; anchors.fill: parent}
-        }
+        MouseArea { width: parent.width; height: parent.height }
     }
+
     function push(component, params) {
         if (typeof params === 'undefined') params = {}
-        params["sourceComponent"] = component
         params["width"] = width
         params["height"] = height
 
-        if (component.status === Component.Ready)
-            layers.push(layer.createObject(parent, params));
+        if (component.status === Component.Ready) {
+            var mouseBlocker = layer.createObject(parent);
+            component.createObject(mouseBlocker, params);
+            layers.push(mouseBlocker);
+        }
         parent.setOverridesSystemGestures(layers.length > 0) // /!\ TODO: find AppWindow instead of using parent
         layersChanged();
     }
