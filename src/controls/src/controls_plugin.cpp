@@ -18,6 +18,8 @@
  */
 
 #include "controls_plugin.h"
+#include <QFontDatabase>
+#include <QGuiApplication> 
 #include <QtQml>
 #include "asteroidimageprovider.h"
 #include "deviceinfo.h"
