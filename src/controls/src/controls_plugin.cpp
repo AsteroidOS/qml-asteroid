@@ -30,6 +30,10 @@ ControlsPlugin::ControlsPlugin(QObject *parent) : QQmlExtensionPlugin(parent)
 void ControlsPlugin::registerTypes(const char *uri)
 {
     Q_ASSERT(uri == QLatin1String("org.asteroid.controls"));
+
+    QFontDatabase::addApplicationFont("/usr/share/fonts/google-opensans/OpenSans-Regular.ttf");
+    QGuiApplication::setFont(QFont("Open Sans"));
+
     qmlRegisterSingletonType<DeviceInfo>(uri, 1,0, "DeviceInfo", &DeviceInfo::qmlInstance);
     qmlRegisterType<Application_p>(uri, 1, 0, "Application_p");
 }
