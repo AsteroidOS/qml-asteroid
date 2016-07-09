@@ -10,4 +10,5 @@ BorderGestureArea 1.0 BorderGestureArea.qml
 Icon 1.0 Icon.qml
 IconButton 1.0 IconButton.qml
 TimePicker 1.0 TimePicker.qml
+Switch 1.0 Switch.qml
 singleton Units 1.0 Units.qml
