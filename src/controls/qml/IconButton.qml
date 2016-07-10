@@ -25,7 +25,7 @@ Item {
 
     signal clicked()
 
-    property color iconColor: Style.palette.regular
+    property color iconColor: "black"
     property alias iconName: icon.name
     property alias iconSize: icon.size
 
