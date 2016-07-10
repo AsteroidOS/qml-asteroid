@@ -29,6 +29,7 @@ OTHER_FILES = \
     qml/LayerStack.qml \
     qml/ProgressCircle.qml \
     qml/Switch.qml \
+    qml/Slider.qml \
     qml/TimePicker.qml \
     qml/Units.qml
 

@@ -11,4 +11,5 @@ Icon 1.0 Icon.qml
 IconButton 1.0 IconButton.qml
 TimePicker 1.0 TimePicker.qml
 Switch 1.0 Switch.qml
+Slider 1.0 Slider.qml
 singleton Units 1.0 Units.qml
