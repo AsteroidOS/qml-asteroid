@@ -26,6 +26,7 @@ Item {
     signal clicked()
 
     property color iconColor: "black"
+    property color pressedIconColor: "grey"
     property alias iconName: icon.name
     property alias iconSize: icon.size
 
@@ -37,7 +38,7 @@ Item {
 
     Icon {
         id: icon
-        color: iconColor
+        color: mouseArea.containsPress ? pressedIconColor : iconColor
     }
 
     MouseArea {
