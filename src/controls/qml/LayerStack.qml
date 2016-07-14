@@ -75,6 +75,10 @@ Item {
 
         if (component.status === Component.Ready) {
             var mouseBlocker = layer.createObject(parent);
+            params["pop"] = function() {
+                mouseBlocker.destroy();
+                layersStack.pop(mouseBlocker);
+            }
             component.createObject(mouseBlocker, params);
             layers.push(mouseBlocker);
         }
