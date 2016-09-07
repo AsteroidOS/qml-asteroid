@@ -23,7 +23,8 @@ Item {
     id: toggleSwitch
     width: 100; height: 0.37*width
 
-    property bool checked: false
+    property bool checked
+    state: checked ? "on" : "off"
 
     MouseArea {
         anchors.fill: parent;
