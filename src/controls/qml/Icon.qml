@@ -28,7 +28,7 @@ Item {
 
     property real size: Units.dp(24)
     property string name
-    property color color: Style.palette.regular
+    property color color: "white"
 
     width: size
     height: size
@@ -40,8 +40,8 @@ Item {
         source: name ? Qt.resolvedUrl("../icons/" + name + ".svg") : Qt.resolvedUrl("")
 
         sourceSize {
-            width: size * Screen.devicePixelRatio
-            height: size * Screen.devicePixelRatio
+            width: size
+            height: size
         }
     }
 
