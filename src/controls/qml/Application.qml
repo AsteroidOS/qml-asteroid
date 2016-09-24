@@ -27,6 +27,14 @@ Application_p {
     objectName: "Application"
     anchors.fill: parent
 
+    property alias outerColor: fm.outerColor
+    property alias centerColor: fm.centerColor
+
+    FlatMesh {
+        id: fm
+        anchors.fill: parent
+    }
+
     Component.onCompleted: {
         Units.pixelDensity = Qt.binding(function() {
             return Screen.pixelDensity
