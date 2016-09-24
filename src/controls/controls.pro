@@ -11,14 +11,16 @@ SOURCES += \
     src/asteroidimageprovider.cpp \
     src/themedaemonclient.cpp \
     src/deviceinfo.cpp \
-    src/application_p.cpp
+    src/application_p.cpp \
+    src/flatmesh.cpp
 
 HEADERS += \
     src/controls_plugin.h \
     src/asteroidimageprovider.h \
     src/themedaemonclient.h \
     src/deviceinfo.h \
-    src/application_p.h
+    src/application_p.h \
+    src/flatmesh.h
 
 OTHER_FILES = \
     qmldir \

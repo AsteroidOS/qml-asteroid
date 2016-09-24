@@ -24,6 +24,7 @@
 #include "asteroidimageprovider.h"
 #include "deviceinfo.h"
 #include "application_p.h"
+#include "flatmesh.h"
 
 ControlsPlugin::ControlsPlugin(QObject *parent) : QQmlExtensionPlugin(parent)
 {
@@ -37,6 +38,7 @@ void ControlsPlugin::registerTypes(const char *uri)
 
     qmlRegisterSingletonType<DeviceInfo>(uri, 1,0, "DeviceInfo", &DeviceInfo::qmlInstance);
     qmlRegisterType<Application_p>(uri, 1, 0, "Application_p");
+    qmlRegisterType<FlatMesh>(uri, 1, 0, "FlatMesh");
 }
 
 void ControlsPlugin::initializeEngine(QQmlEngine *engine, const char *uri)
