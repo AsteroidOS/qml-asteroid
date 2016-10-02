@@ -191,7 +191,7 @@ QSGNode *FlatMesh::updatePaintNode(QSGNode *n, UpdatePaintNodeData *)
         }
     }
 
-    update(); // Schedule next frame
+    //update(); // Schedule next frame
     return rootNode;
 }
 
