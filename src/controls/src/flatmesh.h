@@ -54,9 +54,13 @@ class FlatMesh : public QQuickItem
     Q_OBJECT
     Q_PROPERTY(QColor centerColor MEMBER centerColor)
     Q_PROPERTY(QColor outerColor MEMBER outerColor)
+    Q_PROPERTY(bool animated WRITE setAnimated READ getAnimated)
 
 public:
     FlatMesh(QQuickItem *parent = 0);
+
+    void setAnimated(bool animated);
+    bool getAnimated();
 
 protected:
     QSGNode *updatePaintNode(QSGNode *node, UpdatePaintNodeData *data);

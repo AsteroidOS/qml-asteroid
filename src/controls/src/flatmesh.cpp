@@ -72,6 +72,19 @@ FlatMesh::FlatMesh(QQuickItem *parent) : QQuickItem(parent)
     // timer->start();
 }
 
+void FlatMesh::setAnimated(bool animated)
+{
+    if(animated && !timer->isActive())
+        timer->start();
+    else if(!animated && timer->isActive())
+        timer->stop();
+}
+
+bool FlatMesh::getAnimated()
+{
+    return timer->isActive();
+}
+
 QSGNode *FlatMesh::updatePaintNode(QSGNode *n, UpdatePaintNodeData *)
 {
     const QRectF rect = boundingRect();
