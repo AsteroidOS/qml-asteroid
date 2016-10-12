@@ -154,12 +154,11 @@ QSGNode *FlatMesh::updatePaintNode(QSGNode *n, UpdatePaintNodeData *)
     }
 
     /* Update all triangles' geometries according to the animationState */
-    int j=0;
+    QSGGeometryNode *triangle = static_cast<QSGGeometryNode *>(rootNode->firstChild());
     for(int i = 0; i < NUM_POINTS_X*NUM_POINTS_Y; i++) {
         if(points[i].centerX != unitWidth*(NUM_POINTS_X-1) && points[i].centerY != unitHeight*(NUM_POINTS_Y-1)) {
             int random = rand()%2;
             for(int n = 0; n < 2; n++) {
-                QSGGeometryNode *triangle = static_cast<QSGGeometryNode *>(rootNode->childAtIndex(j));
                 QSGGeometry::Point2D *v = triangle->geometry()->vertexDataAsPoint2D();
                 if(random==0) {
                     if(n==0) {
@@ -183,7 +182,7 @@ QSGNode *FlatMesh::updatePaintNode(QSGNode *n, UpdatePaintNodeData *)
                     }
                 }
                 triangle->markDirty(QSGNode::DirtyGeometry);
-                j++;
+                triangle = static_cast<QSGGeometryNode *>(triangle->nextSibling());
             }
         }
     }
