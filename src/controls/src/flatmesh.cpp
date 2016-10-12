@@ -65,6 +65,11 @@ FlatMesh::FlatMesh(QQuickItem *parent) : QQuickItem(parent)
     centerColor = QColor("#ffaa39");
     outerColor = QColor("#df4829");
     animationState = 0.0;
+
+    timer = new QTimer(this);
+    timer->setInterval(40);
+    connect(timer, SIGNAL(timeout()), this, SLOT(update()));
+    // timer->start();
 }
 
 QSGNode *FlatMesh::updatePaintNode(QSGNode *n, UpdatePaintNodeData *)
@@ -171,7 +176,7 @@ QSGNode *FlatMesh::updatePaintNode(QSGNode *n, UpdatePaintNodeData *)
     }
 
     /* Regenerate a destination point when the animation is finished */
-    animationState += 0.004;
+    animationState += 0.012;
     if(animationState >= 1.0) {
         animationState = 0.0;
 
@@ -191,7 +196,6 @@ QSGNode *FlatMesh::updatePaintNode(QSGNode *n, UpdatePaintNodeData *)
         }
     }
 
-    //update(); // Schedule next frame
     return rootNode;
 }
 

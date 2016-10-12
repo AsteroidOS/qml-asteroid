@@ -33,6 +33,7 @@
 #include <QQuickItem>
 #include <QSGNode>
 #include <QColor>
+#include <QTimer>
 
 #define NUM_POINTS_X 13
 #define NUM_POINTS_Y 13
@@ -64,6 +65,7 @@ protected:
     QColor centerColor;
     QColor outerColor;
     qreal animationState;
+    QTimer *timer;
 };
 
 #endif // FLATMESH_H
