@@ -33,7 +33,7 @@
 #include <math.h>
 
 /* Used to compute a triangle color from its distance to the center */
-static QColor interpolateColors(const QColor& color1, const QColor& color2, qreal ratio)
+static inline QColor interpolateColors(const QColor& color1, const QColor& color2, qreal ratio)
 {
     /* Linear scale is too harsh, this looks better */
     ratio = pow(ratio, 1.7);
@@ -47,7 +47,7 @@ static QColor interpolateColors(const QColor& color1, const QColor& color2, qrea
 }
 
 /* Used to compute a position during an animation */
-static QSGGeometry::Point2D interpolatePos(Point p, qreal ratio)
+static inline QSGGeometry::Point2D interpolatePos(Point p, qreal ratio)
 {
     QSGGeometry::Point2D ret;
 
