@@ -152,9 +152,12 @@ void FlatMeshNode::setAnimated(bool animated)
 void FlatMeshNode::maybeAnimate()
 {
     static QElapsedTimer t;
-    if(!t.isValid()) t.start();
-    if (m_animated && t.elapsed() >= 100) {
-        t.restart();
+    bool firstFrame = false;
+    if(!t.isValid()) {
+        t.start();
+        firstFrame = true;
+    }
+    if (firstFrame || (m_animated && t.restart() >= 100)) {
         m_animationState += 0.03;
 
         /* Interpolate all points positions according to the animationState */
@@ -166,28 +169,30 @@ void FlatMeshNode::maybeAnimate()
         }
 
         /* Update all triangles' geometries according to the new points position */
+        qreal lastCenterX = m_unitWidth*(NUM_POINTS_X-1);
+        qreal lastcenterY = m_unitHeight*(NUM_POINTS_Y-1);
         QSGGeometryNode *triangle = static_cast<QSGGeometryNode *>(firstChild());
         for(int i = 0; i < NUM_POINTS_X*NUM_POINTS_Y; i++) {
-            if(m_points[i].centerX != m_unitWidth*(NUM_POINTS_X-1) && m_points[i].centerY != m_unitHeight*(NUM_POINTS_Y-1)) {
+            if(m_points[i].centerX != lastCenterX && m_points[i].centerY != lastcenterY) {
                 int random = rand()%2;
                 for(int n = 0; n < 2; n++) {
                     QSGGeometry::Point2D *v = triangle->geometry()->vertexDataAsPoint2D();
-                    if(random==0) {
-                        if(n==0) {
+                    if(random) {
+                        if(n) {
                             v[0] = m_points[i].currentPos;
                             v[1] = m_points[i+NUM_POINTS_X].currentPos;
                             v[2] = m_points[i+NUM_POINTS_X+1].currentPos;
-                        } else if(n==1) {
+                        } else {
                             v[0] = m_points[i].currentPos;
                             v[1] = m_points[i+1].currentPos;
                             v[2] = m_points[i+NUM_POINTS_X+1].currentPos;
                         }
                     } else {
-                        if(n==0) {
+                        if(n) {
                             v[0] = m_points[i].currentPos;
                             v[1] = m_points[i+NUM_POINTS_X].currentPos;
                             v[2] = m_points[i+1].currentPos;
-                        } else if(n==1) {
+                        } else {
                             v[0] = m_points[i+NUM_POINTS_X].currentPos;
                             v[1] = m_points[i+1].currentPos;
                             v[2] = m_points[i+NUM_POINTS_X+1].currentPos;
