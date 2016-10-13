@@ -27,58 +27,53 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "flatmesh.h"
-#include "flatmeshnode.h"
+#ifndef FLATMESHNODE_H
+#define FLATMESHNODE_H
 
-FlatMesh::FlatMesh(QQuickItem *parent) : QQuickItem(parent)
+#include <QObject>
+#include <QQuickWindow>
+#include <QSGSimpleRectNode>
+
+#define NUM_POINTS_X 13
+#define NUM_POINTS_Y 13
+
+struct Point {
+    qreal centerX;
+    qreal centerY;
+
+    qreal animOriginX;
+    qreal animOriginY;
+
+    qreal animEndX;
+    qreal animEndY;
+
+    QSGGeometry::Point2D currentPos;
+};
+
+class FlatMeshNode : public QObject, public QSGSimpleRectNode
 {
-    m_timer.setInterval(110);
-    m_timer.setSingleShot(false);
-    connect(&m_timer, SIGNAL(timeout()), this, SLOT(update()));
-    m_timer.start();
+    Q_OBJECT
+public:
+    FlatMeshNode(QQuickWindow *window, QRectF rect);
+    void setAnimated(bool animated);
 
-    m_centerColor = QColor("#ffaa39");
-    m_outerColor = QColor("#df4829");
+    void setCenterColor(QColor c);
+    void setOuterColor(QColor c);
 
-    setFlag(ItemHasContents);
-    m_animated = true;
-}
+public slots:
+    void maybeAnimate();
+    void generateGrid();
 
-void FlatMesh::setCenterColor(QColor c)
-{
-    if (c == m_centerColor)
-        return;
-    m_centerColor = c;
-    update();
-}
+private:
+    void updateColors();
 
-void FlatMesh::setOuterColor(QColor c)
-{
-    if (c == m_outerColor)
-        return;
-    m_outerColor = c;
-    update();
-}
+    qreal m_animationState;
+    bool m_animated;
+    int m_unitWidth, m_unitHeight;
+    QColor m_centerColor, m_outerColor;
+    QQuickWindow *m_window;
+    Point m_points[NUM_POINTS_X*NUM_POINTS_Y];
+};
 
-void FlatMesh::setAnimated(bool animated)
-{
-    if (animated == m_animated)
-        return;
-    m_animated = animated;
-    emit animatedChanged();
-    update();
-}
 
-QSGNode *FlatMesh::updatePaintNode(QSGNode *old, UpdatePaintNodeData *)
-{
-    FlatMeshNode *n = static_cast<FlatMeshNode *>(old);
-    if (!n)
-        n = new FlatMeshNode(window(), boundingRect());
-
-    n->setAnimated(m_animated);
-    n->setRect(boundingRect());
-    n->setCenterColor(m_centerColor);
-    n->setOuterColor(m_outerColor);
-
-    return n;
-}
+#endif // FLATMESHNODE_H

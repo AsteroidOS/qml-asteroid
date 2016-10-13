@@ -12,7 +12,8 @@ SOURCES += \
     src/themedaemonclient.cpp \
     src/deviceinfo.cpp \
     src/application_p.cpp \
-    src/flatmesh.cpp
+    src/flatmesh.cpp \
+    src/flatmeshnode.cpp
 
 HEADERS += \
     src/controls_plugin.h \
@@ -20,7 +21,8 @@ HEADERS += \
     src/themedaemonclient.h \
     src/deviceinfo.h \
     src/application_p.h \
-    src/flatmesh.h
+    src/flatmesh.h \
+    src/flatmeshnode.h
 
 OTHER_FILES = \
     qmldir \

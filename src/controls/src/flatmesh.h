@@ -35,41 +35,35 @@
 #include <QColor>
 #include <QTimer>
 
-#define NUM_POINTS_X 13
-#define NUM_POINTS_Y 13
-
-struct Point {
-    qreal centerX;
-    qreal centerY;
-
-    qreal animOriginX;
-    qreal animOriginY;
-
-    qreal animEndX;
-    qreal animEndY;
-};
-
 class FlatMesh : public QQuickItem
 {
     Q_OBJECT
-    Q_PROPERTY(QColor centerColor MEMBER centerColor)
-    Q_PROPERTY(QColor outerColor MEMBER outerColor)
-    Q_PROPERTY(bool animated WRITE setAnimated READ getAnimated)
+    Q_PROPERTY(QColor centerColor WRITE setCenterColor READ getCenterColor)
+    Q_PROPERTY(QColor outerColor WRITE setOuterColor READ getOuterColor)
+    Q_PROPERTY(bool animated WRITE setAnimated READ getAnimated NOTIFY animatedChanged)
 
 public:
     FlatMesh(QQuickItem *parent = 0);
 
+    bool getAnimated() const { return m_animated; }
     void setAnimated(bool animated);
-    bool getAnimated();
+
+    QColor getCenterColor() const { return m_centerColor; }
+    void setCenterColor(QColor c);
+
+    QColor getOuterColor() const { return m_outerColor; }
+    void setOuterColor(QColor c);
+
+signals:
+    void animatedChanged();
 
 protected:
     QSGNode *updatePaintNode(QSGNode *node, UpdatePaintNodeData *data);
-    qreal previousWidth, previousHeight;
-    Point *points;
-    QColor centerColor;
-    QColor outerColor;
-    qreal animationState;
-    QTimer *timer;
+
+private:
+    QColor m_centerColor, m_outerColor;
+    bool m_animated;
+    QTimer m_timer;
 };
 
 #endif // FLATMESH_H
