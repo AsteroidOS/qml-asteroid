@@ -1,0 +1,22 @@
+project     = AsteroidUtils
+description = Asteroid Utils Documentation
+
+outputformats = HTML
+outputdir     = html
+
+depends = qtqml qtquick qtwidgets qtdoc qtquicklayouts
+
+sources.fileextensions = "*.cpp *.qdoc *.mm *.qml"
+headers.fileextensions = "*.h *.ch *.h++ *.hh *.hpp *.hxx"
+
+sourcedirs  = \
+              ../src \
+              ../qml
+
+headerdirs  = ../src
+
+qhp.projects = AsteroidUtils
+
+qhp.AsteroidUtils.file          = asteroidutils.qhp
+qhp.AsteroidUtils.namespace     = org.asteroid.Utils.100
+qhp.AsteroidUtils.indexTitle    = Asteroid Utils
