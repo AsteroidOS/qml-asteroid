@@ -18,76 +18,66 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.4
-
-/*!
-    \qmltype LayerStack
-    \inqmlmodule org.asteroid.controls
-    \inherits Item
-    \brief Provides a stack of swipable layers.
-
-    Example:
-    \qml
-    Component {
-        id: blueRect
-        Rectangle { color: "blue" }
-    }
-
-    Component {
-        id: redRect
-        Rectangle { color: "red"
-            Button {
-                text: "Open 2nd Layer"
-                anchors.centerIn: parent
-                onClicked: layerStack.push(blueRect)
-            }
-        }
-    }
-
-    Button {
-        text: "Open Layer"
-        anchors.centerIn: parent
-        onClicked: layerStack.push(redRect)
-    }
-
-    LayerStack { id: layerStack }
-    \endqml
-*/
+import QtQuick 2.0
 
 Item {
     id: layersStack
-    z: 25
     anchors.fill: parent
     objectName: "LayerStack"
 
+    property var firstPage
     property var layers: []
     property var currentLayer: layers.length > 0 ? layers[layers.length-1] : null
 
-    Component { // Blocks mouse events between layers
-        id: layer
-        MouseArea { width: parent.width; height: parent.height }
+    Flickable {
+        id: contentArea
+        anchors.fill: parent
+        interactive: false
+        Row { id: content }
+    }
+
+    NumberAnimation {
+        id: pushAnim
+        target: contentArea
+        property: "contentX"
+        duration: 200
+        easing.type: Easing.OutQuint
+    }
+
+    Component.onCompleted: {
+        var params = {}
+        params["width"] = Qt.binding(function() { return width })
+        params["height"] =  Qt.binding(function() { return height })
+        params["x"] = 0
+        params["y"] = 0
+        if(firstPage.status === Component.Ready)
+            var itm=firstPage.createObject(content, params)
     }
 
     function push(component, params) {
-        if (typeof params === 'undefined') params = {}
-        params["width"] = width
-        params["height"] = height
-
         if (component.status === Component.Ready) {
-            var mouseBlocker = layer.createObject(parent);
-            params["pop"] = function() {
-                mouseBlocker.destroy();
-                layersStack.pop(mouseBlocker);
-            }
-            component.createObject(mouseBlocker, params);
-            layers.push(mouseBlocker);
+            if (typeof params === 'undefined') params = {}
+            params["width"] = Qt.binding(function() { return width })
+            params["height"] =  Qt.binding(function() { return height })
+            params["depth"] = (layers.length+1)
+            params["x"] = params["depth"]*width
+            params["y"] = 0
+
+            var layer;
+            params["pop"] = function() { layersStack.pop(layer); }
+            layer = component.createObject(content, params);
+            layers.push(layer);
+            pushAnim.to = layers.length*width
+            pushAnim.start();
+            parent.setOverridesSystemGestures(layers.length > 0) // /!\ TODO: find AppWindow instead of using parent
+            layersChanged();
         }
-        parent.setOverridesSystemGestures(layers.length > 0) // /!\ TODO: find AppWindow instead of using parent
-        layersChanged();
     }
 
     function pop(layer) {
+        layer.destroy();
         layers.pop(layer);
+        contentArea.contentX = layers.length*width
         parent.setOverridesSystemGestures(layers.length > 0) // /!\ TODO: find AppWindow instead of using parent
         layersChanged();
     }
@@ -128,8 +118,8 @@ Item {
                 }
 
                 PropertyChanges {
-                    target: currentLayer
-                    x: gestureArea.horizontal ? gestureArea.value : 0
+                    target: contentArea
+                    contentX: gestureArea.horizontal ? layers.length*width-gestureArea.value : 0
                 }
             }
         ]
@@ -165,18 +155,13 @@ Item {
                 easing.type: Easing.OutQuint
             }
 
-            ScriptAction {
-                script: {
-                    currentLayer.destroy()
-                    pop(currentLayer)
-                }
-            }
-
             PropertyAction {
                 target: gestureArea
                 property: "state"
                 value: ""
             }
+
+            ScriptAction { script: pop(currentLayer) }
         }
     }
 }
