@@ -50,7 +50,7 @@ Item {
         params["height"] =  Qt.binding(function() { return height })
         params["x"] = 0
         params["y"] = 0
-        if(firstPage.status === Component.Ready)
+        if(typeof firstPage != 'undefined' && firstPage.status === Component.Ready)
             var itm=firstPage.createObject(content, params)
     }
 
