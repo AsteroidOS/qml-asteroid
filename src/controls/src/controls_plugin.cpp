@@ -21,7 +21,6 @@
 #include <QFontDatabase>
 #include <QGuiApplication> 
 #include <QtQml>
-#include "asteroidimageprovider.h"
 #include "deviceinfo.h"
 #include "application_p.h"
 #include "flatmesh.h"
@@ -41,8 +40,3 @@ void ControlsPlugin::registerTypes(const char *uri)
     qmlRegisterType<FlatMesh>(uri, 1, 0, "FlatMesh");
 }
 
-void ControlsPlugin::initializeEngine(QQmlEngine *engine, const char *uri)
-{
-    QQmlExtensionPlugin::initializeEngine(engine, uri);
-    engine->addImageProvider(QLatin1String("theme"), new AsteroidImageProvider);
-}

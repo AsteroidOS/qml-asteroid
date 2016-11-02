@@ -30,7 +30,6 @@ class ControlsPlugin : public QQmlExtensionPlugin
 public:
     explicit ControlsPlugin(QObject *parent = 0);
     void registerTypes(const char *uri);
-    void initializeEngine(QQmlEngine *engine, const char *uri);
 };
 
 #endif // CONTROLSPLUGIN_H
