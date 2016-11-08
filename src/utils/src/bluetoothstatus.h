@@ -22,6 +22,7 @@
 #include <QStringList>
 #include <QDBusObjectPath>
 #include <QDBusConnection>
+#include <QDBusServiceWatcher>
 
 typedef QMap<QString, QMap<QString, QVariant>> InterfaceList;
 
@@ -40,6 +41,8 @@ public:
     void updateConnected();
 
 public slots:
+    void serviceRegistered(const QString& name);
+    void serviceUnregistered(const QString& name);
     void InterfacesAdded(QDBusObjectPath, InterfaceList);
     void InterfacesRemoved(QDBusObjectPath, QStringList);
     void PropertiesChanged(QString, QMap<QString, QVariant>, QStringList);
@@ -51,5 +54,6 @@ signals:
 private:
     bool mConnected, mPowered;
     QDBusConnection mBus;
+    QDBusServiceWatcher *mWatcher;
 };
 

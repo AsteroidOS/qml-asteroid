@@ -17,6 +17,7 @@
 
 #include "bluetoothstatus.h"
 
+#include <QDBusServiceWatcher>
 #include <QDBusConnection>
 #include <QDBusInterface>
 #include <QDBusArgument>
@@ -27,6 +28,19 @@ BluetoothStatus::BluetoothStatus(QObject *parent) : QObject(parent), mBus(QDBusC
     mPowered = false;
     mConnected = false;
 
+    mWatcher = new QDBusServiceWatcher("org.bluez", QDBusConnection::systemBus());
+    connect(mWatcher, SIGNAL(serviceRegistered(const QString&)), this, SLOT(serviceRegistered(const QString&)));
+    connect(mWatcher, SIGNAL(serviceUnregistered(const QString&)), this, SLOT(serviceUnregistered(const QString&)));
+
+    QDBusInterface remoteOm("org.bluez", "/", "org.freedesktop.DBus.ObjectManager", mBus);
+    if(remoteOm.isValid())
+        serviceRegistered("org.bluez");
+    else
+        serviceUnregistered("org.bluez");
+}
+
+void BluetoothStatus::serviceRegistered(const QString& name)
+{
     mBus.connect("org.bluez", "/", "org.freedesktop.DBus.ObjectManager", "InterfacesAdded", this, SLOT(InterfacesAdded(QDBusObjectPath, InterfaceList)));
     mBus.connect("org.bluez", "/", "org.freedesktop.DBus.ObjectManager", "InterfacesRemoved", this, SLOT(InterfacesRemoved(QDBusObjectPath, QStringList)));
 
@@ -34,21 +48,14 @@ BluetoothStatus::BluetoothStatus(QObject *parent) : QObject(parent), mBus(QDBusC
     updateConnected();
 }
 
-bool BluetoothStatus::getPowered() {
-    return mPowered;
-}
-
-bool BluetoothStatus::getConnected() {
-    return mConnected;
-}
-
-void BluetoothStatus::setPowered(bool powered)
+void BluetoothStatus::serviceUnregistered(const QString& name)
 {
-    QDBusInterface serviceManager("org.bluez", "/org/bluez/hci0", "org.bluez.Adapter1", mBus);
-    serviceManager.setProperty("Powered", powered);
+    mPowered = false;
+    mConnected = false;
 }
 
-void BluetoothStatus::updatePowered() {
+void BluetoothStatus::updatePowered()
+{
     bool powered = false;
     QDBusInterface remoteOm("org.bluez", "/", "org.freedesktop.DBus.ObjectManager", mBus);
 
@@ -81,7 +88,8 @@ void BluetoothStatus::updatePowered() {
     }
 }
 
-void BluetoothStatus::updateConnected() {
+void BluetoothStatus::updateConnected()
+{
     bool connected = false;
     QDBusInterface remoteOm("org.bluez", "/", "org.freedesktop.DBus.ObjectManager", mBus);
 
@@ -130,4 +138,20 @@ void BluetoothStatus::PropertiesChanged(QString, QMap<QString, QVariant>, QStrin
 {
     updatePowered();
     updateConnected();
+}
+
+bool BluetoothStatus::getPowered()
+{
+    return mPowered;
+}
+
+bool BluetoothStatus::getConnected()
+{
+    return mConnected;
+}
+
+void BluetoothStatus::setPowered(bool powered)
+{
+    QDBusInterface serviceManager("org.bluez", "/org/bluez/hci0", "org.bluez.Adapter1", mBus);
+    serviceManager.setProperty("Powered", powered);
 }
