@@ -50,7 +50,7 @@ static inline QColor interpolateColors(const QColor& color1, const QColor& color
 
 FlatMeshNode::FlatMeshNode(QQuickWindow *window, QRectF boundingRect)
     : QSGSimpleRectNode(boundingRect, Qt::transparent),
-      m_animationState(0), m_window(window), m_animated(true)
+      m_animationState(0), m_animated(true), m_window(window)
 {
     connect(window, SIGNAL(afterRendering()), this, SLOT(maybeAnimate()));
 
