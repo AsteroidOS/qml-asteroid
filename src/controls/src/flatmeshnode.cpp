@@ -159,7 +159,8 @@ void FlatMeshNode::maybeAnimate()
         t.start();
         firstFrame = true;
     }
-    if (firstFrame || (m_animated && t.restart() >= 100)) {
+    if (firstFrame || (m_animated && t.elapsed() >= 80)) {
+        t.restart();
         m_animationState += 0.03;
 
         /* Interpolate all points positions according to the animationState */

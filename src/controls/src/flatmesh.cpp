@@ -32,7 +32,7 @@
 
 FlatMesh::FlatMesh(QQuickItem *parent) : QQuickItem(parent)
 {
-    m_timer.setInterval(110);
+    m_timer.setInterval(90);
     m_timer.setSingleShot(false);
     connect(&m_timer, SIGNAL(timeout()), this, SLOT(update()));
     m_timer.start();
