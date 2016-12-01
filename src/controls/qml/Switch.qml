@@ -18,10 +18,11 @@
  */
 
 import QtQuick 2.4
+import QtGraphicalEffects 1.0
 
 Item {
     id: toggleSwitch
-    width: 100; height: 0.37*width
+    width: 60; height: 0.35*width
 
     property bool checked
     state: checked ? "on" : "off"
@@ -36,56 +37,66 @@ Item {
         }
     }
 
-    Rectangle {
+    TiltedSquare {
         id: background
-        border.width: 1
-        border.color: "#757575"
-        gradient: Gradient {
-            GradientStop { id: backgroundColor1; position: 1.0; color: "#bfbfbf" }
-            GradientStop { id: backgroundColor2; position: 1.0; color: "#b3b3b3" }
-        }
-        width: toggleSwitch.width*0.9
-        height: toggleSwitch.height - (toggleSwitch.width-width)
-        radius: height/2
-        anchors.centerIn: parent
+        color: "#555"
+        borderColor: "#111"
+        opacity: 0.25
+        anchors.fill: parent
     }
-
-    Rectangle {
+    TiltedSquare {
         id: knob
-        border.width: 1
-        border.color: "#8a8a8a"
-        gradient: Gradient {
-            GradientStop { position: 0.0; color: "#f8f8f8" }
-            GradientStop { position: 1.0; color: "#dbdbdb" }
-        }
+        color: "#b5b5b5"
+        borderColor: "#888"
         height: toggleSwitch.height
-        width: height
-        radius: width/2
+        width: toggleSwitch.width/2
+
+        Text {
+            id: off
+            anchors.centerIn: parent
+            text: "OFF"
+            font.italic: true
+            color: "#888"
+            font.pixelSize: knob.height*0.48
+            opacity: 1.0
+        }
+        Text {
+            id: on
+            anchors.centerIn: parent
+            text: "ON"
+            font.italic: true
+            color: "white"
+            font.pixelSize: knob.height*0.48
+            opacity: 0.0
+        }
     }
 
     states: [
         State {
             name: "on"
             PropertyChanges { target: knob; x: toggleSwitch.width - knob.width }
-            PropertyChanges { target: backgroundColor1; color: "#0a58ad" }
-            PropertyChanges { target: backgroundColor2; color: "#2094dd" }
-            PropertyChanges { target: background; border.color: "#035899" }
+            PropertyChanges { target: knob; color: "#129a36" }
+            PropertyChanges { target: knob; borderColor: "#336f0b" }
+            PropertyChanges { target: off; opacity: 0.0 }
+            PropertyChanges { target: on; opacity: 1.0 }
             PropertyChanges { target: toggleSwitch; checked: true }
         },
         State {
             name: "off"
             PropertyChanges { target: knob; x: 0 }
-            PropertyChanges { target: backgroundColor1; color: "#bfbfbf" }
-            PropertyChanges { target: backgroundColor2; color: "#b3b3b3" }
-            PropertyChanges { target: background; border.color: "#757575" }
+            PropertyChanges { target: knob; color: "#b5bbaf" }
+            PropertyChanges { target: knob; borderColor: "#888" }
+            PropertyChanges { target: off; opacity: 1.0 }
+            PropertyChanges { target: on; opacity: 0.0 }
             PropertyChanges { target: toggleSwitch; checked: false }
         }
     ]
 
     transitions: Transition {
         ParallelAnimation {
-            NumberAnimation { properties: "x"; easing.type: Easing.InOutQuad; duration: 150 }
-            ColorAnimation  { duration: 150 }
+            NumberAnimation { properties: "x"; easing.type: Easing.InOutQuad; duration: 300 }
+            NumberAnimation { properties: "opacity"; easing.type: Easing.InOutQuad; duration: 300 }
+            ColorAnimation  { duration: 300 }
         }
     }
 }
