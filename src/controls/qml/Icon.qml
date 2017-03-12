@@ -37,7 +37,7 @@ Item {
         id: image
         anchors.fill: parent
         visible: false
-        source: name ? Qt.resolvedUrl("../icons/" + name + ".svg") : Qt.resolvedUrl("")
+        source: name ? Qt.resolvedUrl("/usr/share/icons/asteroid/" + name + ".svg") : Qt.resolvedUrl("")
 
         sourceSize {
             width: size
