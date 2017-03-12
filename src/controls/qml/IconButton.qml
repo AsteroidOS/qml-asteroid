@@ -35,8 +35,6 @@ Item {
     width: 58
     height: 58
 
-    Component.onCompleted: console.log("AAAAHhhh" + width)
-
     Icon {
         id: icon
         anchors.fill: parent
