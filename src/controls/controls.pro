@@ -1,6 +1,6 @@
 TEMPLATE = lib
 TARGET = asteroidcontrolsplugin
-QT += qml quick
+QT += qml quick svg
 CONFIG += qt plugin
 
 TARGET = $$qtLibraryTarget($$TARGET)
@@ -11,14 +11,16 @@ SOURCES += \
     src/deviceinfo.cpp \
     src/application_p.cpp \
     src/flatmesh.cpp \
-    src/flatmeshnode.cpp
+    src/flatmeshnode.cpp \
+    src/icon.cpp
 
 HEADERS += \
     src/controls_plugin.h \
     src/deviceinfo.h \
     src/application_p.h \
     src/flatmesh.h \
-    src/flatmeshnode.h
+    src/flatmeshnode.h \
+    src/icon.h
 
 OTHER_FILES = \
     qmldir \

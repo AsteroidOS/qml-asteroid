@@ -19,11 +19,12 @@
 
 #include "controls_plugin.h"
 #include <QFontDatabase>
-#include <QGuiApplication> 
+#include <QGuiApplication>
 #include <QtQml>
 #include "deviceinfo.h"
 #include "application_p.h"
 #include "flatmesh.h"
+#include "icon.h"
 
 ControlsPlugin::ControlsPlugin(QObject *parent) : QQmlExtensionPlugin(parent)
 {
@@ -38,5 +39,6 @@ void ControlsPlugin::registerTypes(const char *uri)
     qmlRegisterSingletonType<DeviceInfo>(uri, 1,0, "DeviceInfo", &DeviceInfo::qmlInstance);
     qmlRegisterType<Application_p>(uri, 1, 0, "Application_p");
     qmlRegisterType<FlatMesh>(uri, 1, 0, "FlatMesh");
+    qmlRegisterType<Icon>(uri, 1, 0, "Icon");
 }
 

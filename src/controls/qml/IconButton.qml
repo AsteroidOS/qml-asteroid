@@ -28,16 +28,18 @@ Item {
     property color iconColor: "black"
     property color pressedIconColor: "grey"
     property alias iconName: icon.name
-    property alias iconSize: icon.size
 
     property bool hovered: mouseArea.containsMouse
     property alias hoverEnabled: mouseArea.hoverEnabled
 
-    width: iconSize
-    height: iconSize
+    width: 58
+    height: 58
+
+    Component.onCompleted: console.log("AAAAHhhh" + width)
 
     Icon {
         id: icon
+        anchors.fill: parent
         color: mouseArea.containsPress ? pressedIconColor : iconColor
     }
 

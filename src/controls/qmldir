@@ -7,7 +7,6 @@ ProgressCircle 1.0 ProgressCircle.qml
 LayerStack 1.0 LayerStack.qml
 Application 1.0 Application.qml
 BorderGestureArea 1.0 BorderGestureArea.qml
-Icon 1.0 Icon.qml
 IconButton 1.0 IconButton.qml
 TimePicker 1.0 TimePicker.qml
 Switch 1.0 Switch.qml
