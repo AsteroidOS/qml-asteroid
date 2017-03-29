@@ -35,7 +35,7 @@ import QtQuick.Window 2.0
 MouseArea {
     id: root
 
-    property int boundary: 20
+    property int boundary: width*0.1
     property bool delayReset
 
     signal gestureStarted(string gesture)
