@@ -35,7 +35,8 @@ OTHER_FILES = \
     qml/Units.qml \
     qml/TextField.qml \
     qml/TextBase.qml \
-    qml/TextArea.qml
+    qml/TextArea.qml \
+    qml/HandWritingKeyboard.qml
 
 qmldir.files = qmldir
 
