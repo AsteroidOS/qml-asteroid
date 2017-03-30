@@ -25,6 +25,7 @@
 #include <QDBusServiceWatcher>
 
 typedef QMap<QString, QMap<QString, QVariant>> InterfaceList;
+Q_DECLARE_METATYPE(InterfaceList)
 
 class BluetoothStatus : public QObject
 {

@@ -23,10 +23,14 @@
 #include <QDBusArgument>
 #include <QDBusMessage>
 
+#include <QDBusMetaType>
+
 BluetoothStatus::BluetoothStatus(QObject *parent) : QObject(parent), mBus(QDBusConnection::systemBus())
 {
     mPowered = false;
     mConnected = false;
+
+    qDBusRegisterMetaType<InterfaceList>();
 
     mWatcher = new QDBusServiceWatcher("org.bluez", QDBusConnection::systemBus());
     connect(mWatcher, SIGNAL(serviceRegistered(const QString&)), this, SLOT(serviceRegistered(const QString&)));
