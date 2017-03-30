@@ -10,8 +10,8 @@ BorderGestureArea 1.0 BorderGestureArea.qml
 IconButton 1.0 IconButton.qml
 Switch 1.0 Switch.qml
 TiltedSquare 1.0 TiltedSquare.qml
-TextField.qml 1.0 TextField.qml
-TextBase.qml 1.0 TextBase.qml
-TextArea.qml 1.0 TextArea.qml
-HandWritingKeyboard.qml 1.0 HandWritingKeyboard.qml
+TextField 1.0 TextField.qml
+TextBase 1.0 TextBase.qml
+TextArea 1.0 TextArea.qml
+HandWritingKeyboard 1.0 HandWritingKeyboard.qml
 singleton Units 1.0 Units.qml
