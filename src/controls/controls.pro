@@ -32,9 +32,10 @@ OTHER_FILES = \
     qml/ProgressCircle.qml \
     qml/Switch.qml \
     qml/TiltedSquare.qml \
-    qml/Slider.qml \
-    qml/TimePicker.qml \
-    qml/Units.qml
+    qml/Units.qml \
+    qml/TextField.qml \
+    qml/TextBase.qml \
+    qml/TextArea.qml
 
 qmldir.files = qmldir
 

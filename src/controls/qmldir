@@ -8,8 +8,9 @@ LayerStack 1.0 LayerStack.qml
 Application 1.0 Application.qml
 BorderGestureArea 1.0 BorderGestureArea.qml
 IconButton 1.0 IconButton.qml
-TimePicker 1.0 TimePicker.qml
 Switch 1.0 Switch.qml
 TiltedSquare 1.0 TiltedSquare.qml
-Slider 1.0 Slider.qml
+TextField.qml 1.0 TextField.qml
+TextBase.qml 1.0 TextBase.qml
+TextArea.qml 1.0 TextArea.qml
 singleton Units 1.0 Units.qml
