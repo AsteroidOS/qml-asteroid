@@ -26,17 +26,31 @@ HandwritingInputPanel {
     inputPanel: inputPanel
     active: true
     available: true
+
     Rectangle {
         z: -1
         anchors.fill: parent
         color: "black"
-        opacity: 0.20
+        opacity: 0.3
         transitions: Transition {
             PropertyAnimation { properties: "opacity"; easing.type: Easing.InOutQuad }
         }
     }
+
     InputPanel {
         id: inputPanel
         visible: false
+    }
+
+    IconButton {
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: parent.height/28
+
+        iconName: "ios-checkmark-circle-outline"
+        iconColor: "white"
+        pressedIconColor: "lightgrey"
+
+        onClicked: Qt.inputMethod.hide()
     }
 }
