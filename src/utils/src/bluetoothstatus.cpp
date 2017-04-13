@@ -54,8 +54,15 @@ void BluetoothStatus::serviceRegistered(const QString& name)
 
 void BluetoothStatus::serviceUnregistered(const QString& name)
 {
-    mPowered = false;
-    mConnected = false;
+    if(mPowered) {
+        mPowered = false;
+        emit poweredChanged();
+    }
+
+    if(mConnected) {
+        mConnected = false;
+        emit connectedChanged();
+    }
 }
 
 void BluetoothStatus::updatePowered()
