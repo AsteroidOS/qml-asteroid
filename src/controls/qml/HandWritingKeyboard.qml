@@ -24,8 +24,10 @@ HandwritingInputPanel {
     z: 99
     anchors.fill: parent
     inputPanel: inputPanel
-    active: true
-    available: true
+    Component.onCompleted: {
+        active = true
+        available = true
+    }
 
     Rectangle {
         z: -1
