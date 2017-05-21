@@ -55,7 +55,7 @@ FocusScope {
         radius: 5.0
         anchors.fill: parent
         color: "#FFFFFF"
-        border { width: 1; color: editor.activeFocus ? "#5CAA15" : "#BDBEBF" }
+        border { width: 1; color: editor.activeFocus ? "#606060" : "#BDBEBF" }
     }
     Text {
         id: previewText

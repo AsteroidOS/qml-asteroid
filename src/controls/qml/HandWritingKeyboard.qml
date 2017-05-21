@@ -33,7 +33,7 @@ HandwritingInputPanel {
         z: -1
         anchors.fill: parent
         color: "black"
-        opacity: 0.3
+        opacity: 0.7
         transitions: Transition {
             PropertyAnimation { properties: "opacity"; easing.type: Easing.InOutQuad }
         }
