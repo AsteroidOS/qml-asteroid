@@ -34,6 +34,8 @@
 #include <QScreen>
 #include <QElapsedTimer>
 
+#define FRAMES_PER_ANIM 34
+
 /* Used to compute a triangle color from its distance to the center */
 static inline QColor interpolateColors(const QColor& color1, const QColor& color2, qreal ratio)
 {
@@ -50,7 +52,7 @@ static inline QColor interpolateColors(const QColor& color1, const QColor& color
 
 FlatMeshNode::FlatMeshNode(QQuickWindow *window, QRectF boundingRect)
     : QSGSimpleRectNode(boundingRect, Qt::transparent),
-      m_animationState(0), m_animated(true), m_window(window)
+      m_animationState(0), m_animated(true)
 {
     connect(window, SIGNAL(afterRendering()), this, SLOT(maybeAnimate()));
 
@@ -137,20 +139,21 @@ void FlatMeshNode::generateGrid()
                 float normalization = ((float)m_unitWidth)/(2*(abs(offsetX)+abs(offsetY)));
                 offsetX*=normalization;
                 offsetY*=normalization;
-                point->animOriginX = point->centerX + offsetX;
-                point->animOriginY = point->centerY + offsetY;
+                point->currentPos.x = point->centerX + offsetX;
+                point->currentPos.y = point->centerY + offsetY;
 
                 offsetX = rand()%m_unitWidth - m_unitWidth/3;
                 offsetY = rand()%m_unitHeight - m_unitHeight/3;
                 normalization = ((float)m_unitWidth)/(2*(abs(offsetX)+abs(offsetY)));
                 offsetX*=normalization;
                 offsetY*=normalization;
-                point->animEndX = point->centerX + offsetX;
-                point->animEndY = point->centerY + offsetY;
+
+                point->animDeltaX = (point->centerX + offsetX - point->currentPos.x)/FRAMES_PER_ANIM;
+                point->animDeltaY = (point->centerY + offsetY - point->currentPos.y)/FRAMES_PER_ANIM;
             }
             else {
-                point->animEndX = point->animOriginX = point->centerX;
-                point->animEndY = point->animOriginY = point->centerY;
+                point->currentPos.x = point->centerX;
+                point->currentPos.y = point->centerY;
             }
         }
     }
@@ -171,14 +174,14 @@ void FlatMeshNode::maybeAnimate()
     }
     if (firstFrame || (m_animated && t.elapsed() >= 80)) {
         t.restart();
-        m_animationState += 0.03;
+        m_animationState++;
 
-        /* Interpolate all points positions according to the animationState */
+        /* Move points according to their deltaX and deltaY */
         for(int i = 0; i < NUM_POINTS_X*NUM_POINTS_Y; i++) {
             Point *p = &m_points[i];
 
-            p->currentPos.x = p->animOriginX + (p->animEndX-p->animOriginX)*m_animationState;
-            p->currentPos.y = p->animOriginY + (p->animEndY-p->animOriginY)*m_animationState;
+            p->currentPos.x += p->animDeltaX;
+            p->currentPos.y += p->animDeltaY;
         }
 
         /* Update all triangles' geometries according to the new points position */
@@ -203,8 +206,8 @@ void FlatMeshNode::maybeAnimate()
         }
 
         /* Regenerate a set of animation end points when the animation is finished */
-        if(m_animationState >= 1.0) {
-            m_animationState = 0.0;
+        if(m_animationState >= FRAMES_PER_ANIM) {
+            m_animationState = 0;
 
             for(int y = 0; y < NUM_POINTS_Y; y++) {
                 for(int x = 0; x < NUM_POINTS_X; x++) {
@@ -217,11 +220,8 @@ void FlatMeshNode::maybeAnimate()
                         offsetX*=normalization;
                         offsetY*=normalization;
 
-                        point->animOriginX = point->animEndX;
-                        point->animEndX = point->centerX + offsetX;
-
-                        point->animOriginY = point->animEndY;
-                        point->animEndY = point->centerY + offsetY;
+                        point->animDeltaX = (point->centerX + offsetX - point->currentPos.x)/FRAMES_PER_ANIM;
+                        point->animDeltaY = (point->centerY + offsetY - point->currentPos.y)/FRAMES_PER_ANIM;
                     }
                 }
             }
