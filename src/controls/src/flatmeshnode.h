@@ -41,8 +41,11 @@ struct Point {
     qreal centerX;
     qreal centerY;
 
-    qreal animDeltaX;
-    qreal animDeltaY;
+    qreal animOriginX;
+    qreal animOriginY;
+
+    qreal animEndX;
+    qreal animEndY;
 
     QSGGeometry::Point2D currentPos;
 };
@@ -64,10 +67,11 @@ public slots:
 private:
     void updateColors();
 
-    unsigned char m_animationState;
+    qreal m_animationState;
     bool m_animated;
     int m_unitWidth, m_unitHeight;
     QColor m_centerColor, m_outerColor;
+    QQuickWindow *m_window;
     Point m_points[NUM_POINTS_X*NUM_POINTS_Y];
 };
 
