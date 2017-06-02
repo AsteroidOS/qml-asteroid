@@ -67,9 +67,11 @@ FlatMeshNode::FlatMeshNode(QQuickWindow *window, QRectF boundingRect)
 
                 QSGFlatColorMaterial *color = new QSGFlatColorMaterial;
                 triangle->setOpaqueMaterial(color);
+                triangle->setFlag(QSGNode::OwnsMaterial);
 
                 QSGGeometry *geometry = new QSGGeometry(QSGGeometry::defaultAttributes_Point2D(), 3);
                 triangle->setGeometry(geometry);
+                triangle->setFlag(QSGNode::OwnsGeometry);
 
                 appendChildNode(triangle);
             }
@@ -129,19 +131,27 @@ void FlatMeshNode::generateGrid()
             point->centerX = m_unitWidth*x;
             point->centerY = m_unitHeight*y;
 
-            if(x != 0 && x != (NUM_POINTS_X-1)) {
-                point->animOriginX = point->centerX + rand()%m_unitWidth - m_unitWidth/2;
-                point->animEndX = point->centerX + rand()%m_unitWidth - m_unitWidth/2;
-            }
-            else
-                point->animEndX = point->animOriginX = point->centerX;
+            if(x != 0 && x != (NUM_POINTS_X-1) && y != 0 && y != (NUM_POINTS_Y-1)) {
+                int offsetX = rand()%m_unitWidth - m_unitWidth/3;
+                int offsetY = rand()%m_unitHeight - m_unitHeight/3;
+                float normalization = ((float)m_unitWidth)/(2*(abs(offsetX)+abs(offsetY)));
+                offsetX*=normalization;
+                offsetY*=normalization;
+                point->animOriginX = point->centerX + offsetX;
+                point->animOriginY = point->centerY + offsetY;
 
-            if(y != 0 && y != (NUM_POINTS_Y-1)) {
-                point->animOriginY = point->centerY + rand()%m_unitHeight - m_unitHeight/2;
-                point->animEndY = point->centerY + rand()%m_unitHeight - m_unitHeight/2;
+                offsetX = rand()%m_unitWidth - m_unitWidth/3;
+                offsetY = rand()%m_unitHeight - m_unitHeight/3;
+                normalization = ((float)m_unitWidth)/(2*(abs(offsetX)+abs(offsetY)));
+                offsetX*=normalization;
+                offsetY*=normalization;
+                point->animEndX = point->centerX + offsetX;
+                point->animEndY = point->centerY + offsetY;
             }
-            else
+            else {
+                point->animEndX = point->animOriginX = point->centerX;
                 point->animEndY = point->animOriginY = point->centerY;
+            }
         }
     }
 }
@@ -177,33 +187,18 @@ void FlatMeshNode::maybeAnimate()
         QSGGeometryNode *triangle = static_cast<QSGGeometryNode *>(firstChild());
         for(int i = 0; i < NUM_POINTS_X*NUM_POINTS_Y; i++) {
             if(m_points[i].centerX != lastCenterX && m_points[i].centerY != lastcenterY) {
-                int random = rand()%2;
-                for(int n = 0; n < 2; n++) {
-                    QSGGeometry::Point2D *v = triangle->geometry()->vertexDataAsPoint2D();
-                    if(random) {
-                        if(n) {
-                            v[0] = m_points[i].currentPos;
-                            v[1] = m_points[i+NUM_POINTS_X].currentPos;
-                            v[2] = m_points[i+NUM_POINTS_X+1].currentPos;
-                        } else {
-                            v[0] = m_points[i].currentPos;
-                            v[1] = m_points[i+1].currentPos;
-                            v[2] = m_points[i+NUM_POINTS_X+1].currentPos;
-                        }
-                    } else {
-                        if(n) {
-                            v[0] = m_points[i].currentPos;
-                            v[1] = m_points[i+NUM_POINTS_X].currentPos;
-                            v[2] = m_points[i+1].currentPos;
-                        } else {
-                            v[0] = m_points[i+NUM_POINTS_X].currentPos;
-                            v[1] = m_points[i+1].currentPos;
-                            v[2] = m_points[i+NUM_POINTS_X+1].currentPos;
-                        }
-                    }
-                    triangle->markDirty(QSGNode::DirtyGeometry);
-                    triangle = static_cast<QSGGeometryNode *>(triangle->nextSibling());
-                }
+                QSGGeometry::Point2D *lowerV = triangle->geometry()->vertexDataAsPoint2D();
+                lowerV[0] = m_points[i].currentPos;
+                lowerV[1] = m_points[i+NUM_POINTS_X].currentPos;
+                lowerV[2] = m_points[i+NUM_POINTS_X+1].currentPos;
+                triangle->markDirty(QSGNode::DirtyGeometry);
+                triangle = static_cast<QSGGeometryNode *>(triangle->nextSibling());
+
+                QSGGeometry::Point2D *upperV = triangle->geometry()->vertexDataAsPoint2D();
+                upperV[0] = m_points[i].currentPos;
+                upperV[1] = m_points[i+1].currentPos;
+                upperV[2] = m_points[i+NUM_POINTS_X+1].currentPos;
+                triangle = static_cast<QSGGeometryNode *>(triangle->nextSibling());
             }
         }
 
@@ -215,13 +210,18 @@ void FlatMeshNode::maybeAnimate()
                 for(int x = 0; x < NUM_POINTS_X; x++) {
                     Point *point = &m_points[y*NUM_POINTS_Y+x];
 
-                    if(x != 0 && x != (NUM_POINTS_X-1)) {
+                    if(x != 0 && x != (NUM_POINTS_X-1) && y != 0 && y != (NUM_POINTS_Y-1)) {
+                        int offsetX = rand()%m_unitWidth - m_unitWidth/3;
+                        int offsetY = rand()%m_unitHeight - m_unitHeight/3;
+                        float normalization = ((float)m_unitWidth)/(2*(abs(offsetX)+abs(offsetY)));
+                        offsetX*=normalization;
+                        offsetY*=normalization;
+
                         point->animOriginX = point->animEndX;
-                        point->animEndX = point->centerX + rand()%m_unitWidth - m_unitWidth/2;
-                    }
-                    if(y != 0 && y != (NUM_POINTS_Y-1)) {
+                        point->animEndX = point->centerX + offsetX;
+
                         point->animOriginY = point->animEndY;
-                        point->animEndY = point->centerY + rand()%m_unitHeight - m_unitHeight/2;
+                        point->animEndY = point->centerY + offsetY;
                     }
                 }
             }
