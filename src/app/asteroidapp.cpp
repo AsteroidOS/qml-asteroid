@@ -84,6 +84,8 @@ namespace AsteroidApp {
             view->setTitle(entry.name());
         }
 
+        view->resize(app->primaryScreen()->size());
+
         QObject::connect(view->engine(), &QQmlEngine::quit,
                          qApp, &QGuiApplication::quit);
 
@@ -95,7 +97,6 @@ namespace AsteroidApp {
         QScopedPointer<QGuiApplication> app(AsteroidApp::application(argc, argv));
         QScopedPointer<QQuickView> view(AsteroidApp::createView());
         view->setSource(QUrl("qrc:/main.qml"));
-        view->resize(app->primaryScreen()->size());
         view->show();
         return app->exec();
     }
