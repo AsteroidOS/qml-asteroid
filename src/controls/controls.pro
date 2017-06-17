@@ -28,6 +28,7 @@ OTHER_FILES = \
     qml/BorderGestureArea.qml \
     qml/CircularScrollIndicator.qml \
     qml/IconButton.qml \
+    qml/Indicator.qml \
     qml/LayerStack.qml \
     qml/ProgressCircle.qml \
     qml/Switch.qml \
