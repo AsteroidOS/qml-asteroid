@@ -28,6 +28,7 @@ Item {
     property var firstPage
     property var layers: []
     property var currentLayer: layers.length > 0 ? layers[layers.length-1] : null
+    property QtObject win: parent  // /!\ TODO: find AppWindow instead of using parent
 
     Flickable {
         id: contentArea
@@ -36,12 +37,18 @@ Item {
         Row { id: content }
     }
 
-    NumberAnimation {
+    SequentialAnimation {
         id: pushAnim
-        target: contentArea
-        property: "contentX"
-        duration: 200
-        easing.type: Easing.OutQuint
+
+        NumberAnimation {
+            id: pushAnimX
+            target: contentArea
+            property: "contentX"
+            duration: 200
+            easing.type: Easing.OutQuint
+        }
+
+        ScriptAction { script: win.animIndicators() }
     }
 
     Component.onCompleted: {
@@ -67,9 +74,9 @@ Item {
             params["pop"] = function() { layersStack.pop(layer); }
             layer = component.createObject(content, params);
             layers.push(layer);
-            pushAnim.to = layers.length*width
+            pushAnimX.to = layers.length*width
             pushAnim.start();
-            parent.setOverridesSystemGestures(layers.length > 0) // /!\ TODO: find AppWindow instead of using parent
+            win.setOverridesSystemGestures(layers.length > 0)
             layersChanged();
         }
     }
@@ -78,7 +85,7 @@ Item {
         layer.destroy();
         layers.pop(layer);
         contentArea.contentX = layers.length*width
-        parent.setOverridesSystemGestures(layers.length > 0) // /!\ TODO: find AppWindow instead of using parent
+        win.setOverridesSystemGestures(layers.length > 0)
         layersChanged();
     }
 
@@ -140,6 +147,8 @@ Item {
                 property: "state"
                 value: ""
             }
+
+            ScriptAction { script: win.animIndicators() }
         }
 
         SequentialAnimation {
@@ -162,6 +171,7 @@ Item {
             }
 
             ScriptAction { script: pop(currentLayer) }
+            ScriptAction { script: win.animIndicators() }
         }
     }
 }

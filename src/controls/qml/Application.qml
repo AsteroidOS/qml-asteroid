@@ -19,12 +19,9 @@
  */
 
 import QtQuick 2.4
-import QtQuick.Window 2.2
 import org.asteroid.controls 1.0
 
 Application_p {
-    id: application
-    objectName: "Application"
     anchors.fill: parent
 
     property alias outerColor: fm.outerColor
@@ -35,9 +32,45 @@ Application_p {
         anchors.fill: parent
     }
 
-    Component.onCompleted: {
-        Units.pixelDensity = Qt.binding(function() {
-            return Screen.pixelDensity
-        });
+    property alias rightIndicVisible:  rightIndicator.visible
+    property alias leftIndicVisible:   leftIndicator.visible
+    property alias topIndicVisible:    topIndicator.visible
+    property alias bottomIndicVisible: bottomIndicator.visible
+
+    function animIndicators() {
+        rightIndicator.animate()
+        leftIndicator.animate()
+        topIndicator.animate()
+        bottomIndicator.animate()
     }
+
+    Indicator {
+        id: rightIndicator
+        edge: Qt.RightEdge
+        visible: false
+        z: 10
+    }
+
+    Indicator {
+        id: leftIndicator
+        edge: Qt.LeftEdge
+        visible: true
+        z: 10
+    }
+
+    Indicator {
+        id: topIndicator
+        edge: Qt.TopEdge
+        visible: true
+        z: 10
+    }
+
+    Indicator {
+        id: bottomIndicator
+        edge: Qt.BottomEdge
+        visible: false
+        z: 10
+    }
+
+    Component.onCompleted: animIndicators()
 }
