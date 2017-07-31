@@ -70,4 +70,6 @@ QtObject {
         else
             return w(number)
     }
+
+    property real iconButtonMargin: l(3)
 }
