@@ -1,6 +1,7 @@
 /*
  * Part of this code is based on QML-Material (https://github.com/papyros/qml-material/)
  * Asteroid Modificatons
+ * Copyright (C) 2017 Florent Revest <revestflo@gmail.com>
  * Copyright (C) 2015 Tim Süberkrüb (https://github.com/tim-sueberkrueb)
  * QML Material - An application framework implementing Material Design.
  * Copyright (C) 2014-2015 Michael Spencer <sonrisesoftware@gmail.com>
@@ -19,18 +20,21 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 import QtQuick 2.4
+import QtQuick.Window 2.2
 
 pragma Singleton
 
 /*!
-   \qmltype Units
+   \qmltype Dims
    \inqmlmodule org.controls.asteroid 1.0
 
-   \brief Provides access to screen-independent Units known as DPs (device-independent pixels).
+   \brief Provides access to dimensions relative to a ratio of the screen width/height
 
    This singleton provides methods for building a user interface that automatically scales based on
-   the screen density. Use the \l Units::dp function wherever you need to specify a screen size,
-   and your app will automatically scale to any screen density.
+   screen proportions. Use the \l Dims::w function wherever you need to specify a size relative to
+   the screen width, and \l Dims::h when you need a dimension relative to the height. \l Dims::l
+   provides a ratio of the smallest dimension for smartwatches that could have a screen larger than
+   high.
 
    Here is a short example:
 
@@ -39,12 +43,12 @@ pragma Singleton
    import org.controls.asteroid 1.0
 
    Rectangle {
-       width: Units.dp(100)
-       height: Units.dp(80)
+       width: Dims.w(80) // 80 % of screen width
+       height: Dims.dp(50) // 50 % of screen height
 
        Label {
            text:"A"
-           font.pixelSize: Units.dp(50)
+           font.pixelSize: Dims.l(20) // 20 % of screen's smallest dimension
        }
    }
    \endqml
@@ -52,26 +56,18 @@ pragma Singleton
 QtObject {
     id: units
 
-    /*!
-       \internal
-       This holds the pixel density used for converting millimeters into pixels. This is the exact
-       value from \l Screen:pixelDensity, but that property only works from within a \l Window type,
-       so this is hardcoded here and we update it from within \l ApplicationWindow
-     */
-    property real pixelDensity: 4.46
-    property real multiplier: 3.4 //default multiplier, but can be changed by user
-
-    /*!
-       This is the standard function to use for accessing device-independent pixels. You should use
-       this anywhere you need to refer to distances on the screen.
-     */
-    function dp(number) {
-        return Math.round(number*((pixelDensity*25.4)/160)*multiplier);
+    function w(number) {
+        return (number/100)*Screen.desktopAvailableWidth
     }
 
-    function gu(number) {
-        return number * gridUnit
+    function h(number) {
+        return (number/100)*Screen.desktopAvailableHeight
     }
 
-    property int gridUnit: dp(64)
+    function l(number) {
+        if(Screen.desktopAvailableWidth > Screen.desktopAvailableHeight)
+            return h(number)
+        else
+            return w(number)
+    }
 }

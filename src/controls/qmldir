@@ -15,4 +15,4 @@ TextField 1.0 TextField.qml
 TextBase 1.0 TextBase.qml
 TextArea 1.0 TextArea.qml
 HandWritingKeyboard 1.0 HandWritingKeyboard.qml
-singleton Units 1.0 Units.qml
+singleton Dims 1.0 Dims.qml
