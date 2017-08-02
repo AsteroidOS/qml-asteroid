@@ -51,12 +51,25 @@ Item {
     }
 
     property real finWidth: Dims.l(1.5)
-    property real bodyWidthLow: keepExpanded ? bodyWidthHigh : Dims.l(1.8)
+    property real bodyWidthLow: Dims.l(1.8)
     property real bodyWidthHigh: 2*finWidth
-    property real bodyOpacityLow: keepExpanded ? bodyOpacityHigh : 0.6
+    property real bodyOpacityLow: 0.6
     property real bodyOpacityHigh: 0.8
-    property real offsetLow: keepExpanded ? offsetHigh : 0
+    property real offsetLow: 0
     property real offsetHigh: 2*finWidth
+
+    onKeepExpandedChanged: {
+        if(keepExpanded) {
+            bodyWidthLow = bodyWidthHigh
+            bodyOpacityLow = bodyOpacityHigh
+            offsetLow = offsetHigh
+        } else {
+            bodyWidthLow = Dims.l(1.8)
+            bodyOpacityLow = 0.6
+            offsetLow = 0
+        }
+        animate()
+    }
 
     SequentialAnimation {
         id: fishOffsetAnim
