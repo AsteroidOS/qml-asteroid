@@ -37,13 +37,6 @@ Application_p {
     property alias topIndicVisible:    topIndicator.visible
     property alias bottomIndicVisible: bottomIndicator.visible
 
-    function animIndicators() {
-        rightIndicator.animate()
-        leftIndicator.animate()
-        topIndicator.animate()
-        bottomIndicator.animate()
-    }
-
     Indicator {
         id: rightIndicator
         edge: Qt.RightEdge
@@ -71,6 +64,4 @@ Application_p {
         visible: false
         z: 10
     }
-
-    Component.onCompleted: animIndicators()
 }

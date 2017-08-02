@@ -58,6 +58,8 @@ Item {
     property real offsetLow: 0
     property real offsetHigh: 2*finWidth
 
+    Component.onCompleted: animate()
+
     onKeepExpandedChanged: {
         if(keepExpanded) {
             bodyWidthLow = bodyWidthHigh
