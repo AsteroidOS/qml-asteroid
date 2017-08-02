@@ -22,6 +22,7 @@ import org.asteroid.controls 1.0
 
 Item {
     property int edge: Qt.TopEdge
+    property bool keepExpanded: false
 
     function animate() {
         bodyWidthAnim.restart()
@@ -50,11 +51,11 @@ Item {
     }
 
     property real finWidth: Dims.l(1.5)
-    property real bodyWidthLow: Dims.l(1.8)
+    property real bodyWidthLow: keepExpanded ? bodyWidthHigh : Dims.l(1.8)
     property real bodyWidthHigh: 2*finWidth
-    property real bodyOpacityLow: 0.6
+    property real bodyOpacityLow: keepExpanded ? bodyOpacityHigh : 0.6
     property real bodyOpacityHigh: 0.8
-    property real offsetLow: 0
+    property real offsetLow: keepExpanded ? offsetHigh : 0
     property real offsetHigh: 2*finWidth
 
     SequentialAnimation {
