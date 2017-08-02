@@ -17,7 +17,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.4
+import QtQuick 2.9
 import org.asteroid.controls 1.0
 
 Item {
@@ -32,8 +32,8 @@ Item {
     property bool hovered: mouseArea.containsMouse
     property alias hoverEnabled: mouseArea.hoverEnabled
 
-    width: 58
-    height: 58
+    width: Dims.l(20)
+    height: width
 
     Icon {
         id: icon

@@ -17,7 +17,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
+import QtQuick 2.9
+import org.asteroid.controls 1.0
 
 Item {
     property int edge: Qt.TopEdge
@@ -48,6 +49,14 @@ Item {
         else                         return 135
     }
 
+    property real finWidth: Dims.l(1.5)
+    property real bodyWidthLow: Dims.l(1.8)
+    property real bodyWidthHigh: 2*finWidth
+    property real bodyOpacityLow: 0.6
+    property real bodyOpacityHigh: 0.8
+    property real offsetLow: 0
+    property real offsetHigh: 2*finWidth
+
     SequentialAnimation {
         id: fishOffsetAnim
         running: false
@@ -58,8 +67,8 @@ Item {
                 else                                              return "anchors.horizontalCenterOffset"
             }
             to: {
-                if(edge === Qt.TopEdge || edge === Qt.LeftEdge) return 10
-                else                                            return -10
+                if(edge === Qt.TopEdge || edge === Qt.LeftEdge) return offsetHigh
+                else                                            return -offsetHigh
             }
             duration: 300
         }
@@ -69,17 +78,17 @@ Item {
                 if(edge === Qt.TopEdge || edge === Qt.BottomEdge) return "anchors.verticalCenterOffset"
                 else                                              return "anchors.horizontalCenterOffset"
             }
-            to: 0
+            to: offsetLow
             duration: 400
         }
     }
 
     Rectangle {
         id: body
-        width: 6
+        width: bodyWidthLow
         height: width
         color: Qt.rgba(215, 215, 215)
-        opacity: 0.6
+        opacity: bodyOpacityLow
 
         SequentialAnimation {
             id: bodyWidthAnim
@@ -87,13 +96,13 @@ Item {
             NumberAnimation {
                 target: body
                 property: "width"
-                to: 10
+                to: bodyWidthHigh
                 duration: 300
             }
             NumberAnimation {
                 target: body
                 property: "width"
-                to: 6
+                to: bodyWidthLow
                 duration: 400
             }
         }
@@ -104,13 +113,13 @@ Item {
             NumberAnimation {
                 target: body
                 property: "opacity"
-                to: 0.8
+                to: bodyOpacityHigh
                 duration: 300
             }
             NumberAnimation {
                 target: body
                 property: "opacity"
-                to: 0.6
+                to: bodyOpacityLow
                 duration: 400
             }
         }
@@ -118,7 +127,7 @@ Item {
 
     Rectangle {
         id: fin1
-        width: 5
+        width: finWidth
         height: width
         color: Qt.rgba(0, 0, 0, 0.19)
         anchors.top: parent.top
@@ -127,7 +136,7 @@ Item {
 
     Rectangle {
         id: fin2
-        width: 5
+        width: finWidth
         height: width
         color: Qt.rgba(0, 0, 0, 0.19)
         anchors.bottom: parent.top
