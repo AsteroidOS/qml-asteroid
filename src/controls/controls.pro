@@ -27,10 +27,12 @@ OTHER_FILES = \
     qml/Application.qml \
     qml/BorderGestureArea.qml \
     qml/CircularScrollIndicator.qml \
+    qml/CircularSpinner.qml \
     qml/IconButton.qml \
     qml/Indicator.qml \
     qml/LayerStack.qml \
     qml/ProgressCircle.qml \
+    qml/Spinner.qml \
     qml/Switch.qml \
     qml/TiltedSquare.qml \
     qml/Dims.qml \
