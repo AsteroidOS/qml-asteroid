@@ -27,6 +27,13 @@ Application_p {
     property alias outerColor: fm.outerColor
     property alias centerColor: fm.centerColor
 
+    function animIndicators() {
+        rightIndicator.animate();
+        leftIndicator.animate();
+        topIndicator.animate();
+        bottomIndicator.animate();
+    }
+
     FlatMesh {
         id: fm
         anchors.fill: parent
