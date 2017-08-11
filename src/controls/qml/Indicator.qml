@@ -25,6 +25,14 @@ Item {
     property bool keepExpanded: false
 
     function animate() {
+        offsetHigh = 0.8*finWidth
+        bodyWidthAnim.restart()
+        fishOffsetAnim.restart()
+        bodyOpacityAnim.restart()
+    }
+
+    function animateFar() {
+        offsetHigh = 2*finWidth
         bodyWidthAnim.restart()
         fishOffsetAnim.restart()
         bodyOpacityAnim.restart()
