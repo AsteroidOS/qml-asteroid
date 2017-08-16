@@ -6,6 +6,7 @@ CircularScrollIndicator 1.0 CircularScrollIndicator.qml
 CircularSpinner 1.0 CircularSpinner.qml
 ProgressCircle 1.0 ProgressCircle.qml
 LayerStack 1.0 LayerStack.qml
+Marquee 1.0 Marquee.qml
 Application 1.0 Application.qml
 BorderGestureArea 1.0 BorderGestureArea.qml
 IconButton 1.0 IconButton.qml

@@ -28,14 +28,15 @@ OTHER_FILES = \
     qml/BorderGestureArea.qml \
     qml/CircularScrollIndicator.qml \
     qml/CircularSpinner.qml \
+    qml/Dims.qml \
     qml/IconButton.qml \
     qml/Indicator.qml \
     qml/LayerStack.qml \
+    qml/Marquee.qml \
     qml/ProgressCircle.qml \
     qml/Spinner.qml \
     qml/Switch.qml \
     qml/TiltedSquare.qml \
-    qml/Dims.qml \
     qml/TextField.qml \
     qml/TextBase.qml \
     qml/TextArea.qml \
