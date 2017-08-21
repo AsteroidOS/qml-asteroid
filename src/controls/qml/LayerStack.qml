@@ -57,8 +57,10 @@ Item {
         params["height"] =  Qt.binding(function() { return height })
         params["x"] = 0
         params["y"] = 0
-        if(typeof firstPage != 'undefined' && firstPage.status === Component.Ready)
+        if(typeof firstPage != 'undefined' && firstPage.status === Component.Ready) {
             var itm=firstPage.createObject(content, params)
+            itm.clip = true
+        }
     }
 
     function push(component, params) {
@@ -69,6 +71,7 @@ Item {
             params["depth"] = (layers.length+1)
             params["x"] = params["depth"]*width
             params["y"] = 0
+            params["clip"] = true
 
             var layer;
             params["pop"] = function() { layersStack.pop(layer); }
