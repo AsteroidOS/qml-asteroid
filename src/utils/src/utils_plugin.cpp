@@ -20,6 +20,7 @@
 #include "utils_plugin.h"
 #include <QtQml>
 #include "bluetoothstatus.h"
+#include "deviceinfo.h"
 
 UtilsPlugin::UtilsPlugin(QObject *parent) : QQmlExtensionPlugin(parent)
 {
@@ -28,6 +29,8 @@ UtilsPlugin::UtilsPlugin(QObject *parent) : QQmlExtensionPlugin(parent)
 void UtilsPlugin::registerTypes(const char *uri)
 {
     Q_ASSERT(uri == QLatin1String("org.asteroid.utils"));
+
+    qmlRegisterSingletonType<DeviceInfo>(uri, 1,0, "DeviceInfo", &DeviceInfo::qmlInstance);
     qmlRegisterType<BluetoothStatus>(uri, 1, 0, "BluetoothStatus");
 }
 

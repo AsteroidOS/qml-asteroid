@@ -8,7 +8,6 @@ uri = org.asteroid.controls
 
 SOURCES += \
     src/controls_plugin.cpp \
-    src/deviceinfo.cpp \
     src/application_p.cpp \
     src/flatmesh.cpp \
     src/flatmeshnode.cpp \
@@ -16,7 +15,6 @@ SOURCES += \
 
 HEADERS += \
     src/controls_plugin.h \
-    src/deviceinfo.h \
     src/application_p.h \
     src/flatmesh.h \
     src/flatmeshnode.h \

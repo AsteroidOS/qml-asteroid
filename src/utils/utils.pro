@@ -8,10 +8,12 @@ uri = org.asteroid.utils
 
 SOURCES += \
     src/utils_plugin.cpp \
+    src/deviceinfo.cpp \
     src/bluetoothstatus.cpp
 
 HEADERS += \
     src/utils_plugin.h \
+    src/deviceinfo.h \
     src/bluetoothstatus.h
 
 OTHER_FILES = \
