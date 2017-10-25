@@ -17,12 +17,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.9
+import QtQuick 2.5
 import org.asteroid.controls 1.0
 
 Item {
     id: toggleSwitch
-    width: Dims.l(21); height: 0.35*width
+    width: Dims.l(30); height: width
 
     property bool checked
     state: checked ? "on" : "off"
@@ -37,55 +37,56 @@ Item {
         }
     }
 
-    TiltedSquare {
+    Rectangle {
         id: background
-        color: "#555"
-        borderColor: "#111"
-        opacity: 0.25
+        radius: width/2
         anchors.fill: parent
+        opacity: 0.6
     }
-    TiltedSquare {
-        id: knob
-        color: "#b5b5b5"
-        borderColor: "#888"
-        height: toggleSwitch.height
-        width: toggleSwitch.width/2
 
-        Text {
-            id: off
-            anchors.centerIn: parent
-            text: "OFF"
-            font.italic: true
-            color: "#888"
-            font.pixelSize: knob.height*0.48
-            opacity: 1.0
-        }
-        Text {
-            id: on
-            anchors.centerIn: parent
-            text: "ON"
-            font.italic: true
-            color: "white"
-            font.pixelSize: knob.height*0.48
-            opacity: 0.0
-        }
+    Rectangle {
+        id: overlay
+        color: "#333"
+        border.color: "#b5bbaf"
+        radius: width/2
+        anchors.fill: parent
+        anchors.margins: parent.width*0.16
+    }
+
+    Text {
+        id: off
+        anchors.centerIn: parent
+        text: "OFF"
+        font.italic: true
+        color: "#ccc"
+        font.pixelSize: parent.height*0.2
+        opacity: 1.0
+    }
+    Text {
+        id: on
+        anchors.centerIn: parent
+        text: "ON"
+        font.italic: true
+        color: "white"
+        font.pixelSize: parent.height*0.2
+        opacity: 0.0
     }
 
     states: [
         State {
             name: "on"
-            PropertyChanges { target: knob; x: toggleSwitch.width - knob.width }
-            PropertyChanges { target: knob; color: "#129a36" }
-            PropertyChanges { target: knob; borderColor: "#336f0b" }
+            PropertyChanges { target: background; color: "#129a36" }
+            PropertyChanges { target: background; border.color: "#336f0b" }
+            PropertyChanges { target: overlay; border.color: "#336f0b" }
             PropertyChanges { target: off; opacity: 0.0 }
             PropertyChanges { target: on; opacity: 1.0 }
             PropertyChanges { target: toggleSwitch; checked: true }
         },
         State {
             name: "off"
-            PropertyChanges { target: knob; x: 0 }
-            PropertyChanges { target: knob; color: "#b5bbaf" }
-            PropertyChanges { target: knob; borderColor: "#888" }
+            PropertyChanges { target: background; color: "#aaa" }
+            PropertyChanges { target: background; border.color: "#bbbbbb" }
+            PropertyChanges { target: overlay; border.color: "#bbbbbb" }
             PropertyChanges { target: off; opacity: 1.0 }
             PropertyChanges { target: on; opacity: 0.0 }
             PropertyChanges { target: toggleSwitch; checked: false }
@@ -94,7 +95,6 @@ Item {
 
     transitions: Transition {
         ParallelAnimation {
-            NumberAnimation { properties: "x"; easing.type: Easing.InOutQuad; duration: 300 }
             NumberAnimation { properties: "opacity"; easing.type: Easing.InOutQuad; duration: 300 }
             ColorAnimation  { duration: 300 }
         }
