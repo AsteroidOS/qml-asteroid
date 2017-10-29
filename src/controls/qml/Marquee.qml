@@ -28,37 +28,51 @@ Item {
     property alias font: animatedText.font
     property alias color: animatedText.color
 
+    function originX() {
+        var ret = container.width-animatedText.width
+        if(ret > 0) return ret/2
+        else        return 0
+    }
+
+    function destinationX() {
+        var ret = container.width-animatedText.width
+        if(ret < 0) return ret
+        else        return originX()
+    }
+
+    function restartAnimation() {
+        animation.stop()
+        animation1.from = originX()
+        animation1.to = originX()
+        animation2.to = destinationX()
+        animation.start()
+    }
+
+    onWidthChanged: restartAnimation()
+
     Text {
         id: animatedText
         width: contentWidth
-        property real originX: {
-            var ret = container.width-animatedText.width
-            if(ret > 0) return ret/2
-            else        return 0
-        }
+        onWidthChanged: restartAnimation()
     }
 
     SequentialAnimation {
+        id: animation
         loops: Animation.Infinite
-        running: true
 
         NumberAnimation {
+            id: animation1
             target: animatedText
             property: "x"
             duration: 2000
-            from: animatedText.originX; to: animatedText.originX
         }
 
         NumberAnimation {
+            id: animation2
             target: animatedText
             property: "x"
             duration: (animatedText.width)/Dims.w(0.08)
             easing.type: Easing.InOutQuad
-            to: {
-                var ret = container.width-animatedText.width
-                if(ret < 0) return ret
-                else        return animatedText.originX
-            }
         }
 
         NumberAnimation {
