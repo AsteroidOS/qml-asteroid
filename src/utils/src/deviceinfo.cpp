@@ -28,3 +28,21 @@ bool DeviceInfo::hasRoundScreen()
 #endif
 }
 
+bool DeviceInfo::hasWlan()
+{
+#ifdef HAS_WLAN
+    return true;
+#else
+    return false;
+#endif
+}
+
+bool DeviceInfo::hasSpeaker()
+{
+#ifdef HAS_SPEAKER
+    return true;
+#else
+    return false;
+#endif
+}
+

@@ -29,6 +29,8 @@ class DeviceInfo : public QObject
     Q_OBJECT
     Q_DISABLE_COPY(DeviceInfo)
     Q_PROPERTY(bool hasRoundScreen READ hasRoundScreen CONSTANT)
+    Q_PROPERTY(bool hasWlan READ hasWlan CONSTANT)
+    Q_PROPERTY(bool hasSpeaker READ hasSpeaker CONSTANT)
     DeviceInfo() {}
 public:
     static QObject *qmlInstance(QQmlEngine *engine, QJSEngine *scriptEngine)
@@ -39,6 +41,8 @@ public:
         return new DeviceInfo;
     }
     bool hasRoundScreen();
+    bool hasWlan();
+    bool hasSpeaker();
 };
 
 #endif // DEVICEINFO_H
