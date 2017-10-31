@@ -148,22 +148,4 @@ Item {
             }
         }
     }
-
-    Rectangle {
-        id: fin1
-        width: finWidth
-        height: width
-        color: Qt.rgba(0, 0, 0, 0.19)
-        anchors.top: parent.top
-        anchors.left: body.right
-    }
-
-    Rectangle {
-        id: fin2
-        width: finWidth
-        height: width
-        color: Qt.rgba(0, 0, 0, 0.19)
-        anchors.bottom: parent.top
-        anchors.right: body.right
-    }
 }
