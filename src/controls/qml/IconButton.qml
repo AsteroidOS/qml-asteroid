@@ -25,8 +25,8 @@ Item {
 
     signal clicked()
 
-    property color iconColor: "black"
-    property color pressedIconColor: "grey"
+    property color iconColor: "#FFFFFF"
+    property color pressedIconColor: "#88FFFFFF"
     property alias iconName: icon.name
 
     property bool hovered: mouseArea.containsMouse

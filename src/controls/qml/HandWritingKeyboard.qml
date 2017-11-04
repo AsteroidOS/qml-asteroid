@@ -50,8 +50,6 @@ HandwritingInputPanel {
         anchors.bottomMargin: parent.height/28
 
         iconName: "ios-checkmark-circle-outline"
-        iconColor: "white"
-        pressedIconColor: "lightgrey"
 
         onClicked: Qt.inputMethod.hide()
     }
