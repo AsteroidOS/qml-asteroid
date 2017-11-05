@@ -1,6 +1,4 @@
 /*
- * Qt Quick Controls Asteroid - User interface components for AsteroidOS
- *
  * Copyright (C) 2017 - Florent Revest <revestflo@gmail.com>
  *               2015 - Tim Süberkrüb <tim.sueberkrueb@web.de>
  *

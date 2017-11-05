@@ -1,6 +1,4 @@
 /*
- * Qt Quick Controls Asteroid - User interface components for AsteroidOS
- *
  * Copyright (C) 2015 Isaac Salazar <iktwo.sh@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
