@@ -4,6 +4,7 @@ plugin asteroidcontrolsplugin
 
 CircularScrollIndicator 1.0 CircularScrollIndicator.qml
 CircularSpinner 1.0 CircularSpinner.qml
+PageDot 1.0 PageDot.qml
 ProgressCircle 1.0 ProgressCircle.qml
 LayerStack 1.0 LayerStack.qml
 Marquee 1.0 Marquee.qml

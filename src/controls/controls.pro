@@ -31,6 +31,7 @@ OTHER_FILES = \
     qml/Indicator.qml \
     qml/LayerStack.qml \
     qml/Marquee.qml \
+    qml/PageDot.qml \
     qml/ProgressCircle.qml \
     qml/Spinner.qml \
     qml/Switch.qml \
