@@ -1,7 +1,8 @@
 /*
  * Qt Quick Controls Asteroid - User interface components for AsteroidOS
  *
- * Copyright (C) 2015 Tim Süberkrüb <tim.sueberkrueb@web.de>
+ * Copyright (C) 2017 - Florent Revest <revestflo@gmail.com>
+ *               2015 - Tim Süberkrüb <tim.sueberkrueb@web.de>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -25,28 +26,55 @@ Item {
 
     signal clicked()
 
-    property color iconColor: "#FFFFFF"
-    property color pressedIconColor: "#88FFFFFF"
-    property alias iconName: icon.name
+    // For free placing
+    readonly property int undefinedEdge: 2 * Qt.BottomEdge
+    property int edge: Qt.BottomEdge
 
-    property bool hovered: mouseArea.containsMouse
-    property alias hoverEnabled: mouseArea.hoverEnabled
+    property color iconColor: "#FFFFFFFF"
+    property color pressedIconColor: "#FFFFFFFF"
+    property alias iconName: icon.name
 
     width: Dims.l(20)
     height: width
+
+    enabled: visible
 
     Icon {
         id: icon
         anchors.fill: parent
         color: mouseArea.containsPress ? pressedIconColor : iconColor
+        opacity: mouseArea.containsPress ? 0.7 : 1.0
     }
 
     MouseArea {
         id: mouseArea
         anchors.fill: parent
 
-        hoverEnabled: true
-
         onClicked: iconButton.clicked()
+    }
+
+    anchors {
+        top:    (edge === Qt.TopEdge)    ? parent.top    : undefined
+        bottom: (edge === Qt.BottomEdge) ? parent.bottom : undefined
+        right:  (edge === Qt.RightEdge)  ? parent.right  : undefined
+        left:   (edge === Qt.LeftEdge)   ? parent.left   : undefined
+
+        horizontalCenter: {
+            if(edge === Qt.TopEdge || edge === Qt.BottomEdge)
+                return parent.horizontalCenter
+            else
+                return undefined
+        }
+        verticalCenter: {
+            if(edge === Qt.LeftEdge || edge === Qt.RightEdge)
+                return parent.verticalCenter
+            else
+                return undefined
+        }
+
+        topMargin:    (edge === Qt.TopEdge)    ? Dims.iconButtonMargin : 0
+        bottomMargin: (edge === Qt.BottomEdge) ? Dims.iconButtonMargin : 0
+        rightMargin:  (edge === Qt.RightEdge)  ? Dims.iconButtonMargin : 0
+        leftMargin:   (edge === Qt.LeftEdge)   ? Dims.iconButtonMargin : 0
     }
 }
