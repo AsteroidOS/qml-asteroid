@@ -52,14 +52,14 @@ Application_p {
     Indicator {
         id: leftIndicator
         edge: Qt.LeftEdge
-        visible: true
+        visible: !overridesSystemGestures
         z: 10
     }
 
     Indicator {
         id: topIndicator
         edge: Qt.TopEdge
-        visible: true
+        visible: !overridesSystemGestures
         z: 10
     }
 
