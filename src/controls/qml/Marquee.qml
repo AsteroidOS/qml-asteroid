@@ -48,7 +48,7 @@ Item {
 
     onWidthChanged: restartAnimation()
 
-    Text {
+    Label {
         id: animatedText
         width: contentWidth
         onWidthChanged: restartAnimation()

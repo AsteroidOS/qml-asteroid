@@ -30,6 +30,7 @@ OTHER_FILES = \
     qml/IconButton.qml \
     qml/Indicator.qml \
     qml/LayerStack.qml \
+    qml/Label.qml \
     qml/Marquee.qml \
     qml/PageDot.qml \
     qml/ProgressCircle.qml \

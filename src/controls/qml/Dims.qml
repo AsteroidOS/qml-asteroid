@@ -72,4 +72,5 @@ QtObject {
     }
 
     property real iconButtonMargin: l(3)
+    property real defaultFontSize:  l(7)
 }
