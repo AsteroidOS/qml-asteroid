@@ -24,7 +24,6 @@ OTHER_FILES = \
     qmldir \
     qml/Application.qml \
     qml/BorderGestureArea.qml \
-    qml/CircularScrollIndicator.qml \
     qml/CircularSpinner.qml \
     qml/Dims.qml \
     qml/IconButton.qml \
@@ -33,7 +32,6 @@ OTHER_FILES = \
     qml/Label.qml \
     qml/Marquee.qml \
     qml/PageDot.qml \
-    qml/ProgressCircle.qml \
     qml/Spinner.qml \
     qml/SpinnerDelegate.qml \
     qml/Switch.qml \
