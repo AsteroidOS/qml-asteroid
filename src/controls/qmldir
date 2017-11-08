@@ -14,6 +14,7 @@ BorderGestureArea 1.0 BorderGestureArea.qml
 IconButton 1.0 IconButton.qml
 Indicator 1.0 Indicator.qml
 Spinner 1.0 Spinner.qml
+SpinnerDelegate 1.0 SpinnerDelegate.qml
 Switch 1.0 Switch.qml
 TiltedSquare 1.0 TiltedSquare.qml
 TextField 1.0 TextField.qml

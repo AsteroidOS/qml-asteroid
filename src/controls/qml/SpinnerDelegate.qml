@@ -18,30 +18,19 @@
 import QtQuick 2.9
 import org.asteroid.controls 1.0
 
-ListView {
-    property alias showSeparator: separator.visible
+Label {
+    property bool isCircularSpinner: PathView.view !== null
+    property bool isCurr: isCircularSpinner ? PathView.isCurrentItem : ListView.isCurrentItem
 
-    function zeroPadding(x) {
-        if (x<10) return "0"+x;
-        else      return x;
-    }
+    width: isCircularSpinner ? PathView.view.width : ListView.view.width
+    height: Dims.h(10)
 
-    id: lv
-    preferredHighlightBegin: height / 2 - Dims.h(5)
-    preferredHighlightEnd: height / 2 + Dims.h(5)
-    highlightRangeMode: ListView.StrictlyEnforceRange
-    spacing: Dims.h(2)
-    clip: true
+    text: zeroPadding(index)
+    horizontalAlignment: Text.AlignHCenter
+    verticalAlignment: Text.AlignVCenter
 
-    delegate: SpinnerDelegate { }
-
-    Rectangle {
-        id: separator
-        width: 1
-        height: parent.height*0.8
-        color: "#88FFFFFF"
-        anchors.verticalCenter: parent.verticalCenter
-        anchors.right: parent.right
-        visible: false
-    }
+    opacity: isCurr ? 1.0 : 0.6
+    scale: isCurr ? 1.5 : 0.6
+    Behavior on scale   { NumberAnimation { duration: 200 } }
+    Behavior on opacity { NumberAnimation { duration: 200 } }
 }

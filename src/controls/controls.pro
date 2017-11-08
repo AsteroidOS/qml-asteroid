@@ -35,6 +35,7 @@ OTHER_FILES = \
     qml/PageDot.qml \
     qml/ProgressCircle.qml \
     qml/Spinner.qml \
+    qml/SpinnerDelegate.qml \
     qml/Switch.qml \
     qml/TiltedSquare.qml \
     qml/TextField.qml \

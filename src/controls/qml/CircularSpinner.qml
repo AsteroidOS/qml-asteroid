@@ -33,18 +33,7 @@ PathView {
     highlightMoveDuration: 0
     clip: true
 
-    delegate: Item {
-        width: pv.width
-        height: Dims.h(10)
-        Text {
-            text: zeroPadding(index)
-            anchors.centerIn: parent
-            color: parent.PathView.isCurrentItem ? "#FFFFFF" : "#88FFFFFF"
-            scale: parent.PathView.isCurrentItem ? 1.7 : 1
-            Behavior on scale { NumberAnimation { duration: 200 } }
-            Behavior on color { ColorAnimation { duration: 200 } }
-        }
-    }
+    delegate: SpinnerDelegate { }
 
     path: Path {
         startX: pv.width/2; startY: pv.height/2-pv.model*Dims.h(6)
