@@ -18,11 +18,14 @@
 import QtQuick 2.9
 
 Item {
-    width: height*5/4*dotNumber
-    visible: dotNumber > 1
+    width: height*5/4*(dotNumber+(additionalDot ? 1 : 0))
+    visible: additionalDot ? dotNumber > 0 : dotNumber > 1
 
     property int currentIndex: 0
-    property int dotNumber: 5
+    property int dotNumber: 0
+
+    property bool additionalDot: false
+    property string additionalDotText: "+"
 
     Row {
         anchors.fill: parent
@@ -30,13 +33,21 @@ Item {
         Repeater {
             model: dotNumber
             Rectangle {
-                id: rect1
-                width:parent.height
-                height:parent.height
+                width: parent.height
+                height: parent.height
                 radius: parent.height
                 color: "white"
                 opacity: index == currentIndex ? 1 : 0.5
             }
+        }
+
+        Label {
+            text: additionalDotText
+            width: additionalDot ? parent.height : 0
+            height: parent.height
+            verticalAlignment: Text.AlignVCenter
+            opacity: currentIndex == dotNumber ? 1 : 0.5
+            visible: additionalDot
         }
     }
 }
