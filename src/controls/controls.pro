@@ -1,7 +1,7 @@
 TEMPLATE = lib
 TARGET = asteroidcontrolsplugin
 QT += qml quick svg
-CONFIG += qt plugin
+CONFIG += qt plugin qtquickcompiler
 
 TARGET = $$qtLibraryTarget($$TARGET)
 uri = org.asteroid.controls
@@ -42,10 +42,11 @@ OTHER_FILES = \
     qml/TextArea.qml \
     qml/HandWritingKeyboard.qml
 
+RESOURCES += resources.qrc
+
 qmldir.files = qmldir
 
 qmlfiles.path = $$[QT_INSTALL_QML]/$$replace(uri, \\., /)
-qmlfiles.files += $$files(qml/*)
 
 !equals(_PRO_FILE_PWD_, $$OUT_PWD) {
     copy_qmldir.target = $$OUT_PWD/qmldir

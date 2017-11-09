@@ -2,22 +2,22 @@ module org.asteroid.controls
 
 plugin asteroidcontrolsplugin
 
-CircularSpinner 1.0 CircularSpinner.qml
-PageDot 1.0 PageDot.qml
-LayerStack 1.0 LayerStack.qml
-Label 1.0 Label.qml
-Marquee 1.0 Marquee.qml
-Application 1.0 Application.qml
-BorderGestureArea 1.0 BorderGestureArea.qml
-IconButton 1.0 IconButton.qml
-Indicator 1.0 Indicator.qml
-Spinner 1.0 Spinner.qml
-SpinnerDelegate 1.0 SpinnerDelegate.qml
-StatusPage 1.0 StatusPage.qml
-Switch 1.0 Switch.qml
-TiltedSquare 1.0 TiltedSquare.qml
-TextField 1.0 TextField.qml
-TextBase 1.0 TextBase.qml
-TextArea 1.0 TextArea.qml
-HandWritingKeyboard 1.0 HandWritingKeyboard.qml
-singleton Dims 1.0 Dims.qml
+CircularSpinner 1.0 qrc:///org/asteroid/controls/qml/CircularSpinner.qml
+PageDot 1.0 qrc:///org/asteroid/controls/qml/PageDot.qml
+LayerStack 1.0 qrc:///org/asteroid/controls/qml/LayerStack.qml
+Label 1.0 qrc:///org/asteroid/controls/qml/Label.qml
+Marquee 1.0 qrc:///org/asteroid/controls/qml/Marquee.qml
+Application 1.0 qrc:///org/asteroid/controls/qml/Application.qml
+BorderGestureArea 1.0 qrc:///org/asteroid/controls/qml/BorderGestureArea.qml
+IconButton 1.0 qrc:///org/asteroid/controls/qml/IconButton.qml
+Indicator 1.0 qrc:///org/asteroid/controls/qml/Indicator.qml
+Spinner 1.0 qrc:///org/asteroid/controls/qml/Spinner.qml
+SpinnerDelegate 1.0 qrc:///org/asteroid/controls/qml/SpinnerDelegate.qml
+StatusPage 1.0 qrc:///org/asteroid/controls/qml/StatusPage.qml
+Switch 1.0 qrc:///org/asteroid/controls/qml/Switch.qml
+TiltedSquare 1.0 qrc:///org/asteroid/controls/qml/TiltedSquare.qml
+TextField 1.0 qrc:///org/asteroid/controls/qml/TextField.qml
+TextBase 1.0 qrc:///org/asteroid/controls/qml/TextBase.qml
+TextArea 1.0 qrc:///org/asteroid/controls/qml/TextArea.qml
+HandWritingKeyboard 1.0 qrc:///org/asteroid/controls/qml/HandWritingKeyboard.qml
+singleton Dims 1.0 qrc:///org/asteroid/controls/qml/Dims.qml
