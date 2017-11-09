@@ -21,11 +21,6 @@ import org.asteroid.controls 1.0
 PathView {
     property alias showSeparator: separator.visible
 
-    function zeroPadding(x) {
-        if (x<10) return "0"+x;
-        else      return x;
-    }
-
     id: pv
     preferredHighlightBegin: 0.5
     preferredHighlightEnd: 0.5

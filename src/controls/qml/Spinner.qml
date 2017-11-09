@@ -21,11 +21,6 @@ import org.asteroid.controls 1.0
 ListView {
     property alias showSeparator: separator.visible
 
-    function zeroPadding(x) {
-        if (x<10) return "0"+x;
-        else      return x;
-    }
-
     id: lv
     preferredHighlightBegin: height / 2 - Dims.h(5)
     preferredHighlightEnd: height / 2 + Dims.h(5)

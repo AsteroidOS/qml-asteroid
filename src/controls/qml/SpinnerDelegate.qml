@@ -25,6 +25,11 @@ Label {
     width: isCircularSpinner ? PathView.view.width : ListView.view.width
     height: Dims.h(10)
 
+    function zeroPadding(x) {
+        if (x<10) return "0"+x;
+        else      return x;
+    }
+
     text: zeroPadding(index)
     horizontalAlignment: Text.AlignHCenter
     verticalAlignment: Text.AlignVCenter
