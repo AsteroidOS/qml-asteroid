@@ -35,7 +35,7 @@ Label {
     verticalAlignment: Text.AlignVCenter
 
     opacity: isCurr ? 1.0 : 0.6
-    scale: isCurr ? 1.5 : 0.6
+    scale: isCurr ? 1.4 : 0.8
     Behavior on scale   { NumberAnimation { duration: 200 } }
     Behavior on opacity { NumberAnimation { duration: 200 } }
 }
