@@ -44,4 +44,21 @@ PathView {
         anchors.right: parent.right
         visible: false
     }
+
+    layer.enabled: true
+    layer.effect: ShaderEffect {
+        fragmentShader: "
+        varying highp vec2 qt_TexCoord0;
+        uniform sampler2D source;
+        void main(void)
+        {
+            vec4 sourceColor = texture2D(source, qt_TexCoord0);
+            float alpha = 1.0;
+            if(qt_TexCoord0.y < 0.2)
+                alpha = qt_TexCoord0.y*5.0;
+            if(qt_TexCoord0.y > 0.8)
+                alpha = (1.0-qt_TexCoord0.y)*5.0;
+            gl_FragColor = sourceColor * alpha;
+        }"
+    }
 }
