@@ -18,6 +18,5 @@
         <file>qml/TextArea.qml</file>
         <file>qml/TextBase.qml</file>
         <file>qml/TextField.qml</file>
-        <file>qml/TiltedSquare.qml</file>
     </qresource>
 </RCC>

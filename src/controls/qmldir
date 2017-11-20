@@ -15,7 +15,6 @@ Spinner 1.0 qrc:///org/asteroid/controls/qml/Spinner.qml
 SpinnerDelegate 1.0 qrc:///org/asteroid/controls/qml/SpinnerDelegate.qml
 StatusPage 1.0 qrc:///org/asteroid/controls/qml/StatusPage.qml
 Switch 1.0 qrc:///org/asteroid/controls/qml/Switch.qml
-TiltedSquare 1.0 qrc:///org/asteroid/controls/qml/TiltedSquare.qml
 TextField 1.0 qrc:///org/asteroid/controls/qml/TextField.qml
 TextBase 1.0 qrc:///org/asteroid/controls/qml/TextBase.qml
 TextArea 1.0 qrc:///org/asteroid/controls/qml/TextArea.qml

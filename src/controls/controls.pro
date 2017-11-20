@@ -36,7 +36,6 @@ OTHER_FILES = \
     qml/SpinnerDelegate.qml \
     qml/StatusPage.qml \
     qml/Switch.qml \
-    qml/TiltedSquare.qml \
     qml/TextField.qml \
     qml/TextBase.qml \
     qml/TextArea.qml \
