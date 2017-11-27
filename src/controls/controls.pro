@@ -31,6 +31,7 @@ OTHER_FILES = \
     qml/LayerStack.qml \
     qml/Label.qml \
     qml/Marquee.qml \
+    qml/PageHeader.qml \
     qml/PageDot.qml \
     qml/Spinner.qml \
     qml/SpinnerDelegate.qml \

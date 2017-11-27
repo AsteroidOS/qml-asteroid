@@ -11,6 +11,7 @@
         <file>qml/LayerStack.qml</file>
         <file>qml/Marquee.qml</file>
         <file>qml/PageDot.qml</file>
+        <file>qml/PageHeader.qml</file>
         <file>qml/SpinnerDelegate.qml</file>
         <file>qml/Spinner.qml</file>
         <file>qml/StatusPage.qml</file>

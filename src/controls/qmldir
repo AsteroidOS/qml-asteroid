@@ -4,6 +4,7 @@ plugin asteroidcontrolsplugin
 
 CircularSpinner 1.0 qrc:///org/asteroid/controls/qml/CircularSpinner.qml
 PageDot 1.0 qrc:///org/asteroid/controls/qml/PageDot.qml
+PageHeader 1.0 qrc:///org/asteroid/controls/qml/PageHeader.qml
 LayerStack 1.0 qrc:///org/asteroid/controls/qml/LayerStack.qml
 Label 1.0 qrc:///org/asteroid/controls/qml/Label.qml
 Marquee 1.0 qrc:///org/asteroid/controls/qml/Marquee.qml
