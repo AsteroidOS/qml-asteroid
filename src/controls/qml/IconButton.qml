@@ -31,6 +31,7 @@ Item {
     property color iconColor: "#FFFFFFFF"
     property color pressedIconColor: "#FFFFFFFF"
     property alias iconName: icon.name
+    property alias pressed: mouseArea.containsPress
 
     width: Dims.l(20)
     height: width
@@ -40,7 +41,7 @@ Item {
     Icon {
         id: icon
         anchors.fill: parent
-        color: mouseArea.containsPress ? pressedIconColor : iconColor
+        color: pressed ? pressedIconColor : iconColor
         opacity: mouseArea.containsPress ? 0.7 : 1.0
     }
 
