@@ -21,5 +21,7 @@ import org.asteroid.controls 1.0
 Text {
     color: "white"
     font.pixelSize: Dims.defaultFontSize
+    elide: Text.ElideRight
+    clip: true
 }
 
