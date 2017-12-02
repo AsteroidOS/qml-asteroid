@@ -17,6 +17,7 @@
 
 import QtQuick 2.9
 import org.asteroid.controls 1.0
+import org.asteroid.utils 1.0
 
 Label {
     height: Dims.h(20)
@@ -27,5 +28,9 @@ Label {
     anchors.right: parent.right
     verticalAlignment: Text.AlignVCenter
     horizontalAlignment: Text.AlignHCenter
+    leftPadding: DeviceInfo.hasRoundScreen ? Dims.w(25) : 0
+    rightPadding: DeviceInfo.hasRoundScreen ? Dims.w(25) : 0
+    wrapMode: Text.WordWrap
+    maximumLineCount: 2
 }
 
