@@ -26,7 +26,7 @@ Item {
     property var firstPage
     property var layers: []
     property var currentLayer: layers.length > 0 ? layers[layers.length-1] : null
-    property QtObject win: parent  // /!\ TODO: find AppWindow instead of using parent
+    property QtObject win: parent  // Can be set to null if you don't want indicators animations and systemgestures override. If your LayerStack isn't directly a child element of your window, you can also specify the window via this parameter.
 
     Flickable {
         id: contentArea
@@ -46,7 +46,7 @@ Item {
             easing.type: Easing.OutQuint
         }
 
-        ScriptAction { script: win.animIndicators() }
+        ScriptAction { script: if(win !== null) win.animIndicators() }
     }
 
     Component.onCompleted: {
@@ -77,7 +77,8 @@ Item {
             layers.push(layer);
             pushAnimX.to = layers.length*width
             pushAnim.start();
-            win.setOverridesSystemGestures(layers.length > 0)
+            if(win !== null)
+                win.setOverridesSystemGestures(layers.length > 0)
             layersChanged();
         }
     }
@@ -91,9 +92,11 @@ Item {
         layer.destroy();
         layers.pop(layer);
         contentArea.contentX = layers.length*width
-        win.setOverridesSystemGestures(layers.length > 0)
+        if(win !== null)
+            win.setOverridesSystemGestures(layers.length > 0)
         layersChanged();
-        win.animIndicators()
+        if(win !== null)
+            win.animIndicators()
     }
 
     BorderGestureArea {
@@ -155,7 +158,7 @@ Item {
                 value: ""
             }
 
-            ScriptAction { script: win.animIndicators() }
+            ScriptAction { script: if(win !== null) win.animIndicators() }
         }
 
         SequentialAnimation {
