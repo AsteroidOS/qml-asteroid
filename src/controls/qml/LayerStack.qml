@@ -72,7 +72,7 @@ Item {
             params["clip"] = true
 
             var layer;
-            params["pop"] = function() { layersStack.pop(layer); }
+            params["pop"] = function() { layersStack.popAnim(); }
             layer = component.createObject(content, params);
             layers.push(layer);
             pushAnimX.to = layers.length*width
@@ -82,12 +82,18 @@ Item {
         }
     }
 
+    function popAnim() {
+        swipeAnimation.valueTo = width
+        swipeAnimation.start();
+    }
+
     function pop(layer) {
         layer.destroy();
         layers.pop(layer);
         contentArea.contentX = layers.length*width
         win.setOverridesSystemGestures(layers.length > 0)
         layersChanged();
+        win.animIndicators()
     }
 
     BorderGestureArea {
@@ -108,7 +114,7 @@ Item {
         onGestureFinished: {
             if(gesture == "right") {
                 if (gestureArea.progress >= swipeThreshold) {
-                    swipeAnimation.valueTo = inverted ? -max : max
+                    swipeAnimation.valueTo = width
                     swipeAnimation.start()
                 } else
                     cancelAnimation.start()
@@ -127,7 +133,7 @@ Item {
 
                 PropertyChanges {
                     target: contentArea
-                    contentX: gestureArea.horizontal ? layers.length*width-gestureArea.value : 0
+                    contentX: layers.length*width - gestureArea.value
                 }
             }
         ]
@@ -157,6 +163,12 @@ Item {
 
             property alias valueTo: valueAnimation.to
 
+            PropertyAction {
+                target: gestureArea
+                property: "state"
+                value: "swipe"
+            }
+
             NumberAnimation {
                 id: valueAnimation
                 target: gestureArea
@@ -172,7 +184,6 @@ Item {
             }
 
             ScriptAction { script: pop(currentLayer) }
-            ScriptAction { script: win.animIndicators() }
         }
     }
 }
