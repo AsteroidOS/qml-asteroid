@@ -22,6 +22,7 @@ Item {
     property alias text: statusLabel.text
     property alias icon: statusIcon.name
     property bool clickable: false
+    property bool activeBackground: false
     signal clicked()
 
     anchors.fill: parent
@@ -32,7 +33,7 @@ Item {
         anchors.verticalCenterOffset: -Dims.h(13)
         color: "black"
         radius: width/2
-        opacity: 0.2
+        opacity: activeBackground ? 0.4 : 0.2
         width: parent.height*0.25
         height: width
     }
