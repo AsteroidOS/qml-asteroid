@@ -52,6 +52,7 @@ Item {
         id: animatedText
         width: contentWidth
         onWidthChanged: restartAnimation()
+        elide: Text.ElideNone
     }
 
     SequentialAnimation {
