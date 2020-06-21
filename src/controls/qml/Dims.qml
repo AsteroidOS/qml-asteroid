@@ -21,6 +21,7 @@
  */
 import QtQuick 2.9
 import QtQuick.Window 2.2
+import org.asteroid.utils 1.0
 
 pragma Singleton
 
@@ -61,11 +62,11 @@ QtObject {
     }
 
     function h(number) {
-        return (number/100)*Screen.desktopAvailableHeight
+        return (number/100)*(Screen.desktopAvailableHeight+DeviceInfo.flatTireHeight)
     }
 
     function l(number) {
-        if(Screen.desktopAvailableWidth > Screen.desktopAvailableHeight)
+        if(Screen.desktopAvailableWidth > (Screen.desktopAvailableHeight+DeviceInfo.flatTireHeight))
             return h(number)
         else
             return w(number)
