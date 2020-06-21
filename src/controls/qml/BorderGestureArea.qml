@@ -31,11 +31,12 @@
 
 import QtQuick 2.9
 import QtQuick.Window 2.0
+import org.asteroid.utils 1.0
 
 MouseArea {
     id: root
 
-    property int boundary: width*0.1
+    property int boundary: width*DeviceInfo.borderGestureWidth
     property bool delayReset
 
     signal gestureStarted(string gesture)

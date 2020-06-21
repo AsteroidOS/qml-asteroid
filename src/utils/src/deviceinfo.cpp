@@ -26,6 +26,15 @@ bool DeviceInfo::hasRoundScreen()
 #endif
 }
 
+double DeviceInfo::borderGestureWidth()
+{
+#ifdef BORDER_GESTURE_WIDTH
+    return BORDER_GESTURE_WIDTH;
+#else
+    return 0.1;
+#endif
+}
+
 int DeviceInfo::flatTireHeight()
 {
 #ifdef FLAT_TIRE
