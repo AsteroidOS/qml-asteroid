@@ -26,6 +26,15 @@ bool DeviceInfo::hasRoundScreen()
 #endif
 }
 
+int DeviceInfo::flatTireHeight()
+{
+#ifdef FLAT_TIRE
+    return FLAT_TIRE;
+#else
+    return 0;
+#endif
+}
+
 bool DeviceInfo::hasWlan()
 {
 #ifdef HAS_WLAN

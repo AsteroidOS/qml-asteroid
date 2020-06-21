@@ -27,6 +27,7 @@ class DeviceInfo : public QObject
     Q_OBJECT
     Q_DISABLE_COPY(DeviceInfo)
     Q_PROPERTY(bool hasRoundScreen READ hasRoundScreen CONSTANT)
+    Q_PROPERTY(int flatTireHeight READ flatTireHeight CONSTANT)
     Q_PROPERTY(bool hasWlan READ hasWlan CONSTANT)
     Q_PROPERTY(bool hasSpeaker READ hasSpeaker CONSTANT)
     DeviceInfo() {}
@@ -39,6 +40,7 @@ public:
         return new DeviceInfo;
     }
     bool hasRoundScreen();
+    int flatTireHeight();
     bool hasWlan();
     bool hasSpeaker();
 };
