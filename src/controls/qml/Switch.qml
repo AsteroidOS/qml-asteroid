@@ -1,4 +1,5 @@
 /*
+ * Copyright (C) 2020 Darrel Griët <idanlcontact@gmail.com>
  * Copyright (C) 2016 Florent Revest <revestflo@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -19,82 +20,27 @@ import QtQuick 2.5
 import org.asteroid.controls 1.0
 
 Item {
-    id: toggleSwitch
-    width: Dims.l(30); height: width
-
     property bool checked
-    state: checked ? "on" : "off"
 
+    width: Dims.l(30)
+    height: width
+
+    Icon {
+        id: onIcon
+        anchors.fill: parent
+        name: "ios-checkmark-circle-outline"
+        opacity: checked ? (!enabled ? 0.6 : 1.0) : 0.0
+        Behavior on opacity { NumberAnimation { duration: 100 } }
+    }
+    Icon {
+        id: offIcon
+        anchors.fill: parent
+        name: "ios-circle-outline"
+        opacity: !checked ? (!enabled ? 0.6 : 1.0) : 0.0
+        Behavior on opacity { NumberAnimation { duration: 100 } }
+    }
     MouseArea {
-        anchors.fill: parent;
-        onClicked: {
-            if (toggleSwitch.state == "on")
-                toggleSwitch.state = "off";
-            else
-                toggleSwitch.state = "on";
-        }
-    }
-
-    Rectangle {
-        id: background
-        radius: width/2
         anchors.fill: parent
-        opacity: 0.6
-    }
-
-    Rectangle {
-        id: overlay
-        color: "#333"
-        border.color: "#b5bbaf"
-        radius: width/2
-        anchors.fill: parent
-        anchors.margins: parent.width*0.16
-    }
-
-    Text {
-        id: off
-        anchors.centerIn: parent
-        text: "OFF"
-        font.italic: true
-        color: "#ccc"
-        font.pixelSize: parent.height*0.2
-        opacity: 1.0
-    }
-    Text {
-        id: on
-        anchors.centerIn: parent
-        text: "ON"
-        font.italic: true
-        color: "white"
-        font.pixelSize: parent.height*0.2
-        opacity: 0.0
-    }
-
-    states: [
-        State {
-            name: "on"
-            PropertyChanges { target: background; color: "#129a36" }
-            PropertyChanges { target: background; border.color: "#336f0b" }
-            PropertyChanges { target: overlay; border.color: "#336f0b" }
-            PropertyChanges { target: off; opacity: 0.0 }
-            PropertyChanges { target: on; opacity: 1.0 }
-            PropertyChanges { target: toggleSwitch; checked: true }
-        },
-        State {
-            name: "off"
-            PropertyChanges { target: background; color: "#aaa" }
-            PropertyChanges { target: background; border.color: "#bbbbbb" }
-            PropertyChanges { target: overlay; border.color: "#bbbbbb" }
-            PropertyChanges { target: off; opacity: 1.0 }
-            PropertyChanges { target: on; opacity: 0.0 }
-            PropertyChanges { target: toggleSwitch; checked: false }
-        }
-    ]
-
-    transitions: Transition {
-        ParallelAnimation {
-            NumberAnimation { properties: "opacity"; easing.type: Easing.InOutQuad; duration: 300 }
-            ColorAnimation  { duration: 300 }
-        }
+        onClicked: checked = !checked
     }
 }
