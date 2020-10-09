@@ -45,7 +45,7 @@ pragma Singleton
 
    Rectangle {
        width: Dims.w(80) // 80 % of screen width
-       height: Dims.dp(50) // 50 % of screen height
+       height: Dims.h(50) // 50 % of screen height
 
        Label {
            text:"A"
