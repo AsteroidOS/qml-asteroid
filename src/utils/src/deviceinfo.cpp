@@ -16,49 +16,43 @@
  */
 
 #include "deviceinfo.h"
+#include <QFile>
+
+const char* CONFIG_FILE = "/etc/asteroid/machine.conf";
+
+DeviceInfo::DeviceInfo()
+    : m_settings(CONFIG_FILE, QSettings::IniFormat)
+{
+    QSettings::Status status(m_settings.status());
+    if (status == QSettings::FormatError ) {
+        qWarning("Configuration file \"%s\" is in wrong format", CONFIG_FILE);
+    } else if (status != QSettings::NoError) {
+        qWarning("Unable to open \"%s\" configuration file", CONFIG_FILE);
+    }
+}
 
 bool DeviceInfo::hasRoundScreen()
 {
-#ifdef ROUND_SCREEN
-    return true;
-#else
-    return false;
-#endif
+    return m_settings.value("Display/ROUND", false).toBool();
 }
 
 double DeviceInfo::borderGestureWidth()
 {
-#ifdef BORDER_GESTURE_WIDTH
-    return BORDER_GESTURE_WIDTH;
-#else
-    return 0.1;
-#endif
+    return m_settings.value("Display/BORDER_GESTURE_WIDTH", 0.1).toFloat();
 }
 
 int DeviceInfo::flatTireHeight()
 {
-#ifdef FLAT_TIRE
-    return FLAT_TIRE;
-#else
-    return 0;
-#endif
+    return m_settings.value("Display/FLAT_TIRE", 0).toInt();
 }
 
 bool DeviceInfo::hasWlan()
 {
-#ifdef HAS_WLAN
-    return true;
-#else
-    return false;
-#endif
+    return m_settings.value("Capabilities/HAS_WLAN", false).toBool();
 }
 
 bool DeviceInfo::hasSpeaker()
 {
-#ifdef HAS_SPEAKER
-    return true;
-#else
-    return false;
-#endif
+    return m_settings.value("Capabilities/HAS_SPEAKER", false).toBool();
 }
 
