@@ -21,6 +21,7 @@
 #include <QObject>
 #include <QJSEngine>
 #include <QQmlEngine>
+#include <QSettings>
 
 class DeviceInfo : public QObject
 {
@@ -31,7 +32,7 @@ class DeviceInfo : public QObject
     Q_PROPERTY(int flatTireHeight READ flatTireHeight CONSTANT)
     Q_PROPERTY(bool hasWlan READ hasWlan CONSTANT)
     Q_PROPERTY(bool hasSpeaker READ hasSpeaker CONSTANT)
-    DeviceInfo() {}
+    DeviceInfo();
 public:
     static QObject *qmlInstance(QQmlEngine *engine, QJSEngine *scriptEngine)
     {
@@ -45,6 +46,8 @@ public:
     int flatTireHeight();
     bool hasWlan();
     bool hasSpeaker();
+private:
+    QSettings m_settings;
 };
 
 #endif // DEVICEINFO_H
