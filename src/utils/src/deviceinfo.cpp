@@ -46,6 +46,11 @@ int DeviceInfo::flatTireHeight()
     return m_settings.value("Display/FLAT_TIRE", 0).toInt();
 }
 
+bool DeviceInfo::needsBurnInProtection()
+{
+    return m_settings.value("Display/NEEDS_BURN_IN_PROTECTION", true).toBool();
+}
+
 bool DeviceInfo::hasWlan()
 {
     return m_settings.value("Capabilities/HAS_WLAN", false).toBool();

@@ -30,6 +30,7 @@ class DeviceInfo : public QObject
     Q_PROPERTY(bool hasRoundScreen READ hasRoundScreen CONSTANT)
     Q_PROPERTY(double borderGestureWidth READ borderGestureWidth CONSTANT)
     Q_PROPERTY(int flatTireHeight READ flatTireHeight CONSTANT)
+    Q_PROPERTY(bool needsBurnInProtection READ needsBurnInProtection CONSTANT)
     Q_PROPERTY(bool hasWlan READ hasWlan CONSTANT)
     Q_PROPERTY(bool hasSpeaker READ hasSpeaker CONSTANT)
     DeviceInfo();
@@ -44,6 +45,7 @@ public:
     bool hasRoundScreen();
     double borderGestureWidth();
     int flatTireHeight();
+    bool needsBurnInProtection();
     bool hasWlan();
     bool hasSpeaker();
 private:
