@@ -31,7 +31,7 @@ void ControlsPlugin::registerTypes(const char *uri)
 {
     Q_ASSERT(uri == QLatin1String("org.asteroid.controls"));
 
-    QGuiApplication::setFont(QFont("Open Sans"));
+    QGuiApplication::setFont(QFont("Noto Sans"));
 
     qmlRegisterType<Application_p>(uri, 1, 0, "Application_p");
     qmlRegisterType<FlatMesh>(uri, 1, 0, "FlatMesh");
