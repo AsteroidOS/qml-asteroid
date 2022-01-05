@@ -1,10 +1,12 @@
 set(SRC
 	src/utils_plugin.cpp
 	src/deviceinfo.cpp
+	src/fileinfo.cpp
 	src/bluetoothstatus.cpp)
 set(HEADERS
 	src/utils_plugin.h
 	src/deviceinfo.h
+	src/fileinfo.h
 	src/bluetoothstatus.h)
 
 add_library(asteroidutilsplugin ${SRC} ${HEADERS})

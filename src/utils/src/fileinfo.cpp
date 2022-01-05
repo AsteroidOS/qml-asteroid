@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 - Florent Revest <revestflo@gmail.com>
+ * Copyright (C) 2022 - Darrel Griët <dgriet@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -15,22 +15,14 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "utils_plugin.h"
-#include <QtQml>
-#include "bluetoothstatus.h"
-#include "deviceinfo.h"
 #include "fileinfo.h"
+#include <QFile>
+#include <QRegularExpression>
 
-UtilsPlugin::UtilsPlugin(QObject *parent) : QQmlExtensionPlugin(parent)
+bool FileInfo::exists(const QString fileName)
 {
+    QString file = QString(fileName);
+    file.replace(QRegularExpression("^file:\\/\\/"), "");
+    file.replace(QRegularExpression("^qrc:\\/"), ":/");
+    return QFile::exists(file);
 }
-
-void UtilsPlugin::registerTypes(const char *uri)
-{
-    Q_ASSERT(uri == QLatin1String("org.asteroid.utils"));
-
-    qmlRegisterSingletonType<DeviceInfo>(uri, 1,0, "DeviceInfo", &DeviceInfo::qmlInstance);
-    qmlRegisterSingletonType<FileInfo>(uri, 1, 0, "FileInfo", &FileInfo::qmlInstance);
-    qmlRegisterType<BluetoothStatus>(uri, 1, 0, "BluetoothStatus");
-}
-
