@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 - Florent Revest <revestflo@gmail.com>
+ * Copyright (C) 2022 - Darrel Griët <dgriet@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -15,22 +15,27 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "utils_plugin.h"
-#include <QtQml>
-#include "bluetoothstatus.h"
-#include "deviceinfo.h"
-#include "fileinfo.h"
+#ifndef FILEINFO_H
+#define FILEINFO_H
 
-UtilsPlugin::UtilsPlugin(QObject *parent) : QQmlExtensionPlugin(parent)
+#include <QObject>
+#include <QJSEngine>
+#include <QQmlEngine>
+
+class FileInfo : public QObject
 {
-}
+    Q_OBJECT
+    Q_DISABLE_COPY(FileInfo)
+    FileInfo() {}
+public:
+    static QObject *qmlInstance(QQmlEngine *engine, QJSEngine *scriptEngine)
+    {
+        Q_UNUSED(engine);
+        Q_UNUSED(scriptEngine);
 
-void UtilsPlugin::registerTypes(const char *uri)
-{
-    Q_ASSERT(uri == QLatin1String("org.asteroid.utils"));
+        return new FileInfo;
+    }
+    Q_INVOKABLE bool exists(const QString fileName);
+};
 
-    qmlRegisterSingletonType<DeviceInfo>(uri, 1,0, "DeviceInfo", &DeviceInfo::qmlInstance);
-    qmlRegisterSingletonType<FileInfo>(uri, 1, 0, "FileInfo", &FileInfo::qmlInstance);
-    qmlRegisterType<BluetoothStatus>(uri, 1, 0, "BluetoothStatus");
-}
-
+#endif // FILEINFO_H
