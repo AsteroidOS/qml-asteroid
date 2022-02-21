@@ -5,6 +5,7 @@
         <file>qml/CircularSpinner.qml</file>
         <file>qml/Dims.qml</file>
         <file>qml/HandWritingKeyboard.qml</file>
+        <file>qml/Icon.qml</file>
         <file>qml/IconButton.qml</file>
         <file>qml/Indicator.qml</file>
         <file>qml/Label.qml</file>
