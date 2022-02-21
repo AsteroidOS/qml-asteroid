@@ -10,6 +10,7 @@ Label 1.0 qrc:///org/asteroid/controls/qml/Label.qml
 Marquee 1.0 qrc:///org/asteroid/controls/qml/Marquee.qml
 Application 1.0 qrc:///org/asteroid/controls/qml/Application.qml
 BorderGestureArea 1.0 qrc:///org/asteroid/controls/qml/BorderGestureArea.qml
+Icon 1.0 qrc:///org/asteroid/controls/qml/Icon.qml
 IconButton 1.0 qrc:///org/asteroid/controls/qml/IconButton.qml
 Indicator 1.0 qrc:///org/asteroid/controls/qml/Indicator.qml
 Spinner 1.0 qrc:///org/asteroid/controls/qml/Spinner.qml
