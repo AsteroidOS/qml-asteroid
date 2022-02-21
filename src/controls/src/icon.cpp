@@ -38,7 +38,6 @@
 Icon::Icon()
 {
     setFlag(ItemHasContents, true);
-    setRenderTarget(QQuickPaintedItem::FramebufferObject);
     m_color = Qt::white;
 }
 
