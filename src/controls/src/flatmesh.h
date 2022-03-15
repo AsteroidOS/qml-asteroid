@@ -60,6 +60,9 @@ signals:
 protected:
     QSGNode *updatePaintNode(QSGNode *node, UpdatePaintNodeData *data);
 
+private slots:
+    void maybeEnableAnimation();
+
 private:
     QColor m_centerColor, m_outerColor;
     bool m_animated;
