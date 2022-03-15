@@ -40,8 +40,10 @@ FlatMesh::FlatMesh(QQuickItem *parent) : QQuickItem(parent)
     m_centerColor = QColor("#ffaa39");
     m_outerColor = QColor("#df4829");
 
+    connect(this, SIGNAL(visibleChanged()), this, SLOT(maybeEnableAnimation()));
+
     setFlag(ItemHasContents);
-    m_animated = true;
+    setAnimated(true);
 }
 
 void FlatMesh::setCenterColor(QColor c)
@@ -60,13 +62,23 @@ void FlatMesh::setOuterColor(QColor c)
     update();
 }
 
+void FlatMesh::maybeEnableAnimation()
+{
+    if (isVisible() && m_animated) {
+        m_timer.start();
+    } else {
+        m_timer.stop();
+    }
+    update();
+}
+
 void FlatMesh::setAnimated(bool animated)
 {
     if (animated == m_animated)
         return;
     m_animated = animated;
     emit animatedChanged();
-    update();
+    maybeEnableAnimation();
 }
 
 QSGNode *FlatMesh::updatePaintNode(QSGNode *old, UpdatePaintNodeData *)
