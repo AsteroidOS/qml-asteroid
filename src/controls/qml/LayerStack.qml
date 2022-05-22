@@ -26,6 +26,7 @@ Item {
     property var firstPage
     property var layers: []
     property var currentLayer: layers.length > 0 ? layers[layers.length-1] : null
+    property var firstPageItem
     property QtObject win: parent  // Can be set to null if you don't want indicators animations and systemgestures override. If your LayerStack isn't directly a child element of your window, you can also specify the window via this parameter.
 
     Flickable {
@@ -56,8 +57,24 @@ Item {
         params["x"] = 0
         params["y"] = 0
         if(typeof firstPage != 'undefined' && firstPage.status === Component.Ready) {
-            var itm=firstPage.createObject(content, params)
-            itm.clip = true
+            firstPageItem=firstPage.createObject(content, params)
+            firstPageItem.clip = true
+        }
+    }
+
+    onFirstPageChanged: {
+        if(typeof firstPage != 'undefined') {
+            firstPageItem.destroy()
+            var params = {}
+            params["width"] = Qt.binding(function() { return width })
+            params["height"] =  Qt.binding(function() { return height })
+            params["x"] = 0
+            params["y"] = 0
+            firstPageItem=firstPage.createObject(content, params)
+            firstPageItem.clip = true
+            layersChanged()
+        } else {
+            console.log("LayerStack: firstpage has been updated with a null value")
         }
     }
 
