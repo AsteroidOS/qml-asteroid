@@ -56,7 +56,7 @@ Item {
         verticalAlignment: Text.AlignVCenter
         wrapMode: Text.Wrap
         anchors.left: parent.left; anchors.right: parent.right
-        anchors.leftMargin: Dims.w(2); anchors.rightMargin: Dims.w(2)
+        anchors.leftMargin: Dims.w(4); anchors.rightMargin: anchors.leftMargin
         anchors.verticalCenter: parent.verticalCenter
         anchors.verticalCenterOffset: Dims.h(15)
     }
