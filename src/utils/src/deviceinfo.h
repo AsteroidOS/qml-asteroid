@@ -33,6 +33,7 @@ class DeviceInfo : public QObject
     Q_PROPERTY(bool needsBurnInProtection READ needsBurnInProtection CONSTANT)
     Q_PROPERTY(bool hasWlan READ hasWlan CONSTANT)
     Q_PROPERTY(bool hasSpeaker READ hasSpeaker CONSTANT)
+    Q_PROPERTY(QString hostname READ hostname CONSTANT)
     DeviceInfo();
 public:
     static QObject *qmlInstance(QQmlEngine *engine, QJSEngine *scriptEngine)
@@ -48,8 +49,10 @@ public:
     bool needsBurnInProtection();
     bool hasWlan();
     bool hasSpeaker();
+    QString hostname() const;
 private:
     QSettings m_settings;
+    QString m_hostname;
 };
 
 #endif // DEVICEINFO_H
