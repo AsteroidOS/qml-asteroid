@@ -19,6 +19,7 @@
 #include <QFile>
 
 const char* CONFIG_FILE = "/etc/asteroid/machine.conf";
+const char* HOST_FILE = "/etc/hostname";
 
 DeviceInfo::DeviceInfo()
     : m_settings(CONFIG_FILE, QSettings::IniFormat)
@@ -28,6 +29,14 @@ DeviceInfo::DeviceInfo()
         qWarning("Configuration file \"%s\" is in wrong format", CONFIG_FILE);
     } else if (status != QSettings::NoError) {
         qWarning("Unable to open \"%s\" configuration file", CONFIG_FILE);
+    }
+
+    QFile host(HOST_FILE);
+    if (host.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        QTextStream in(&host);
+        in.setCodec("UTF-8");
+        m_hostname = in.readLine();
+        host.close();
     }
 }
 
@@ -59,5 +68,10 @@ bool DeviceInfo::hasWlan()
 bool DeviceInfo::hasSpeaker()
 {
     return m_settings.value("Capabilities/HAS_SPEAKER", false).toBool();
+}
+
+QString DeviceInfo::hostname() const
+{
+    return m_hostname;
 }
 
