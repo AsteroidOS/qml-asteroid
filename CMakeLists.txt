@@ -10,7 +10,7 @@ set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake)
 
 include(FeatureSummary)
 include(GNUInstallDirs)
-include(ECMQMLModules)
+include(ECMFindQmlModule)
 include(ECMGeneratePkgConfigFile)
 include(AsteroidCMakeSettings)
 
