@@ -20,6 +20,7 @@
 
 const char* CONFIG_FILE = "/etc/asteroid/machine.conf";
 const char* HOST_FILE = "/etc/hostname";
+const char* OS_RELEASE_FILE = "/etc/os-release";
 
 DeviceInfo::DeviceInfo()
     : m_settings(CONFIG_FILE, QSettings::IniFormat)
@@ -37,6 +38,22 @@ DeviceInfo::DeviceInfo()
         in.setCodec("UTF-8");
         m_hostname = in.readLine();
         host.close();
+    }
+
+    QFile release(OS_RELEASE_FILE);
+    if (release.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        QTextStream in(&release);
+        in.setCodec("UTF-8");
+        QString line = in.readLine();
+        for (bool searching{true}; searching; line = in.readLine()) {
+            if (line.startsWith("BUILD_ID")) {
+                auto parts = line.split(QLatin1Char('='));
+                m_buildid = parts[1];
+                m_buildid.remove(QChar('"'));
+                searching = false;
+            }
+        }
+        release.close();
     }
 }
 
@@ -75,3 +92,8 @@ QString DeviceInfo::hostname() const
     return m_hostname;
 }
 
+
+QString DeviceInfo::buildID() const
+{
+    return m_buildid;
+}
