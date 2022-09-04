@@ -34,6 +34,7 @@ class DeviceInfo : public QObject
     Q_PROPERTY(bool hasWlan READ hasWlan CONSTANT)
     Q_PROPERTY(bool hasSpeaker READ hasSpeaker CONSTANT)
     Q_PROPERTY(QString hostname READ hostname CONSTANT)
+    Q_PROPERTY(QString machineName READ machineName CONSTANT)
     Q_PROPERTY(QString buildID READ buildID CONSTANT)
     DeviceInfo();
 public:
@@ -51,6 +52,7 @@ public:
     bool hasWlan();
     bool hasSpeaker();
     QString hostname() const;
+    QString machineName() const;
     QString buildID() const;
 private:
     QSettings m_settings;

@@ -92,6 +92,10 @@ QString DeviceInfo::hostname() const
     return m_hostname;
 }
 
+QString DeviceInfo::machineName() const
+{
+    return m_settings.value("Identity/MACHINE", "unknown").toString();
+}
 
 QString DeviceInfo::buildID() const
 {
