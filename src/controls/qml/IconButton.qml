@@ -24,10 +24,6 @@ Item {
 
     signal clicked()
 
-    // For free placing
-    readonly property int undefinedEdge: 2 * Qt.BottomEdge
-    property int edge: Qt.BottomEdge
-
     property color iconColor: "#FFFFFFFF"
     property color pressedIconColor: "#FFFFFFFF"
     property alias iconName: icon.name
@@ -36,10 +32,9 @@ Item {
     width: Dims.l(20)
     height: width
 
-    enabled: visible
-
     Icon {
         id: icon
+        name: "ios-circle-outline"
         anchors.fill: parent
         color: pressed ? pressedIconColor : iconColor
         opacity: mouseArea.containsPress ? 0.7 : 1.0
@@ -48,32 +43,7 @@ Item {
     MouseArea {
         id: mouseArea
         anchors.fill: parent
-
         onClicked: iconButton.clicked()
     }
 
-    anchors {
-        top:    (edge === Qt.TopEdge)    ? parent.top    : undefined
-        bottom: (edge === Qt.BottomEdge) ? parent.bottom : undefined
-        right:  (edge === Qt.RightEdge)  ? parent.right  : undefined
-        left:   (edge === Qt.LeftEdge)   ? parent.left   : undefined
-
-        horizontalCenter: {
-            if(edge === Qt.TopEdge || edge === Qt.BottomEdge)
-                return parent.horizontalCenter
-            else
-                return undefined
-        }
-        verticalCenter: {
-            if(edge === Qt.LeftEdge || edge === Qt.RightEdge)
-                return parent.verticalCenter
-            else
-                return undefined
-        }
-
-        topMargin:    (edge === Qt.TopEdge)    ? Dims.iconButtonMargin : 0
-        bottomMargin: (edge === Qt.BottomEdge) ? Dims.iconButtonMargin : 0
-        rightMargin:  (edge === Qt.RightEdge)  ? Dims.iconButtonMargin : 0
-        leftMargin:   (edge === Qt.LeftEdge)   ? Dims.iconButtonMargin : 0
-    }
 }
