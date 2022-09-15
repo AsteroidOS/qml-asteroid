@@ -8,6 +8,7 @@ PageHeader 1.0 qrc:///org/asteroid/controls/qml/PageHeader.qml
 LayerStack 1.0 qrc:///org/asteroid/controls/qml/LayerStack.qml
 Label 1.0 qrc:///org/asteroid/controls/qml/Label.qml
 Marquee 1.0 qrc:///org/asteroid/controls/qml/Marquee.qml
+LabeledSwitch 1.0 qrc:///org/asteroid/controls/qml/LabeledSwitch.qml
 Application 1.0 qrc:///org/asteroid/controls/qml/Application.qml
 BorderGestureArea 1.0 qrc:///org/asteroid/controls/qml/BorderGestureArea.qml
 IconButton 1.0 qrc:///org/asteroid/controls/qml/IconButton.qml
