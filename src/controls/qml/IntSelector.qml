@@ -34,7 +34,7 @@ Row {
     property int value: 0
     // labelWidthRatio is the width of the label with respect to the total width
     property real labelWidthRatio: 0.42857
-    // fotToHeightRatio is the size of the font relative to the height
+    // fontToHeightRatio is the size of the font relative to the height
     property real fontToHeightRatio: 0.3
 
     height: parent.height
@@ -52,7 +52,7 @@ Row {
 
     Label {
         text: value + unitMarker
-        font.pixelSize: parent.height * fotToHeightRatio
+        font.pixelSize: parent.height * fontToHeightRatio
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
         wrapMode: Text.Wrap
