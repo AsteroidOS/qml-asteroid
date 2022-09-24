@@ -37,8 +37,6 @@ Row {
     // fontToHeightRatio is the size of the font relative to the height
     property real fontToHeightRatio: 0.3
 
-    height: parent.height
-    width: parent.width
     IconButton { 
         iconName: "ios-remove-circle-outline"
         height: parent.height

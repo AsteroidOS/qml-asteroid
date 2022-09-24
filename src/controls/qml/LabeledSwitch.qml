@@ -28,9 +28,6 @@ Row {
     property alias checked: toggle.checked
     property alias text: label.text
 
-    height: parent.height
-    width: parent.width
-
     Label {
         id: label
         text: value
