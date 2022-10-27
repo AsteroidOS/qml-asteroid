@@ -65,6 +65,9 @@ Item {
     onFirstPageChanged: {
         if(typeof firstPage != 'undefined') {
             firstPageItem.destroy()
+            while (layers.length > 0) {
+                pop(currentLayer)
+            }
             var params = {}
             params["width"] = Qt.binding(function() { return width })
             params["height"] =  Qt.binding(function() { return height })
