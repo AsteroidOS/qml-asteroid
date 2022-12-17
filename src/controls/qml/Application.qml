@@ -18,6 +18,7 @@
 
 import QtQuick 2.9
 import org.asteroid.controls 1.0
+import org.asteroid.utils 1.0
 
 Application_p {
     anchors.fill: parent
@@ -47,6 +48,7 @@ Application_p {
         edge: Qt.RightEdge
         visible: false
         z: 10
+        anchors.verticalCenterOffset: DeviceInfo.flatTireHeight/2
     }
 
     Indicator {
@@ -54,6 +56,7 @@ Application_p {
         edge: Qt.LeftEdge
         visible: true
         z: 10
+        anchors.verticalCenterOffset: DeviceInfo.flatTireHeight/2
     }
 
     Indicator {
