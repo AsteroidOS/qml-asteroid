@@ -1,3 +1,5 @@
-add_subdirectory(app)
+if (WITH_ASTEROIDAPP)
+    add_subdirectory(app)
+endif()
 add_subdirectory(controls)
 add_subdirectory(utils)
