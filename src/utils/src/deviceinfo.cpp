@@ -45,7 +45,7 @@ DeviceInfo::DeviceInfo()
         QTextStream in(&release);
         in.setCodec("UTF-8");
         QString line = in.readLine();
-        for (bool searching{true}; searching; line = in.readLine()) {
+        for (bool searching{true}; searching && !in.atEnd(); line = in.readLine()) {
             if (line.startsWith("BUILD_ID")) {
                 auto parts = line.split(QLatin1Char('='));
                 m_buildid = parts[1];
