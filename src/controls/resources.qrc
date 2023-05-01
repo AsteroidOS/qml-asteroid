@@ -4,13 +4,16 @@
         <file>qml/BorderGestureArea.qml</file>
         <file>qml/CircularSpinner.qml</file>
         <file>qml/Dims.qml</file>
+        <file>qml/ListItem.qml</file>
         <file>qml/HandWritingKeyboard.qml</file>
+        <file>qml/HighlightBar.qml</file>
         <file>qml/IconButton.qml</file>
         <file>qml/Indicator.qml</file>
         <file>qml/Label.qml</file>
         <file>qml/LayerStack.qml</file>
         <file>qml/Marquee.qml</file>
         <file>qml/LabeledSwitch.qml</file>
+        <file>qml/LabeledActionButton.qml</file>
         <file>qml/PageDot.qml</file>
         <file>qml/PageHeader.qml</file>
         <file>qml/IntSelector.qml</file>
