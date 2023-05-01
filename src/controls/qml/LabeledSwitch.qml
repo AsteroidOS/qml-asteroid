@@ -1,4 +1,5 @@
 /*
+ * Copyright (C) 2023 - Timo Könnecke <github.com/eLtMosen>
  * Copyright (C) 2022 - Ed Beroset <github.com/beroset>
  * Copyright (C) 2020 - Darrel Griët <idanlcontact@gmail.com>
  * Copyright (C) 2015 - Florent Revest <revestflo@gmail.com>
@@ -20,27 +21,41 @@
 import QtQuick 2.9
 import org.asteroid.controls 1.0
 
-Row {
-    // labelWidthRatio is the ratio of label width to the total width
-    property real labelWidthRatio: 0.7143
-    // fontToHeightRatio is the ratio of the font size to the height
-    property real fontToHeightRatio: 0.3
+Item {
     property alias checked: toggle.checked
     property alias text: label.text
 
+    width: parent.width
+    height: parent.height
+
     Label {
         id: label
+
+        anchors {
+            left: parent.left
+            leftMargin: Dims.w(15)
+            right: toggle.left
+        }
         text: value
-        font.pixelSize: parent.height * fontToHeightRatio
+        font.pixelSize: Dims.l(6)
         verticalAlignment: Text.AlignVCenter
         wrapMode: Text.Wrap
-        width: parent.width * labelWidthRatio
         height: parent.height
     }
 
     Switch {
         id: toggle
-        height: parent.height
+
+        anchors {
+            right: parent.right
+            rightMargin: Dims.w(15)
+            verticalCenter: parent.verticalCenter
+        }
+        height: Dims.w(20)
         width: height
+    }
+
+    HighlightBar {
+        onClicked: function() {toggle.checked = !toggle.checked}
     }
 }

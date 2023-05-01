@@ -1,4 +1,5 @@
 /*
+ * Copyright (C) 2023 - Timo Könnecke <github.com/eLtMosen>
  * Copyright (C) 2022 - Ed Beroset <github.com/beroset>
  * Copyright (C) 2020 - Darrel Griët <idanlcontact@gmail.com>
  * Copyright (C) 2015 - Florent Revest <revestflo@gmail.com>
@@ -20,8 +21,7 @@
 import QtQuick 2.9
 import org.asteroid.controls 1.0
 
-Row {
-    id: intSelector
+Item {
     // minimum allowed value
     property int min: 0
     // maximum allowed value
@@ -32,14 +32,20 @@ Row {
     property string unitMarker: "%"
     // initial value of the control
     property int value: 0
-    // labelWidthRatio is the width of the label with respect to the total width
-    property real labelWidthRatio: 0.42857
-    // fontToHeightRatio is the size of the font relative to the height
-    property real fontToHeightRatio: 0.3
 
-    IconButton { 
+    width: parent.width
+    height: parent.height
+
+    IconButton {
+        id: buttonLeft
+
         iconName: "ios-remove-circle-outline"
-        height: parent.height
+        anchors {
+            left: parent.left
+            leftMargin: Dims.w(15)
+            verticalCenter: parent.verticalCenter
+        }
+        height: Dims.h(20)
         width: height
         onClicked: {
             var newVal = value - stepSize
@@ -50,7 +56,11 @@ Row {
 
     Label {
         text: value + unitMarker
-        font.pixelSize: parent.height * fontToHeightRatio
+        anchors {
+            left: buttonLeft.right
+            right: buttonRight.left
+        }
+        font.pixelSize: Dims.l(6)
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
         wrapMode: Text.Wrap
@@ -59,8 +69,15 @@ Row {
     }
 
     IconButton {
+        id: buttonRight
+
         iconName: "ios-add-circle-outline"
-        height: parent.height
+        anchors {
+            right: parent.right
+            rightMargin: Dims.w(15)
+            verticalCenter: parent.verticalCenter
+        }
+        height: Dims.h(20)
         width: height
         onClicked: {
             var newVal = value + stepSize
