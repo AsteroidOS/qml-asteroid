@@ -50,18 +50,6 @@ Item {
         ScriptAction { script: if(win !== null) win.animIndicators() }
     }
 
-    Component.onCompleted: {
-        var params = {}
-        params["width"] = Qt.binding(function() { return width })
-        params["height"] =  Qt.binding(function() { return height })
-        params["x"] = 0
-        params["y"] = 0
-        if(typeof firstPage != 'undefined' && firstPage.status === Component.Ready) {
-            firstPageItem=firstPage.createObject(content, params)
-            firstPageItem.clip = true
-        }
-    }
-
     onFirstPageChanged: {
         if(typeof firstPage != 'undefined') {
             if (firstPageItem) {
@@ -75,9 +63,11 @@ Item {
             params["height"] =  Qt.binding(function() { return height })
             params["x"] = 0
             params["y"] = 0
-            firstPageItem=firstPage.createObject(content, params)
-            firstPageItem.clip = true
-            layersChanged()
+            if(typeof firstPage != 'undefined' && firstPage.status === Component.Ready) {
+                firstPageItem=firstPage.createObject(content, params)
+                firstPageItem.clip = true
+                layersChanged()
+            }
         } else {
             console.log("LayerStack: firstpage has been updated with a null value")
         }
