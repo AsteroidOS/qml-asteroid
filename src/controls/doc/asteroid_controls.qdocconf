@@ -2,7 +2,6 @@ project     = AsteroidControls
 description = Asteroid Controls Documentation
 
 outputformats = HTML
-outputdir     = html
 
 depends = qtqml qtquick qtwidgets qtdoc qtquicklayouts
 
