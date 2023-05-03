@@ -64,7 +64,9 @@ Item {
 
     onFirstPageChanged: {
         if(typeof firstPage != 'undefined') {
-            firstPageItem.destroy()
+            if (firstPageItem) {
+                firstPageItem.destroy()
+            }
             while (layers.length > 0) {
                 pop(currentLayer)
             }
