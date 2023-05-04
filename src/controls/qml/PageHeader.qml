@@ -20,8 +20,37 @@ import QtQuick 2.9
 import org.asteroid.controls 1.0
 import org.asteroid.utils 1.0
 
-Item {
+/*!
+    \qmltype PageHeader
+    \inqmlmodule org.controls.asteroid 1.0
 
+    \brief Provides a title on a page.
+
+    This is intended to be used as a title for a settings page.  Note that there should only
+    be a single instance on a page; otherwise the titles will all be placed in the same location
+    and make it impossible to read either title.
+
+    Here is a short example that puts a purple \l Rectangle on the screen
+    and a \l PageHeader at the top of the screen.
+
+    \qml
+    import QtQuick 2.9
+    import org.asteroid.controls 1.0
+
+    Item {
+        PageHeader { text: "Example Page" }
+        Rectangle {
+            anchors.centerIn: parent
+            width: parent.width * 0.5
+            height: parent.height * 0.5
+            color: "blue"
+        }
+    }
+    \endqml
+*/
+
+Item {
+    /*! The text to display. */
     property alias text: title.text
 
     height: Dims.h(20)
