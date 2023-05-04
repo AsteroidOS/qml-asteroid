@@ -18,6 +18,73 @@
 import QtQuick 2.9
 import org.asteroid.controls 1.0
 
+/*!
+    \qmltype SpinnerDelegate
+    \inqmlmodule AsteroidControls
+
+    \brief Provides a delegate for use with CircularSpinner.
+
+    The SpinnerDelegate is primarily intended to be used with a \l CircularSpinner
+    but may also be used with a plain \l ListView or \l PathView.  It is responsible 
+    for displaying each value in the list model.  This example shows how a user can 
+    select from list of 20 integers.  Here, a \l MouseArea is added to allow the user 
+    to select a value.
+
+    \qml
+    import QtQuick 2.9
+    import org.asteroid.controls 1.0
+
+    ListView {
+        id: rating
+        anchors.centerIn: parent
+        model: 20
+        delegate: SpinnerDelegate{
+            MouseArea {
+                anchors.fill: parent
+                onClicked: rating.currentIndex = index
+            }
+        }
+        highlight: Rectangle { color: "green" }
+        highlightFollowsCurrentItem: true
+        focus: true
+    }
+    \endqml
+
+    This somewhat more complex example shows a month and a year \l CircularSpinner 
+    each with a \l SpinnerDelegate that overrides the \l text attribute.
+
+    \qml
+    import QtQuick 2.12
+    import org.asteroid.controls 1.0
+
+    Item {
+        id: combinationSelector
+        anchors.fill: parent 
+        Row {
+            anchors.fill: parent
+            CircularSpinner {
+                id: month
+                height: parent.height
+                width: parent.width/2
+                model: 12
+                showSeparator: true
+                delegate: SpinnerDelegate{ text: Qt.locale().monthName(index, Locale.ShortFormat) }
+            }
+            CircularSpinner {
+                id: year
+                height: parent.height
+                width: parent.width/2
+                model: 100
+                showSeparator: false
+                delegate: SpinnerDelegate { text: index+2000 }
+            }
+        }
+    }
+    \endqml
+    
+    The effect on a round watch is shown below.
+    \image SpinnerExample.jpg "Spinner example screenshot"
+*/
 Label {
     property bool isCircularSpinner: PathView.view !== null
     property bool isCurr: isCircularSpinner ? PathView.isCurrentItem : ListView.isCurrentItem
@@ -30,6 +97,9 @@ Label {
         else      return x;
     }
 
+    /*!
+        Defaults to a zero-padded two-digit value.
+     */
     text: zeroPadding(index)
     horizontalAlignment: Text.AlignHCenter
     verticalAlignment: Text.AlignVCenter
