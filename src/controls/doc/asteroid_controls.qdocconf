@@ -13,6 +13,7 @@ sourcedirs  = \
               ../qml
 
 headerdirs  = ../src
+imagedirs   = ./images
 
 qhp.projects = AsteroidControls
 
