@@ -19,6 +19,47 @@
 import QtQuick 2.9
 import org.asteroid.controls 1.0
 
+/*!
+    \qmltype IconButton
+    \inqmlmodule org.controls.asteroid 1.0
+
+    \brief Provides a virtual button with settable icon.
+
+    This control provides a virtual button which can then be used to 
+    do things via the \l IconButton:onClicked signal
+
+    Here is an example which displays a blue square centered in the screen and a button at
+    the bottom of the screen.  When the button is pressed, the square turns green.
+
+    \qml
+    import QtQuick 2.9
+    import org.asteroid.controls 1.0
+
+    Item {
+        anchors.centerIn: parent
+        anchors.fill: parent
+        Rectangle {
+            id: square
+            anchors.centerIn: parent
+            width: 100
+            height: 100
+            color: "blue"
+        }
+        IconButton {
+            iconName: "ios-checkmark-circle-outline"
+            anchors { 
+                bottom: parent.bottom
+                horizontalCenter: parent.horizontalCenter
+                bottomMargin: Dims.iconButtonMargin
+            }
+
+            onClicked: {
+                square.color = "green"
+            }
+        }
+    }
+   \endqml
+*/
 Item {
     id: iconButton
 

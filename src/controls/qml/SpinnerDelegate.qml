@@ -18,6 +18,49 @@
 import QtQuick 2.9
 import org.asteroid.controls 1.0
 
+/*!
+    \qmltype SpinnerDelegate
+    \inqmlmodule org.controls.asteroid 1.0
+
+    \brief Provides access to dimensions relative to a ratio of the screen width/height
+
+    This singleton provides methods for building a user interface that automatically scales based on
+
+    This example shows a month and a year \l Spinner each with a SpinnerDelegate that
+    overrides the \l Spinner::text attribute.
+
+    \qml
+    import QtQuick 2.12
+    import org.asteroid.controls 1.0
+
+    Item {
+        id: combinationSelector
+        anchors.fill: parent 
+        Row {
+            anchors.fill: parent
+            CircularSpinner {
+                id: month
+                height: parent.height
+                width: parent.width/2
+                model: 12
+                showSeparator: true
+                delegate: SpinnerDelegate{ text: Qt.locale().monthName(index, Locale.ShortFormat) }
+            }
+            CircularSpinner {
+                id: year
+                height: parent.height
+                width: parent.width/2
+                model: 100
+                showSeparator: false
+                delegate: SpinnerDelegate { text: index+2000 }
+            }
+        }
+    }
+    \endqml
+    
+    The effect on a round watch is shown below.
+    \image SpinnerExample.jpg "Spinner example screenshot"
+*/
 Label {
     property bool isCircularSpinner: PathView.view !== null
     property bool isCurr: isCircularSpinner ? PathView.isCurrentItem : ListView.isCurrentItem
