@@ -19,6 +19,46 @@
 import QtQuick 2.5
 import org.asteroid.controls 1.0
 
+/*!
+    \qmltype Switch
+    \inqmlmodule org.controls.asteroid 1.0
+
+    \brief Specializes \l IconButton to provide an on/off toggle.
+
+    The IconButton is a specialization of the \l IconButton that provides 
+    an on/off toggle.
+
+    This example shows a blue square centered in the screen with a Switch below it.  When the
+    Switch is checked, the square turns green.  When it is unchecked, the square turns red.
+
+    \qml
+    import QtQuick 2.9
+    import org.asteroid.controls 1.0
+
+    Item {
+        anchors.centerIn: parent
+        anchors.fill: parent
+        Rectangle {
+            id: square
+            anchors.centerIn: parent
+            width: 100
+            height: 100
+            color: "blue"
+        }
+        Switch {
+            anchors.top: square.bottom
+            anchors.horizontalCenter: parent.horizontalCenter
+            width: Dims.l(20)
+            onCheckedChanged: { 
+                if (checked) 
+                    square.color = "green"
+                else
+                    square.color = "red"
+            }
+        }
+    }
+   \endqml
+*/
 Item {
     property bool checked
 
