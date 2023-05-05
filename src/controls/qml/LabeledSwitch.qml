@@ -22,8 +22,16 @@ import QtQuick 2.9
 import org.asteroid.controls 1.0
 
 Item {
+    // alias to recieve string toggle.checked
     property alias checked: toggle.checked
+    // alias to recieve string label.text
     property alias text: label.text
+    // left and right margin for the row content
+    property int rowMargin: Dims.w(15)
+    // size of the icon/s
+    property int iconSize: Dims.l(20)
+    // size of the label text
+    property int labelFontSize: Dims.l(6)
 
     width: parent.width
     height: parent.height
@@ -33,11 +41,11 @@ Item {
 
         anchors {
             left: parent.left
-            leftMargin: Dims.w(15)
+            leftMargin: rowMargin
             right: toggle.left
         }
         text: value
-        font.pixelSize: Dims.l(6)
+        font.pixelSize: labelFontSize
         verticalAlignment: Text.AlignVCenter
         wrapMode: Text.Wrap
         height: parent.height
@@ -48,10 +56,10 @@ Item {
 
         anchors {
             right: parent.right
-            rightMargin: Dims.w(15)
+            rightMargin: rowMargin
             verticalCenter: parent.verticalCenter
         }
-        height: Dims.w(20)
+        height: iconSize
         width: height
     }
 

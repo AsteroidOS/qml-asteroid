@@ -21,9 +21,17 @@ import org.asteroid.controls 1.0
 import org.asteroid.utils 1.0
 
 Item {
+    // alias to recieve string label.text
     property alias title: label.text
+    // alias to recieve string icon.name
     property alias iconName: icon.name
+    // alias to recieve boolean highlight.forceOn
     property alias highlight: highlight.forceOn
+    // size of the icon/s
+    property int iconSize: height - Dims.h(6)
+    // size of the label text
+    property int labelFontSize: Dims.l(9)
+    // forward the clicked() signal to parent
     signal clicked()
 
     width: parent.width
@@ -38,7 +46,7 @@ Item {
     Icon {
         id: icon
 
-        width: parent.height - Dims.h(6)
+        width: iconSize
         height: width
 
         anchors {
@@ -57,7 +65,7 @@ Item {
             verticalCenter: parent.verticalCenter
         }
         font {
-            pixelSize: Dims.l(9)
+            pixelSize: labelFontSize
             styleName: "SemiCondensed Light"
         }
     }
