@@ -32,6 +32,12 @@ Item {
     property string unitMarker: "%"
     // initial value of the control
     property int value: 0
+    // left and right margin for the row content
+    property int rowMargin: Dims.w(15)
+    // size of the icon/s
+    property int iconSize: Dims.l(20)
+    // size of the label text
+    property int labelFontSize: Dims.l(6)
 
     width: parent.width
     height: parent.height
@@ -42,10 +48,10 @@ Item {
         iconName: "ios-remove-circle-outline"
         anchors {
             left: parent.left
-            leftMargin: Dims.w(15)
+            leftMargin: rowMargin
             verticalCenter: parent.verticalCenter
         }
-        height: Dims.h(20)
+        height: iconSize
         width: height
         onClicked: {
             var newVal = value - stepSize
@@ -60,7 +66,7 @@ Item {
             left: buttonLeft.right
             right: buttonRight.left
         }
-        font.pixelSize: Dims.l(6)
+        font.pixelSize: labelFontSize
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
         wrapMode: Text.Wrap
@@ -74,10 +80,10 @@ Item {
         iconName: "ios-add-circle-outline"
         anchors {
             right: parent.right
-            rightMargin: Dims.w(15)
+            rightMargin: rowMargin
             verticalCenter: parent.verticalCenter
         }
-        height: Dims.h(20)
+        height: iconSize
         width: height
         onClicked: {
             var newVal = value + stepSize
