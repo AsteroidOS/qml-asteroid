@@ -22,9 +22,9 @@ import QtQuick 2.9
 import org.asteroid.controls 1.0
 
 Rectangle {
-    // onClicked dummy function can be overridden by caller
-    property var onClicked: function(){}
-    // alias to recieve boolean forceOn to act like a controlled radio button
+    // forward the clicked() signal to parent
+    signal clicked()
+    // alias to receive boolean forceOn to act like a controlled radio button
     property bool forceOn: false
 
     anchors.fill: parent
@@ -42,8 +42,6 @@ Rectangle {
 
         anchors.fill: parent
         hoverEnabled: true
-        onClicked: {
-            parent.onClicked()
-        }
+        onClicked: parent.clicked()
     }
 }

@@ -40,7 +40,7 @@ Item {
     HighlightBar {
         id: highlight
 
-        onClicked: function() { parent.clicked() }
+        onClicked: parent.clicked()
     }
 
     Icon {
