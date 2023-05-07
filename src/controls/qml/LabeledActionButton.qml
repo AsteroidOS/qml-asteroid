@@ -22,9 +22,9 @@ import QtQuick 2.9
 import org.asteroid.controls 1.0
 
 Item {
-    // alias to recieve string icon.name
+    // alias to receive string icon.name
     property alias icon: icon.name
-    // alias to recieve string label.text
+    // alias to receive string label.text
     property alias text: label.text
     // left and right margin for the row content
     property int rowMargin: Dims.w(15)
@@ -38,6 +38,13 @@ Item {
     width: parent.width
     height: parent.height
 
+    Behavior on opacity {
+        NumberAnimation {
+            duration: 200;
+            easing.type: Easing.OutQuad
+        }
+    }
+
     HighlightBar {
         onClicked: function() { parent.onClicked() }
     }
@@ -49,6 +56,7 @@ Item {
             left: parent.left
             leftMargin: rowMargin
             right: icon.left
+            rightMargin: Dims.h(4)
         }
         text: value
         font.pixelSize: labelFontSize
