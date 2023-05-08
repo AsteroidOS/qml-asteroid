@@ -46,7 +46,7 @@ Item {
     }
 
     HighlightBar {
-        onClicked: parent.onClicked()
+        onClicked: parent.clicked()
     }
 
     Label {
