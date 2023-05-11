@@ -52,7 +52,7 @@ namespace AsteroidApp {
     QString appName()
     {
         QFileInfo exe = QFileInfo(applicationPath());
-        return exe.fileName();
+        return exe.baseName();
     }
 
     QGuiApplication *application(int &argc, char **argv)
