@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.6.0)
 
 project(qml-asteroid
-	VERSION 1.0.0
+	VERSION 2.0.0
 	DESCRIPTION "QML components, styles and demos for AsteroidOS")
 
 find_package(ECM REQUIRED NO_MODULE)
