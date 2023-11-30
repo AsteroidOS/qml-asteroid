@@ -17,6 +17,7 @@ Application 1.0 qrc:///org/asteroid/controls/qml/Application.qml
 BorderGestureArea 1.0 qrc:///org/asteroid/controls/qml/BorderGestureArea.qml
 IconButton 1.0 qrc:///org/asteroid/controls/qml/IconButton.qml
 Indicator 1.0 qrc:///org/asteroid/controls/qml/Indicator.qml
+SegmentedArc 1.0 qrc:///org/asteroid/controls/qml/SegmentedArc.qml
 Spinner 1.0 qrc:///org/asteroid/controls/qml/Spinner.qml
 SpinnerDelegate 1.0 qrc:///org/asteroid/controls/qml/SpinnerDelegate.qml
 StatusPage 1.0 qrc:///org/asteroid/controls/qml/StatusPage.qml
