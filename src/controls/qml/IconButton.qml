@@ -19,15 +19,12 @@
 import QtQuick 2.9
 import org.asteroid.controls 1.0
 
-Item {
+MouseArea {
     id: iconButton
-
-    signal clicked()
 
     property color iconColor: "#FFFFFFFF"
     property color pressedIconColor: "#FFFFFFFF"
     property alias iconName: icon.name
-    property alias pressed: mouseArea.containsPress
 
     width: Dims.l(20)
     height: width
@@ -37,13 +34,6 @@ Item {
         name: "ios-circle-outline"
         anchors.fill: parent
         color: pressed ? pressedIconColor : iconColor
-        opacity: mouseArea.containsPress ? 0.7 : 1.0
+        opacity: iconButton.containsPress ? 0.7 : 1.0
     }
-
-    MouseArea {
-        id: mouseArea
-        anchors.fill: parent
-        onClicked: iconButton.clicked()
-    }
-
 }
