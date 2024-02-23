@@ -92,6 +92,7 @@ Item {
             if(win !== null)
                 win.setOverridesSystemGestures(layers.length > 0)
             layersChanged();
+            return layer   
         }
     }
 
