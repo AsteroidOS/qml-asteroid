@@ -13,6 +13,17 @@ set(HEADERS
 
 add_library(asteroidcontrolsplugin ${SRC} ${HEADERS} resources.qrc)
 
+add_custom_target(
+    doc
+    DEPENDS "${CMAKE_BINARY_DIR}/doc/html/qml-dims.html"
+)
+
+add_custom_command(
+    OUTPUT  "${CMAKE_BINARY_DIR}/doc/html/qml-dims.html"
+    COMMAND "qdoc" "-indexdir" "/usr/share/doc/qt5" "-outputdir" "${CMAKE_BINARY_DIR}/doc/html" "${CMAKE_CURRENT_SOURCE_DIR}/doc/asteroid_controls.qdocconf" 
+    COMMENT "Generating HTML format Reference documentation..." VERBATIM
+)
+
 target_link_libraries(asteroidcontrolsplugin
 	Qt5::Qml
 	Qt5::Quick
