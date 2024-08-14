@@ -21,25 +21,68 @@
 import QtQuick 2.9
 import org.asteroid.controls 1.0
 
+/*!
+    \qmltype IntSelector
+    \inqmlmodule AsteroidControls
+
+    \brief A control to select an integer value from a range.
+
+    This control allows the user to select an integer value by 
+    clicking on an associated left icon or right icon.  By default
+    the range is from \l min to \l max with a given \l stepSize 
+    which is the increment added or subtracted for each icon press.
+
+    Here is a short example that shows two \l IntSelector controls.
+    The top one uses mostly defaults and sets the value to 50%, incrementing
+    or decrementing 10% at each step.  The lower one uses a range of -10 
+    to +10 mV and starts at a value of -3, incrementing or decrementing
+    by 1 mV each step.
+
+    \qml
+    import QtQuick 2.0
+    import org.controls.asteroid 1.0
+
+    Item {
+        IntSelector {
+            id: first
+            anchors.bottom: parent.verticalCenter
+            height: parent.height * 0.2
+            value: 50
+        }
+        IntSelector {
+            anchors.top: first.bottom
+            height: parent.height * 0.2
+            min: -10
+            max: +10
+            stepSize: 1
+            value: -3
+            unitMarker: "mV"
+        }
+    }
+    \endqml
+*/
+
 Item {
-    // minimum allowed value
+    /*! minimum allowed value.  Default is 0 */
     property int min: 0
-    // maximum allowed value
+    /*! maximum allowed value. Default is 100 */
     property int max: 100
-    // step size per button actuation
+    /*! step size per button actuatio. Default is 10 */
     property int stepSize: 10
-    // unitMarker value appended to value display between buttons
+    /*! unitMarker value appended to value display between button. Default is % */
     property string unitMarker: "%"
-    // initial value of the control
+    /*! initial value of the control. Default is 0 */
     property int value: 0
-    // left and right margin for the row content
+    /*! left and right margin for the row content */
     property int rowMargin: Dims.w(15)
-    // size of the icon/s
+    /*! size of the icon/s */
     property int iconSize: Dims.l(20)
-    // size of the label text
+    /*! size of the label text */
     property int labelFontSize: Dims.l(6)
 
+    /*! width defaults to parent's width */
     width: parent.width
+    /*! height defaults to parent's height */
     height: parent.height
 
     IconButton {
