@@ -30,16 +30,61 @@
 import QtQuick 2.9
 import QtQuick.VirtualKeyboard 2.1
 
+/*!
+    \qmltype TextField
+    \inqmlmodule AsteroidControls
+
+    \brief Editable text field.
+
+    The TextField type provides an editable text field which can
+    use a virtual keyboard to accept text.  The default 
+    virtual keyboard for AsteroidOS is the \l HandWritingKeyboard
+    which is used in this example.  In this example, a simple 
+    TextField is created in the center of the screen with 
+    preview text "sample text".  The preview text is intended to
+    convey what kind of input is being asked but the actual value
+    of the field once filled in is \l text.
+
+    \qml
+    import QtQuick 2.9
+    import org.asteroid.controls 1.0
+
+    Item {
+        HandWritingKeyboard {
+            anchors.fill: parent
+        }
+        
+        TextField {
+            width: parent.width * 0.8
+            textWidth: parent.width *0.75
+            anchors {
+                horizontalCenter: parent.horizontalCenter
+                verticalCenter: parent.verticalCenter
+            }
+            previewText: "sample text"
+        }
+    }
+    \endqml
+
+*/
 TextBase {
     id: textField
 
+    /*! Text color */
     property alias color: textInput.color
+    /*! The input text */
     property alias text: textInput.text
+    /*! The input text width */
     property alias textWidth: textInput.width
+    /*! Whether to make the field read-only */
     property alias readOnly: textInput.readOnly
+    /*! See TextInput::inputMethodHints */
     property alias inputMethodHints: textInput.inputMethodHints
+    /*! See TextInput::validator */
     property alias validator: textInput.validator
+    /*! See TextInput::echoMode */
     property alias echoMode: textInput.echoMode
+    /*! Delay time from when a letter is input to when it is obscured */
     property int passwordMaskDelay: 1000
 
     editor: textInput
