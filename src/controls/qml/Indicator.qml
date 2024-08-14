@@ -18,8 +18,63 @@
 import QtQuick 2.9
 import org.asteroid.controls 1.0
 
+/*!
+    \qmltype Indicator
+    \inqmlmodule AsteroidControls
+
+    \brief Edge indicator for AsteroidOS.
+
+    The Indicator appears in one of four edges: top, right, 
+    bottom or left as a small diamond shape.  On loading it is
+    animated and, depending on the setting of \l keepExpanded,
+    either expands and then recedes into the edge or stays 
+    expanded.
+   
+    In this simple example, one \l Indicator is at the top and 
+    stays expanded, while another at the right does not.
+
+    \qml
+    import QtQuick 2.9
+    import org.asteroid.controls 1.0
+
+    Item {
+        Indicator {
+            keepExpanded: true
+        }
+        Indicator {
+            edge: Qt.RightEdge
+        }
+    }
+    \endqml
+
+    While the intent of the indicator is to show something 
+    to lead the user to additional content or screens of some kind,
+    it is also technically possible to use an \l Indicator within
+    other objects.  Here, a centered orange \l Rectangle has 
+    \l Indicator objects embedded on two of its edges.  This code
+    fragment can be inserted into the above example just before the
+    final closing brace for a complete example.
+
+    \qml
+    Rectangle {
+        color: "orange"
+        anchors.centerIn: parent
+        width: parent.width * 0.5
+        height: parent.height * 0.5
+        Indicator {
+            edge: Qt.BottomEdge
+        }
+        Indicator {
+            edge: Qt.LeftEdge
+            keepExpanded: true
+        }
+    }
+    \endqml
+*/
 Item {
+    /*! which edge the indicator attaches to */
     property int edge: Qt.TopEdge
+    /*! If true, keep the indicator expanded */
     property bool keepExpanded: false
 
     function animate() {
