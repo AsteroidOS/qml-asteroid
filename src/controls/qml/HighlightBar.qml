@@ -21,13 +21,65 @@
 import QtQuick 2.9
 import org.asteroid.controls 1.0
 
+/*!
+    \qmltype HighlightBar
+    \inqmlmodule AsteroidControls
+
+    \brief A combined Rectangle and MouseArea.
+
+    The \l HighlightBar can be used as part of a delegate for a \l ListView
+    or other similar collection or by itself as a convenience.  It 
+    combines a \l Rectangle and \l MouseArea and by default is 
+    transparent.  When it is clicked it turns slightly translucent
+    and also emits a \l MouseArea::clicked signal.
+
+    Note that because HighlightBar fills
+    the parent, creating a smaller HighlightBar requires defining a
+    parent with a set width and height.
+
+    The simplest example is this:
+    \qml
+    import QtQuick 2.9
+    import org.asteroid.controls 1.0
+
+    HighlightBar { }
+    \endqml
+
+    That example fills the screen and shows the background color 
+    (if any) and briefly turns on opacity when the screen is clicked.
+
+    A slightly more complex example is shown below.  It starts with
+    a transparent background and then cycles between a centered green 
+    or blue \l Rectangle with each mouse click.  
+
+    \qml
+    import QtQuick 2.9
+    import org.asteroid.controls 1.0
+
+    Item {
+        Item {
+            width: parent.width * 0.5
+            height: parent.height * 0.5
+            anchors.centerIn: parent
+            HighlightBar {
+                property int colorIndex: 0
+                onClicked: {
+                    colorIndex = 1 - colorIndex
+                    color = ["blue", "green"][colorIndex]
+                }
+            }
+        }
+    }
+    \endqml
+*/
 Rectangle {
-    // forward the clicked() signal to parent
+    /*! forward the clicked() signal to parent */
     signal clicked()
-    // alias to receive boolean forceOn to act like a controlled radio button
+    /*! alias to receive boolean forceOn to act like a controlled radio button */
     property bool forceOn: false
 
     anchors.fill: parent
+    /*! the default color may be overridden */
     color: rowClick.containsPress || forceOn ? "#33ffffff" : "#00ffffff"
 
     Behavior on color {
