@@ -44,16 +44,6 @@ endif()
 
 add_subdirectory(src)
 
-add_custom_target(
-    doc
-    DEPENDS "${CMAKE_BINARY_DIR}/doc/html/qml-dims.html"
-)
-add_custom_command(
-    OUTPUT  "${CMAKE_BINARY_DIR}/doc/html/qml-dims.html"
-    COMMAND "qdoc" "-indexdir" "/usr/share/doc/qt5" "-outputdir" "${CMAKE_BINARY_DIR}/doc/html" "${CMAKE_CURRENT_SOURCE_DIR}/src/controls/doc/asteroid_controls.qdocconf"
-    COMMENT "Generating HTML format Reference documentation..." VERBATIM
-)
-
 if (WITH_ASTEROIDAPP)
     install(PROGRAMS generate-desktop.sh
             DESTINATION ${CMAKE_INSTALL_BINDIR}
