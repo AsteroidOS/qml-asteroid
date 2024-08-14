@@ -33,6 +33,80 @@ import QtQuick 2.9
 import QtQuick.Window 2.0
 import org.asteroid.utils 1.0
 
+/*!
+    \qmltype BorderGestureArea
+    \inqmlmodule AsteroidControls
+
+    \brief Provides simple gesture support for swiping up, down, left, right.
+
+    A simple example, based on the example for \l Application is shown below.  If
+    the user swipes right, the rectangle turns red.  If the user swipes left, 
+    the rectangle turns blue.  If the user swipes down, the rectangle turns 
+    yellow.  No action is assigned to swipes up.
+
+    \qml
+    import QtQuick 2.9
+    import org.asteroid.controls 1.0
+
+    Application {
+        id: myapp
+        centerColor: "#00010B"
+        outerColor: "#E044A6"
+        rightIndicVisible: true
+        bottomIndicVisible: true
+
+        BorderGestureArea {
+            id: gestureArea
+            anchors.fill: parent
+            acceptsRight: true
+            acceptsLeft: true
+            acceptsDown: true
+            onGestureFinished: {
+                if (gesture == "right") {
+                    square.color = "red"
+                }
+                else if (gesture == "left") {
+                    square.color = "blue"
+                }
+                else {
+                    square.color = "yellow"
+                }
+            }
+        }
+
+        Rectangle {
+            id: square
+            anchors.centerIn: parent
+            color: "yellow"
+            width: parent.width * 0.4
+            height: parent.height * 0.2
+        }
+    }
+    \endqml
+
+    Also note that it is possible to use a \l BorderGestureArea inside
+    other containers.  For example, one could add the following inside
+    the \l Rectangle in the example above.  Within the rectangle, swipes up 
+    turn the \l Rectangle green and swipes down turn it orange.
+
+    \qml
+    BorderGestureArea {
+        id: innerGestureArea
+        anchors.fill: parent
+        acceptsUp: true
+        acceptsDown: true
+        onGestureFinished: {
+            if (gesture == "up") {
+                square.color = "green"
+            }
+            else {
+                square.color = "orange"
+            }
+        }
+    }
+    \endqml
+
+*/
 MouseArea {
     id: root
 
@@ -42,18 +116,41 @@ MouseArea {
     signal gestureStarted(string gesture)
     signal gestureFinished(string gesture)
 
-    // Current gesture
+    /*!
+        True if the current gesture active.
+     */
     property bool active: gesture != ""
+    /*!
+        Describes the current gesture.
+
+        The string is "down", "left", "up" or "right" if the 
+        user has gestured.  Otherwise the string is empty.
+     */
     property string gesture
     property int value
     property int max
     property real progress: Math.abs(value) / max
+    /*!
+        True if gesture is left or right.
+    */
     property bool horizontal: gesture === "left" || gesture === "right"
     property bool inverted: gesture === "left" || gesture === "up"
 
+    /*!
+        Tells the BorderGestureArea to accept right gestures.
+     */
     property bool acceptsRight: false
+    /*!
+        Tells the BorderGestureArea to accept left gestures.
+     */
     property bool acceptsLeft: false
+    /*!
+        Tells the BorderGestureArea to accept down gestures.
+     */
     property bool acceptsDown: false
+    /*!
+        Tells the BorderGestureArea to accept up gestures.
+     */
     property bool acceptsUp: false
 
     // Internal
