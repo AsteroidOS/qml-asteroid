@@ -20,10 +20,51 @@ import QtQuick 2.9
 import org.asteroid.controls 1.0
 import org.asteroid.utils 1.0
 
+/*!
+    \qmltype Application
+    \inqmlmodule AsteroidControls
+    \brief Shows a flat mesh background with indicators.
+
+    The Application type is intended to be used as the top level QML object
+    for graphical applications on AsteroidOS.  By default only the top and
+    left indicators are visible and the bottom and right indicators are not.
+
+    Here's a short example:
+
+    \qml
+    import QtQuick 2.9
+    import org.asteroid.controls 1.0
+
+    Application {
+        // show a purple-ish flat mesh background
+        id: myapp
+        centerColor: "#00010B"
+        outerColor: "#E044A6"
+        // make all indicators visible
+        rightIndicVisible: true
+        bottomIndicVisible: true
+
+        Rectangle {
+            id: square
+            anchors.centerIn: parent
+            color: "yellow"
+            width: parent.width * 0.4
+            height: parent.height * 0.2
+        }
+    }
+    \endqml
+*/
+
 Application_p {
     anchors.fill: parent
 
+    /*!
+        Outer color for the flat mesh.
+     */
     property alias outerColor: fm.outerColor
+    /*!
+        Inner color for the flat mesh.
+     */
     property alias centerColor: fm.centerColor
 
     function animIndicators() {
@@ -38,9 +79,21 @@ Application_p {
         anchors.fill: parent
     }
 
+    /*!
+        Is the right indicator visible?
+     */
     property alias rightIndicVisible:  rightIndicator.visible
+    /*!
+        Is the left indicator visible?
+     */
     property alias leftIndicVisible:   leftIndicator.visible
+    /*!
+        Is the top indicator visible?
+     */
     property alias topIndicVisible:    topIndicator.visible
+    /*!
+        Is the bottom indicator visible?
+     */
     property alias bottomIndicVisible: bottomIndicator.visible
 
     Indicator {
