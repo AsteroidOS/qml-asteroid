@@ -18,6 +18,42 @@
 import QtQuick 2.9
 import QtQuick.VirtualKeyboard 2.1
 
+/*!
+    \qmltype HandWritingKeyboard
+    \inqmlmodule AsteroidControls
+
+    \brief A hand writing keyboard for AsteroidOS.
+
+    The HandWritingKeyboard is a virtual keyboard that allows 
+    a user to input text without a physical keyboard.
+    The HandWritingKeyboard is the default virtual keyboard for 
+    AsteroidOS.
+   
+    In this example, a simple \l TextField is created in the center 
+    of the screen with preview text "sample text".  
+
+    \qml
+    import QtQuick 2.9
+    import org.asteroid.controls 1.0
+
+    Item {
+        HandWritingKeyboard {
+            anchors.fill: parent
+        }
+        
+        TextField {
+            width: parent.width * 0.8
+            textWidth: parent.width *0.75
+            anchors {
+                horizontalCenter: parent.horizontalCenter
+                verticalCenter: parent.verticalCenter
+            }
+            previewText: "sample text"
+        }
+    }
+    \endqml
+
+*/
 HandwritingInputPanel {
     z: 99
     anchors.fill: parent
