@@ -18,7 +18,53 @@
 import QtQuick 2.9
 import org.asteroid.controls 1.0
 
+/*!
+    \qmltype CircularSpinner
+    \inqmlmodule AsteroidControls
+
+    \brief A simplified vertical circular spinner, handy for selecting values.
+
+    Creating a vertical spinner to allow the user to select a value from a 
+    list is simple with \l CircularSpinner.  A short example is shown below.
+    By default, it uses the current index as the data value and pads the number 
+    to two digits.  This is particularly convenient for setting times and dates
+
+    \qml
+    import QtQuick 2.9
+    import org.controls.asteroid 1.0
+
+    CircularSpinner {
+        id: rating
+        anchors.centerIn: parent
+        width: parent.width * 0.5
+        height: parent.height
+        model: 10
+    }
+    \endqml
+
+    A slightly more complex version uses a \l SpinnerDelegate to allow
+    a user to select an animal.
+
+    \qml
+    import QtQuick 2.9
+    import org.asteroid.controls 1.0
+
+    CircularSpinner {
+        id: animals
+        anchors.centerIn: parent
+        width: parent.width * 0.5
+        height: parent.height
+        model: 6
+        delegate: SpinnerDelegate{
+            text: ["aardvark", "bear", "camel", "dog", "elephant", "fox"][index]
+        }
+    }
+    \endqml
+*/
 PathView {
+    /*!
+        Show a visible separator to the right of this spinner.
+    */
     property alias showSeparator: separator.visible
 
     id: pv
