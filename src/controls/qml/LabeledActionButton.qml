@@ -21,18 +21,43 @@
 import QtQuick 2.9
 import org.asteroid.controls 1.0
 
+/*!
+    \qmltype LabeledActionButton
+    \inqmlmodule AsteroidControls
+
+    \brief Clickable label plus icon.
+
+    This control shows a label and an icon, horizontally aligned,
+    and acts as as a button, passing the \l clicked signal to the
+    caller.
+
+    Here is a short example:
+
+    \qml
+    import QtQuick 2.0
+    import org.controls.asteroid 1.0
+
+    Item {
+        LabeledActionButton {
+            icon: "ios-power-outline"
+            text: "Shut down"
+            onClicked: visible = false
+        }
+    }
+    \endqml
+*/
 Item {
-    // alias to receive string icon.name
+    /*! alias to receive string icon.name */
     property alias icon: icon.name
-    // alias to receive string label.text
+    /*! alias to receive string label.text */
     property alias text: label.text
-    // left and right margin for the row content
+    /*! left and right margin for the row content */
     property int rowMargin: Dims.w(15)
-    // size of the icon/s
+    /*! size of the icon/s */
     property int iconSize: Dims.l(20)
-    // size of the label text
+    /*! size of the label text */
     property int labelFontSize: Dims.l(6)
-    // forward the clicked() signal to parent
+    /*! forward the clicked() signal to parent */
     signal clicked()
 
     width: parent.width
