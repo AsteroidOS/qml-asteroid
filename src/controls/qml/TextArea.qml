@@ -30,13 +30,46 @@
 import QtQuick 2.9
 import QtQuick.VirtualKeyboard 2.15
 
+/*!
+    \qmltype TextArea
+    \inqmlmodule AsteroidControls
+
+    \brief Editable multi-line text field.
+
+    The TextArea provides an editable multiline area which
+    can use a virtual keyboard to accept text. The default 
+    virtual keyboard for AsteroidOS is the \l HandWritingKeyboard
+    which is used in this example.  In this example, a simple 
+    \l TextArea is created in the upper left corner of the screen.
+
+    \qml
+    import QtQuick 2.9
+    import org.asteroid.controls 1.0
+
+    Item {
+        HandWritingKeyboard {
+            anchors.fill: parent
+        }
+        TextArea {
+            width: parent.width * 0.8
+            height: parent.height * 0.8
+            anchors.top: parent.top
+        }
+    }
+    \endqml
+*/
 TextBase {
     id: textArea
 
+    /*! Text color */
     property alias color: textEdit.color
+    /*! The input text */
     property alias text: textEdit.text
+    /*! The input text width */
     property alias textWidth: textEdit.width
+    /*! Whether to make the field read-only */
     property alias readOnly: textEdit.readOnly
+    /*! See TextInput::inputMethodHints */
     property alias inputMethodHints: textEdit.inputMethodHints
 
     editor: textEdit
