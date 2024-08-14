@@ -26,45 +26,57 @@ import org.asteroid.utils 1.0
 pragma Singleton
 
 /*!
-   \qmltype Dims
-   \inqmlmodule org.controls.asteroid 1.0
+    \qmltype Dims
+    \inqmlmodule AsteroidControls
 
-   \brief Provides access to dimensions relative to a ratio of the screen width/height
+    \brief Provides access to dimensions relative to a ratio of the screen width/height.
 
-   This singleton provides methods for building a user interface that automatically scales based on
-   screen proportions. Use the \l Dims::w function wherever you need to specify a size relative to
-   the screen width, and \l Dims::h when you need a dimension relative to the height. \l Dims::l
-   provides a ratio of the smallest dimension for smartwatches that could have a screen larger than
-   high.
+    This singleton provides methods for building a user interface that automatically scales based on
+    screen proportions. Use the Dims::w function wherever you need to specify a size relative to
+    the screen width, and Dims::h when you need a dimension relative to the height. Dims::l
+    provides a ratio of the smallest dimension for smartwatches that could have a screen larger than
+    high.
 
-   Here is a short example:
+    Here is a short example:
 
-   \qml
-   import QtQuick 2.0
-   import org.controls.asteroid 1.0
+    \qml
+    import QtQuick 2.0
+    import org.controls.asteroid 1.0
 
-   Rectangle {
-       width: Dims.w(80) // 80 % of screen width
-       height: Dims.h(50) // 50 % of screen height
+    Rectangle {
+        width: Dims.w(80) // 80 % of screen width
+        height: Dims.h(50) // 50 % of screen height
 
-       Label {
-           text:"A"
-           font.pixelSize: Dims.l(20) // 20 % of screen's smallest dimension
-       }
-   }
-   \endqml
+        Label {
+            text:"A"
+            font.pixelSize: Dims.l(20) // 20 % of screen's smallest dimension
+        }
+    }
+    \endqml
 */
 QtObject {
     id: units
 
+    /*!
+        \qmlmethod real w(real number)
+        \brief Returns a dimension that is \a number percent of the screen width.
+    */
     function w(number) {
         return (number/100)*Screen.desktopAvailableWidth
     }
 
+    /*!
+        \qmlmethod real h(real number)
+        \brief Returns a dimension that is \a number percent of the screen height.
+    */
     function h(number) {
         return (number/100)*(Screen.desktopAvailableHeight+DeviceInfo.flatTireHeight)
     }
 
+    /*!
+        \qmlmethod real l(real number)
+        \brief Returns a dimension that is \a number percent of the screen width or height; whichever is smaller.
+    */
     function l(number) {
         if(Screen.desktopAvailableWidth > (Screen.desktopAvailableHeight+DeviceInfo.flatTireHeight))
             return h(number)
@@ -72,6 +84,12 @@ QtObject {
             return w(number)
     }
 
+    /*!
+        \brief The default icon button margin used.
+    */
     property real iconButtonMargin: l(3)
+    /*!
+        \brief The default font size used.
+    */
     property real defaultFontSize:  l(7)
 }
