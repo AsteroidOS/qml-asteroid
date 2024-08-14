@@ -20,18 +20,62 @@ import QtQuick 2.9
 import org.asteroid.controls 1.0
 import org.asteroid.utils 1.0
 
+/*!
+    \qmltype ListItem
+    \inqmlmodule AsteroidControls
+
+    \brief A delegate to display a icon and text combo.
+
+    An example is shown below which display three icons
+    with their associated text and allows the user to select
+    one.  Note that both highlighting and processing of the
+    \l ListItem::clicked signal should typically be explicitly
+    set.
+
+    \qml
+    import QtQuick 2.9
+    import org.asteroid.controls 1.0
+
+    Item {
+
+        ListModel {
+            id: powerModel
+            ListElement { text: "off"; icon: "ios-power-outline" }
+            ListElement { text: "reboot"; icon: "ios-sync" }
+            ListElement { text: "fire"; icon: "ios-bonfire-outline" }
+        }
+
+        ListView {
+            id: powerItems
+            model: powerModel
+            anchors {
+                top: parent.top
+                topMargin: parent.height * 0.20
+            }
+            height: parent.height
+            width: parent.width
+            delegate: ListItem {
+                title: text
+                iconName: icon
+                highlight: powerItems.currentIndex == index ? 0.2 : 0
+                onClicked: powerItems.currentIndex = index
+            }
+        }
+    }
+    \endqml
+*/
 Item {
-    // alias to recieve string label.text
+    /*! alias to recieve string label.text */
     property alias title: label.text
-    // alias to recieve string icon.name
+    /*! alias to recieve string icon.name */
     property alias iconName: icon.name
-    // alias to recieve boolean highlight.forceOn
+    /*! alias to recieve boolean highlight.forceOn */
     property alias highlight: highlight.forceOn
-    // size of the icon/s
+    /*! size of the icon/s */
     property int iconSize: height - Dims.h(6)
-    // size of the label text
+    /*! size of the label text */
     property int labelFontSize: Dims.l(9)
-    // forward the clicked() signal to parent
+    /*! forward the clicked() signal to parent */
     signal clicked()
 
     width: parent.width
