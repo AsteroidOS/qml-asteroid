@@ -18,11 +18,43 @@
 import QtQuick 2.9
 import org.asteroid.controls 1.0
 
+
+/*!
+    \qmltype StatusPage
+    \inqmlmodule AsteroidControls
+
+    \brief Provides access to dimensions relative to a ratio of the screen width/height.
+
+    This singleton provides methods for building a user interface that automatically scales based on
+    screen proportions. Use the Dims::w function wherever you need to specify a size relative to
+    the screen width, and Dims::h when you need a dimension relative to the height. Dims::l
+    provides a ratio of the smallest dimension for smartwatches that could have a screen larger than
+    high.
+
+    Here is a short example:
+
+    \qml
+    import QtQuick 2.0
+    import org.controls.asteroid 1.0
+
+    StatusPage {
+        text: "On fire"
+        icon: "ios-bonfire-outline"
+        clickable: true
+        onClicked: icon = "ios-bonfire"
+    }
+    \endqml
+*/
 Item {
+    /*! Text to display */
     property alias text: statusLabel.text
+    /*! Icon to display */
     property alias icon: statusIcon.name
+    /*! Page is clickable. Default to false */
     property bool clickable: false
+    /*! Active background */
     property bool activeBackground: false
+    /*! signal emitted when clicked */
     signal clicked()
 
     anchors.fill: parent
