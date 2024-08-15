@@ -17,6 +17,53 @@
 
 import QtQuick 2.9
 
+
+/*!
+    \qmltype PageDot
+    \inqmlmodule AsteroidControls
+
+    \brief Display indicator dots indicating a fixed collection.
+
+    The \l PageDot control shows a series of dots with one dot
+    highlighted.  This is typically used to show a series of pages
+    or other items and to indicate where within the collection
+    one currently is.  The example below uses the \l IntSelector
+    control to increment and decrement an indicator, with the 
+    \l PageDot control at the bottom of the screen indicating 
+    where in the collection the setting currently is.
+
+    Here is a short example:
+
+    \qml
+    import QtQuick 2.0
+    import org.controls.asteroid 1.0
+
+    Item {
+        IntSelector {
+            id: page
+            min: 1
+            max: 5
+            value: 1
+            stepSize: 1
+            unitMarker: " of " + page.max
+
+        }
+        PageDot {
+            height: parent.height * 0.03
+            anchors {
+                horizontalCenter: parent.horizontalCenter
+                bottom: parent.bottom
+                bottomMargin: parent.height * 0.04
+            }
+            dotNumber: page.max - page.min + 1
+            currentIndex: page.value - page.min
+        }
+    }
+    \endqml
+
+    The effect on a round watch is shown below.
+    \image PageDotExample.jpg "PageDot example screenshot"
+*/
 Item {
     width: height*5/4*(dotNumber+(additionalDot ? 1 : 0))
     visible: additionalDot ? dotNumber > 0 : dotNumber > 1
