@@ -18,6 +18,36 @@
 import QtQuick 2.9
 import org.asteroid.controls 1.0
 
+
+/*!
+    \qmltype Spinner
+    \inqmlmodule AsteroidControls
+
+    \brief Simple spinner to select values from collection.
+
+    Here is a short that shows a \l Spinner containing three items
+    and using a \l SpinnerDelegate to display them.
+
+    \qml
+    import QtQuick 2.0
+    import org.controls.asteroid 1.0
+
+    Spinner {
+        id: rating
+        model: ["Larry", "Moe", "Curly"]
+        delegate: SpinnerDelegate{
+            text: rating.model[index]
+            MouseArea {
+                anchors.fill: parent
+                onClicked: rating.currentIndex = index
+            }
+        }
+        highlight: Rectangle { color: "orange" }
+        highlightFollowsCurrentItem: true
+        focus: true
+    }
+    \endqml
+*/
 ListView {
     property alias showSeparator: separator.visible
 
