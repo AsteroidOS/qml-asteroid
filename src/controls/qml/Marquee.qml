@@ -18,12 +18,42 @@
 import QtQuick 2.9
 import org.asteroid.controls 1.0
 
+/*!
+    \qmltype Marquee
+    \inqmlmodule AsteroidControls
+
+    \brief Display text that may be longer than the available space.
+
+    The \l Marquee control shows as much as possible of the string
+    initially, then animates it moving to the left until it gets to
+    the end of the string.  It then resets to the beginning of the
+    string and repeats infinitely.
+
+    Here is a short example:
+
+    \qml
+    import QtQuick 2.0
+    import org.controls.asteroid 1.0
+
+    Item {
+        Marquee {
+            text: "The quick brown fox jumps over the lazy dog."
+            height: parent.height * 0.3
+            width: parent.width * 0.8
+            anchors.centerIn: parent
+        }
+    }
+    \endqml
+*/
 Item {
     id: container
     clip: true
 
+    /*! the text to display */
     property alias text: animatedText.text
+    /*! the text \l Font */
     property alias font: animatedText.font
+    /*! the text color */
     property alias color: animatedText.color
 
     function originX() {
