@@ -36,6 +36,10 @@ Repeater {
     property bool clockwise: true
     property real arcStrokeWidth: .011
     property real scalefactor: .374 - (arcStrokeWidth / 2)
+    /*! Color of segments that are on.  Default is #26C485 (green) */
+    property color fgColor: "#26C485"
+    /*! Color of segments that are off.  Default is black */
+    property color bgColor: "black"
 
     model: segmentAmount
 
@@ -44,7 +48,7 @@ Repeater {
 
         ShapePath {
             fillColor: "transparent"
-            strokeColor: index / segmentedArc.segmentAmount < segmentedArc.inputValue / 100 ? "#26C485" : "black"
+            strokeColor: index / segmentedArc.segmentAmount < segmentedArc.inputValue / 100 ? fgColor : bgColor
             strokeWidth: parent.height * segmentedArc.arcStrokeWidth
             capStyle: ShapePath.RoundCap
             joinStyle: ShapePath.MiterJoin
