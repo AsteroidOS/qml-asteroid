@@ -22,8 +22,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.9
-import QtQuick.shapes 1.1
+import QtQuick 2.15
+import QtQuick.Shapes 1.1
 
 Repeater {
     id: segmentedArc
