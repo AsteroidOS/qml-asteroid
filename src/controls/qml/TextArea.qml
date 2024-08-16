@@ -28,6 +28,7 @@
 ****************************************************************************/
 
 import QtQuick 2.9
+import QtQuick.VirtualKeyboard 2.15
 
 TextBase {
     id: textArea
