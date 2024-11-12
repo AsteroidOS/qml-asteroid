@@ -12,9 +12,9 @@ set(HEADERS
 add_library(asteroidutilsplugin ${SRC} ${HEADERS})
 
 target_link_libraries(asteroidutilsplugin
-	Qt5::DBus
-	Qt5::Qml
-	Qt5::Quick)
+	Qt::DBus
+	Qt::Qml
+	Qt::Quick)
 
 install(TARGETS asteroidutilsplugin
 	DESTINATION ${INSTALL_QML_IMPORT_DIR}/org/asteroid/utils)

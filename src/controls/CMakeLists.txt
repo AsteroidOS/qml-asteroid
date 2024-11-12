@@ -64,9 +64,9 @@ add_custom_command(
 )
 
 target_link_libraries(asteroidcontrolsplugin
-	Qt5::Qml
-	Qt5::Quick
-	Qt5::Svg)
+	Qt::Qml
+	Qt::Quick
+	Qt::Svg)
 
 install(TARGETS asteroidcontrolsplugin
 	DESTINATION ${INSTALL_QML_IMPORT_DIR}/org/asteroid/controls)
