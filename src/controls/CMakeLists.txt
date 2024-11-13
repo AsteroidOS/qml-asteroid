@@ -48,6 +48,13 @@ qt_add_resources(asteroidcontrolsplugin "asteroidcontrolsplugin_qrc"
     PREFIX "/org/asteroid/controls/"
     FILES "${controls-qml}")
 
+qt6_add_shaders(asteroidcontrolsplugin "asteroidcontrolsplugin_shaders"
+    PREFIX "/org/asteroid/controls/"
+    FILES "qml/Spinner.frag"
+    BATCHABLE
+    PRECOMPILE
+    OPTIMIZED)
+
 set(controls-docs "$<LIST:TRANSFORM,$<LIST:TRANSFORM,$<LOWER_CASE:${controls}>,PREPEND,qml->,APPEND,.html>")
 set(doc-dir "${CMAKE_BINARY_DIR}/doc/html")
 set(full-controls-docs "$<LIST:TRANSFORM,${controls-docs},PREPEND,${doc-dir}>")
