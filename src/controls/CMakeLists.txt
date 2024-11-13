@@ -9,9 +9,7 @@ set(HEADERS
 	src/flatmesh.h
 	src/icon.h)
 
-add_library(asteroidcontrolsplugin ${SRC} ${HEADERS} resources.qrc)
-
-set(controls 
+set(controls
         Application
         BorderGestureArea
         CircularSpinner
@@ -44,6 +42,16 @@ set(controls
         TextField
         ValueMeter
 )
+foreach(control ${controls})
+    list(APPEND controls-qml "qml/${control}.qml")
+endforeach()
+
+add_library(asteroidcontrolsplugin ${SRC} ${HEADERS})
+
+qt_add_resources(asteroidcontrolsplugin "asteroidcontrolsplugin_qrc"
+    PREFIX "/org/asteroid/controls/"
+    FILES "${controls-qml}")
+
 set(controls-docs "$<LIST:TRANSFORM,$<LIST:TRANSFORM,$<LOWER_CASE:${controls}>,PREPEND,qml->,APPEND,.html>")
 set(doc-dir "${CMAKE_BINARY_DIR}/doc/html")
 set(full-controls-docs "$<LIST:TRANSFORM,${controls-docs},PREPEND,${doc-dir}>")
