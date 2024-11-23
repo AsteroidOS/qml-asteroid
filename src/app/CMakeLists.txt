@@ -5,11 +5,11 @@ add_library(asteroidapp ${SRC} ${HEADERS})
 
 target_link_libraries(asteroidapp
 	PUBLIC
-		Qt5::Qml
-		Qt5::Quick
+		Qt6::Qml
+		Qt6::Quick
 	PRIVATE
-		Mlite5::Mlite5
-		Mapplauncherd_qt5::Mapplauncherd_qt5)
+		Mlite6::Mlite6
+		Mapplauncherd_qt6::Mapplauncherd_qt6)
 
 set_target_properties(asteroidapp PROPERTIES
 	EXPORT_NAME AsteroidApp
@@ -36,7 +36,7 @@ install(FILES asteroidapp.prf
 
 ecm_generate_pkgconfig_file(
 	BASE_NAME asteroidapp
-	DEPS qdeclarative5-boostable
+	DEPS qdeclarative6-boostable
 	FILENAME_VAR asteroidapp
 	DESCRIPTION ${PROJECT_DESCRIPTION}
 	INSTALL)

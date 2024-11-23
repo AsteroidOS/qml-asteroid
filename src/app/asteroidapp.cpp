@@ -33,7 +33,7 @@
 #include <QFileInfo>
 #include <MDesktopEntry>
 #include <QTranslator>
-#include <mdeclarativecache5/MDeclarativeCache>
+#include <mdeclarativecache/MDeclarativeCache>
 
 static QString applicationPath()
 {
