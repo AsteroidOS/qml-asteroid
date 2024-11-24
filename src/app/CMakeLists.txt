@@ -9,12 +9,13 @@ target_link_libraries(asteroidapp
 		Qt6::Quick
 	PRIVATE
 		Mlite6::Mlite6
-		Mapplauncherd_qt6::Mapplauncherd_qt6)
+		$<$<BOOL:${WITH_MAPPLAUNCHERD}>:Mapplauncherd_qt6::Mapplauncherd_qt6>)
 
 set_target_properties(asteroidapp PROPERTIES
 	EXPORT_NAME AsteroidApp
 	SOVERSION ${PROJECT_VERSION_MAJOR}
-	VERSION ${PROJECT_VERSION})
+	VERSION ${PROJECT_VERSION}
+	COMPILE_DEFINITIONS $<$<BOOL:${WITH_MAPPLAUNCHERD}>:WITH_MAPPLAUNCHERD=1>)
 
 target_include_directories(asteroidapp PUBLIC
 	$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
@@ -34,9 +35,12 @@ install(FILES asteroidapp.prf
 	DESTINATION ${CMAKE_INSTALL_LIBDIR}/mkspecs/features
 	COMPONENT Devel)
 
+if (WITH_MAPPLAUNCHERD)
+	set(ASTEROIDAPP_PKGCONF_DEPS "qdeclarative6-boostable")
+endif()
 ecm_generate_pkgconfig_file(
 	BASE_NAME asteroidapp
-	DEPS qdeclarative6-boostable
+	DEPS ${ASTEROIDAPP_PKGCONF_DEPS}
 	FILENAME_VAR asteroidapp
 	DESCRIPTION ${PROJECT_DESCRIPTION}
 	INSTALL)

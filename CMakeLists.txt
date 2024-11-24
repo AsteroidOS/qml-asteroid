@@ -9,6 +9,7 @@ find_package(ECM REQUIRED NO_MODULE)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake)
 
 option(WITH_ASTEROIDAPP "Build the AsteroidApp class" ON)
+option(WITH_MAPPLAUNCHERD "Build the AsteroidApp class with Mapplauncherd booster support" ON)
 option(WITH_CMAKE_MODULES "Install AsteroidOS CMake modules" ON)
 
 include(FeatureSummary)
@@ -22,7 +23,9 @@ set(ASTEROID_MODULES_INSTALL_DIR ${CMAKE_INSTALL_DATADIR}/asteroidapp/cmake)
 find_package(Qt6 ${QT_MIN_VERSION} COMPONENTS DBus Qml Quick Svg ShaderTools REQUIRED)
 if (WITH_ASTEROIDAPP)
     find_package(Mlite6 MODULE REQUIRED)
-    find_package(Mapplauncherd_qt6 MODULE REQUIRED)
+    if (WITH_MAPPLAUNCHERD)
+        find_package(Mapplauncherd_qt6 MODULE REQUIRED)
+    endif()
 endif()
 
 ecm_find_qmlmodule(QtQuick.VirtualKeyboard 2.1)
