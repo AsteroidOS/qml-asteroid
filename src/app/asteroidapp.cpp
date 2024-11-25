@@ -110,7 +110,7 @@ namespace AsteroidApp {
     {
         QScopedPointer<QGuiApplication> app(AsteroidApp::application(argc, argv));
         QScopedPointer<QQuickView> view(AsteroidApp::createView());
-        view->setSource(QUrl("qrc:/main.qml"));
+        view->setSource(QUrl("qrc:/qt/qml/asteroidapp/main.qml"));
         view->resize(app->primaryScreen()->size());
         view->show();
         return app->exec();
