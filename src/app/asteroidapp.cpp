@@ -67,7 +67,9 @@ namespace AsteroidApp {
             app->setApplicationName(appName());
 
             QTranslator *translator = new QTranslator();
-            translator->load(QLocale(), appName(), ".", "/usr/share/translations", ".qm");
+            if (!translator->load(QLocale(), appName(), ".", "/usr/share/translations", ".qm")) {
+                qDebug() << "Failed to load" << QLocale().name() << "translations for" << appName();
+            }
             app->installTranslator(translator);
         } else {
             qWarning("AsteroidApp::application() called multiple times");
