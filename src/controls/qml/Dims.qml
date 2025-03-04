@@ -41,7 +41,7 @@ pragma Singleton
 
     \qml
     import QtQuick 2.0
-    import org.controls.asteroid 1.0
+    import org.asteroid.controls 1.0
 
     Rectangle {
         width: Dims.w(80) // 80 % of screen width
