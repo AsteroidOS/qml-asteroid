@@ -110,7 +110,7 @@ import org.asteroid.utils 1.0
 MouseArea {
     id: root
 
-    property int boundary: width*DeviceInfo.borderGestureWidth
+    property int boundary: width*DeviceSpecs.borderGestureWidth
     property bool delayReset
 
     signal gestureStarted(string gesture)

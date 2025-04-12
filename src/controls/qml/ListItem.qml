@@ -96,7 +96,7 @@ Item {
         anchors {
             verticalCenter: parent.verticalCenter
             left: parent.left
-            leftMargin: DeviceInfo.hasRoundScreen ? Dims.w(18) : Dims.w(12)
+            leftMargin: DeviceSpecs.hasRoundScreen ? Dims.w(18) : Dims.w(12)
         }
     }
 
@@ -104,7 +104,7 @@ Item {
         id: label
 
         anchors {
-            leftMargin: DeviceInfo.hasRoundScreen ? Dims.w(6) : Dims.w(10)
+            leftMargin: DeviceSpecs.hasRoundScreen ? Dims.w(6) : Dims.w(10)
             left: icon.right
             verticalCenter: parent.verticalCenter
         }

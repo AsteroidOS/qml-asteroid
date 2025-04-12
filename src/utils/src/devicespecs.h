@@ -23,10 +23,10 @@
 #include <QQmlEngine>
 #include <QSettings>
 
-class DeviceInfo : public QObject
+class DeviceSpecs : public QObject
 {
     Q_OBJECT
-    Q_DISABLE_COPY(DeviceInfo)
+    Q_DISABLE_COPY(DeviceSpecs)
     Q_PROPERTY(bool hasRoundScreen READ hasRoundScreen CONSTANT)
     Q_PROPERTY(double borderGestureWidth READ borderGestureWidth CONSTANT)
     Q_PROPERTY(int flatTireHeight READ flatTireHeight CONSTANT)
@@ -36,14 +36,14 @@ class DeviceInfo : public QObject
     Q_PROPERTY(QString hostname READ hostname CONSTANT)
     Q_PROPERTY(QString machineName READ machineName CONSTANT)
     Q_PROPERTY(QString buildID READ buildID CONSTANT)
-    DeviceInfo();
+    DeviceSpecs();
 public:
     static QObject *qmlInstance(QQmlEngine *engine, QJSEngine *scriptEngine)
     {
         Q_UNUSED(engine);
         Q_UNUSED(scriptEngine);
 
-        return new DeviceInfo;
+        return new DeviceSpecs;
     }
     bool hasRoundScreen();
     double borderGestureWidth();
