@@ -1,11 +1,11 @@
 set(SRC
 	src/utils_plugin.cpp
-	src/deviceinfo.cpp
+	src/devicespecs.cpp
 	src/fileinfo.cpp
 	src/bluetoothstatus.cpp)
 set(HEADERS
 	src/utils_plugin.h
-	src/deviceinfo.h
+	src/devicespecs.h
 	src/fileinfo.h
 	src/bluetoothstatus.h)
 

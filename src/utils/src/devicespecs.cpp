@@ -15,14 +15,14 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "deviceinfo.h"
+#include "devicespecs.h"
 #include <QFile>
 
 const char* CONFIG_FILE = "/etc/asteroid/machine.conf";
 const char* HOST_FILE = "/etc/hostname";
 const char* OS_RELEASE_FILE = "/etc/os-release";
 
-DeviceInfo::DeviceInfo()
+DeviceSpecs::DeviceInfo()
     : m_settings(CONFIG_FILE, QSettings::IniFormat)
 {
     QSettings::Status status(m_settings.status());
@@ -57,47 +57,47 @@ DeviceInfo::DeviceInfo()
     }
 }
 
-bool DeviceInfo::hasRoundScreen()
+bool DeviceSpecs::hasRoundScreen()
 {
     return m_settings.value("Display/ROUND", false).toBool();
 }
 
-double DeviceInfo::borderGestureWidth()
+double DeviceSpecs::borderGestureWidth()
 {
     return m_settings.value("Display/BORDER_GESTURE_WIDTH", 0.1).toFloat();
 }
 
-int DeviceInfo::flatTireHeight()
+int DeviceSpecs::flatTireHeight()
 {
     return m_settings.value("Display/FLAT_TIRE", 0).toInt();
 }
 
-bool DeviceInfo::needsBurnInProtection()
+bool DeviceSpecs::needsBurnInProtection()
 {
     return m_settings.value("Display/NEEDS_BURN_IN_PROTECTION", true).toBool();
 }
 
-bool DeviceInfo::hasWlan()
+bool DeviceSpecs::hasWlan()
 {
     return m_settings.value("Capabilities/HAS_WLAN", false).toBool();
 }
 
-bool DeviceInfo::hasSpeaker()
+bool DeviceSpecs::hasSpeaker()
 {
     return m_settings.value("Capabilities/HAS_SPEAKER", false).toBool();
 }
 
-QString DeviceInfo::hostname() const
+QString DeviceSpecs::hostname() const
 {
     return m_hostname;
 }
 
-QString DeviceInfo::machineName() const
+QString DeviceSpecs::machineName() const
 {
     return m_settings.value("Identity/MACHINE", "unknown").toString();
 }
 
-QString DeviceInfo::buildID() const
+QString DeviceSpecs::buildID() const
 {
     return m_buildid;
 }

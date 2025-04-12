@@ -101,7 +101,7 @@ Application_p {
         edge: Qt.RightEdge
         visible: false
         z: 10
-        anchors.verticalCenterOffset: DeviceInfo.flatTireHeight/2
+        anchors.verticalCenterOffset: DeviceSpecs.flatTireHeight/2
     }
 
     Indicator {
@@ -109,7 +109,7 @@ Application_p {
         edge: Qt.LeftEdge
         visible: true
         z: 10
-        anchors.verticalCenterOffset: DeviceInfo.flatTireHeight/2
+        anchors.verticalCenterOffset: DeviceSpecs.flatTireHeight/2
     }
 
     Indicator {

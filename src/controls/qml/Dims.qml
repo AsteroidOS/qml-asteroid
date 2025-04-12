@@ -70,7 +70,7 @@ QtObject {
         \brief Returns a dimension that is \a number percent of the screen height.
     */
     function h(number) {
-        return (number/100)*(Screen.desktopAvailableHeight+DeviceInfo.flatTireHeight)
+        return (number/100)*(Screen.desktopAvailableHeight+DeviceSpecs.flatTireHeight)
     }
 
     /*!
@@ -78,7 +78,7 @@ QtObject {
         \brief Returns a dimension that is \a number percent of the screen width or height; whichever is smaller.
     */
     function l(number) {
-        if(Screen.desktopAvailableWidth > (Screen.desktopAvailableHeight+DeviceInfo.flatTireHeight))
+        if(Screen.desktopAvailableWidth > (Screen.desktopAvailableHeight+DeviceSpecs.flatTireHeight))
             return h(number)
         else
             return w(number)
