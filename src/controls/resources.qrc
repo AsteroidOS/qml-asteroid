@@ -15,6 +15,7 @@
         <file>qml/LabeledSwitch.qml</file>
         <file>qml/LabeledActionButton.qml</file>
         <file>qml/PageDot.qml</file>
+        <file>qml/OptionCycler.qml</file>
         <file>qml/PageHeader.qml</file>
         <file>qml/IntSelector.qml</file>
         <file>qml/SegmentedArc.qml</file>
