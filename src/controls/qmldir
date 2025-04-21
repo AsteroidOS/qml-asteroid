@@ -4,6 +4,7 @@ plugin asteroidcontrolsplugin
 
 Application 1.0 qrc:///org/asteroid/controls/qml/Application.qml
 BorderGestureArea 1.0 qrc:///org/asteroid/controls/qml/BorderGestureArea.qml
+BatteryParticles 1.0 qrc:///org/asteroid/controls/qml/BatteryParticles.qml
 CircularSpinner 1.0 qrc:///org/asteroid/controls/qml/CircularSpinner.qml
 singleton Dims 1.0 qrc:///org/asteroid/controls/qml/Dims.qml
 HandWritingKeyboard 1.0 qrc:///org/asteroid/controls/qml/HandWritingKeyboard.qml

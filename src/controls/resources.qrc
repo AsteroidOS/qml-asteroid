@@ -1,6 +1,7 @@
 <RCC>
     <qresource prefix="/org/asteroid/controls/">
         <file>qml/Application.qml</file>
+        <file>qml/BatteryParticles.qml</file>
         <file>qml/BorderGestureArea.qml</file>
         <file>qml/CircularSpinner.qml</file>
         <file>qml/Dims.qml</file>
