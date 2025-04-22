@@ -111,12 +111,18 @@ Item {
     */
     property string design: "diamonds"
 
+    /*!
+        \qmlproperty rect BatteryParticles::clipBounds
+        The bounding rectangle (x, y, width, height) for clipping. Particles are destroyed if they move outside this area.
+    */
+    property rect clipBounds: Qt.rect(0, 0, 0, 0)
+
     // Define design-specific properties
     property var designProperties: {
-        "diamonds": { initialSize: 0.4, maxSize: 1.0, initialOpacity: 0, maxOpacity: 0.4 },
-        "bubbles": { initialSize: 0.4, maxSize: 1.0, initialOpacity: 0, maxOpacity: 0.4 },
-        "logos": { initialSize: 0.5, maxSize: 1.2, initialOpacity: 0, maxOpacity: 0.6 },
-        "flashes": { initialSize: 0.6, maxSize: 1.4, initialOpacity: 0, maxOpacity: 0.7 }
+        "diamonds": { initialSize: 0.3, maxSize: 0.9, initialOpacity: 0, maxOpacity: 0.6 },
+        "bubbles": { initialSize: 0.3, maxSize: 0.9, initialOpacity: 0, maxOpacity: 0.6 },
+        "logos": { initialSize: 0.4, maxSize: 1.2, initialOpacity: 0, maxOpacity: 0.6 },
+        "flashes": { initialSize: 0.6, maxSize: 1.4, initialOpacity: 0, maxOpacity: 0.6 }
     }
 
     // Get design properties with fallback
@@ -124,6 +130,15 @@ Item {
         return (designProperties[design] && designProperties[design][propName])
                ? designProperties[design][propName]
                : designProperties["diamonds"][propName];
+    }
+
+    // Check if particle is outside clipBounds and destroy if so
+    onXChanged: {
+        if (clipBounds.width > 0 && clipBounds.height > 0) {
+            if (x < clipBounds.x - maxSize || x > clipBounds.x + clipBounds.width) {
+                particleRoot.destroy();
+            }
+        }
     }
 
     // Destroy timer to handle particle cleanup
