@@ -10,7 +10,7 @@
  *     * Redistributions of source code must retain the above copyright
  *       notice, this list of conditions and the following disclaimer.
  *     * Redistributions in binary form must reproduce the above copyright
- *       notice, this list of conditions and the following disclaimer in the
+       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
  *     * Neither the name of the author nor the
  *       names of its contributors may be used to endorse or promote products
@@ -33,35 +33,35 @@ import QtGraphicalEffects 1.15
 import org.asteroid.controls 1.0
 
 /*!
-    \qmltype BatteryParticles
+    \qmltype Particles
     \inqmlmodule org.asteroid.controls
-    \brief A particle component for battery meter animations with various designs.
+    \brief A particle component for meter animations with various designs.
 
-    This component renders a single particle for battery meter animations, supporting
+    This component renders a single particle for meter or gauge animations, supporting
     different designs (diamonds, bubbles, logos, flashes). It moves to a target X position,
-    scales, fades, and self-destructs after a specified lifetime. Used in battery meter
-    visualizations to show charging or low-battery effects.
+    scales, fades, and self-destructs after a specified lifetime. Used in visualizations
+    like value meters to show increasing or decreasing states.
 
-    Example usage in a battery meter:
+    Example usage in a value meter:
     \qml
     import QtQuick 2.9
     import org.asteroid.controls 1.0
 
     Item {
-        id: batteryFill
+        id: meterFill
         width: 100
         height: 20
 
         function createParticle() {
-            var component = Qt.createComponent("org.asteroid.controls.BatteryParticles");
+            var component = Qt.createComponent("qrc:///org/asteroid/controls/qml/Particles.qml");
             if (component.status === Component.Ready) {
-                var particle = component.createObject(batteryFill, {
+                var particle = component.createObject(meterFill, {
                     "x": 10,
                     "y": 5,
                     "targetX": 50,
                     "maxSize": 8,
                     "lifetime": 1200,
-                    "isCharging": true,
+                    "isIncreasing": true,
                     "design": "diamonds"
                 });
             }
@@ -82,37 +82,37 @@ Item {
     height: maxSize
 
     /*!
-        \qmlproperty real BatteryParticles::maxSize
+        \qmlproperty real Particles::maxSize
         The maximum size of the particle.
     */
     property real maxSize: 10
 
     /*!
-        \qmlproperty real BatteryParticles::targetX
+        \qmlproperty real Particles::targetX
         The target X position for the particle's movement.
     */
     property real targetX: 0
 
     /*!
-        \qmlproperty int BatteryParticles::lifetime
+        \qmlproperty int Particles::lifetime
         The duration (in milliseconds) before the particle self-destructs.
     */
     property int lifetime: 1200
 
     /*!
-        \qmlproperty bool BatteryParticles::isCharging
-        Whether the battery is charging, affecting particle behavior.
+        \qmlproperty bool Particles::isIncreasing
+        Whether the value is increasing, affecting particle behavior.
     */
-    property bool isCharging: false
+    property bool isIncreasing: false
 
     /*!
-        \qmlproperty string BatteryParticles::design
+        \qmlproperty string Particles::design
         The particle design: "diamonds", "bubbles", "logos", or "flashes".
     */
     property string design: "diamonds"
 
     /*!
-        \qmlproperty rect BatteryParticles::clipBounds
+        \qmlproperty rect Particles::clipBounds
         The bounding rectangle (x, y, width, height) for clipping. Particles are destroyed if they move outside this area.
     */
     property rect clipBounds: Qt.rect(0, 0, 0, 0)

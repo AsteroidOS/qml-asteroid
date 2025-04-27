@@ -1,7 +1,7 @@
 <RCC>
     <qresource prefix="/org/asteroid/controls/">
         <file>qml/Application.qml</file>
-        <file>qml/BatteryParticles.qml</file>
+        <file>qml/Particles.qml</file>
         <file>qml/BorderGestureArea.qml</file>
         <file>qml/CircularSpinner.qml</file>
         <file>qml/Dims.qml</file>
@@ -28,5 +28,6 @@
         <file>qml/TextArea.qml</file>
         <file>qml/TextBase.qml</file>
         <file>qml/TextField.qml</file>
+        <file>qml/ValueMeter.qml</file>
     </qresource>
 </RCC>
