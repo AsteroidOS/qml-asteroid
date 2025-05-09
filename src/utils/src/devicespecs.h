@@ -15,8 +15,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef DEVICEINFO_H
-#define DEVICEINFO_H
+#ifndef DEVICESPECS_H
+#define DEVICESPECS_H
 
 #include <QObject>
 #include <QJSEngine>
@@ -60,4 +60,4 @@ private:
     QString m_buildid;
 };
 
-#endif // DEVICEINFO_H
+#endif // DEVICESPECS_H
