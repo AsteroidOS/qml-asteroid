@@ -22,7 +22,7 @@ const char* CONFIG_FILE = "/etc/asteroid/machine.conf";
 const char* HOST_FILE = "/etc/hostname";
 const char* OS_RELEASE_FILE = "/etc/os-release";
 
-DeviceSpecs::DeviceInfo()
+DeviceSpecs::DeviceSpecs()
     : m_settings(CONFIG_FILE, QSettings::IniFormat)
 {
     QSettings::Status status(m_settings.status());

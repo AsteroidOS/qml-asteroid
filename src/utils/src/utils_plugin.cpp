@@ -29,7 +29,7 @@ void UtilsPlugin::registerTypes(const char *uri)
 {
     Q_ASSERT(uri == QLatin1String("org.asteroid.utils"));
 
-    qmlRegisterSingletonType<DeviceSpecs>(uri, 1,0, "DeviceInfo", &DeviceInfo::qmlInstance);
+    qmlRegisterSingletonType<DeviceSpecs>(uri, 1,0, "DeviceSpecs", &DeviceSpecs::qmlInstance);
     qmlRegisterSingletonType<FileInfo>(uri, 1, 0, "FileInfo", &FileInfo::qmlInstance);
     qmlRegisterType<BluetoothStatus>(uri, 1, 0, "BluetoothStatus");
 }
