@@ -1,6 +1,7 @@
 <RCC>
     <qresource prefix="/org/asteroid/controls/">
         <file>qml/Application.qml</file>
+        <file>qml/Particles.qml</file>
         <file>qml/BorderGestureArea.qml</file>
         <file>qml/CircularSpinner.qml</file>
         <file>qml/Dims.qml</file>
@@ -15,8 +16,10 @@
         <file>qml/LabeledSwitch.qml</file>
         <file>qml/LabeledActionButton.qml</file>
         <file>qml/PageDot.qml</file>
+        <file>qml/OptionCycler.qml</file>
         <file>qml/PageHeader.qml</file>
         <file>qml/IntSelector.qml</file>
+        <file>qml/RemorseTimer.qml</file>
         <file>qml/SegmentedArc.qml</file>
         <file>qml/SpinnerDelegate.qml</file>
         <file>qml/Spinner.qml</file>
@@ -25,5 +28,6 @@
         <file>qml/TextArea.qml</file>
         <file>qml/TextBase.qml</file>
         <file>qml/TextField.qml</file>
+        <file>qml/ValueMeter.qml</file>
     </qresource>
 </RCC>
