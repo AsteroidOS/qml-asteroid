@@ -73,27 +73,27 @@ Rectangle {
     id: remorseTimer
     anchors.fill: parent
     color: Qt.rgba(0, 0, 0, 0.8)
-    visible: false
+    visible: opacity > 0
     z: 100
     opacity: 0
 
     /*!
         \qmlproperty string RemorseTimer::cancelText
-        The text displayed for the cancel prompt (e.g., "Tap to cancel"). Can be a translated string.
+        The text displayed for the cancel prompt (e.g., "Tap to cancel").
     */
-    property string cancelText: "Tap to cancel"
+    property alias cancelText: cancelLabel.text
 
     /*!
         \qmlproperty string RemorseTimer::action
-        The action message displayed (e.g., "Powering Off"). Should be a translated string.
+        The action message displayed (e.g., "Powering Off").
     */
-    property string action: ""
+    property alias action: actionLabel.text
 
     /*!
-        \qmlproperty int RemorseTimer::interval
+        \qmlproperty int RemorseTimer::duration
         The duration (in milliseconds) before the action is triggered.
     */
-    property int interval: 3000
+    property int duration: 3000
 
     /*!
         \qmlproperty int RemorseTimer::gaugeSegmentAmount
@@ -125,20 +125,27 @@ Rectangle {
     */
     signal cancelled()
 
+    property real arcValue: 100
+    property int countdownSeconds: Math.floor(duration / 1000)
+
     Timer {
         id: timer
-        interval: remorseTimer.interval
+        interval: remorseTimer.duration
         running: false
         repeat: false
         onTriggered: {
-            remorseTimer.visible = false;
             remorseTimer.opacity = 0;
             remorseTimer.triggered();
         }
     }
 
-    property real arcValue: 100
-    property int countdownSeconds: Math.floor(interval / 1000)
+    Timer {
+        id: syncTimer
+        interval: 1000
+        running: remorseTimer.countdownSeconds > 0
+        repeat: true
+        onTriggered: remorseTimer.countdownSeconds--
+    }
 
     SegmentedArc {
         id: countdownArc
@@ -164,7 +171,7 @@ Rectangle {
             styleName: "SemiBoldCondensed"
         }
         color: "#ffffff"
-        text: remorseTimer.countdownSeconds // Direct integer display
+        text: remorseTimer.countdownSeconds
         z: countdownArc.z + 1
     }
 
@@ -189,7 +196,6 @@ Rectangle {
         }
         font.pixelSize: Dims.l(6)
         color: "#ffffff"
-        text: cancelText
     }
 
     MouseArea {
@@ -220,10 +226,7 @@ Rectangle {
         to: 0
         duration: 300
         easing.type: Easing.InOutQuad
-        onStopped: {
-            remorseTimer.visible = false;
-            remorseTimer.cancelled();
-        }
+        onStopped: remorseTimer.cancelled()
     }
 
     NumberAnimation {
@@ -232,34 +235,15 @@ Rectangle {
         property: "arcValue"
         from: 100
         to: 0
-        duration: remorseTimer.interval
+        duration: remorseTimer.duration
         easing.type: Easing.Linear
     }
 
-    Timer {
-        id: syncTimer
-        interval: remorseTimer.interval / Math.floor(remorseTimer.interval / 1000) // 1000ms for 3000ms
-        running: false
-        repeat: true
-        property int steps: Math.floor(remorseTimer.interval / 1000) // 3 steps
-        onTriggered: {
-            steps--;
-            remorseTimer.countdownSeconds = steps;
-            if (steps <= 0) {
-                syncTimer.stop();
-            }
-        }
-    }
-
-    // Start the timer and show the overlay
     function start() {
-        countdownSeconds = Math.floor(interval / 1000); // Reset to 3
-        arcValue = 100; // Reset arc
-        syncTimer.steps = Math.floor(interval / 1000); // Reset steps
-        visible = true;
+        arcValue = 100;
+        countdownSeconds = Math.floor(duration / 1000);
         fadeAnimation.start();
-        timer.start();
         arcAnimation.start();
-        syncTimer.start();
+        timer.start();
     }
 }
