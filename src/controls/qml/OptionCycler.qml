@@ -44,8 +44,6 @@ import org.asteroid.controls 1.0
             width: Dims.l(80)
             height: Dims.l(20)
             title: "Tap to cycle designs"
-            configObject: config
-            configKey: "design"
             valueArray: designOptions
             currentValue: config.design
             onValueChanged: {
@@ -64,18 +62,6 @@ Item {
     property alias title: titleLabel.text
 
     /*!
-        \qmlproperty var OptionCycler::configObject
-        The configuration object that holds the current value.
-    */
-    property var configObject
-
-    /*!
-        \qmlproperty string OptionCycler::configKey
-        The key in the configuration object to update with the selected value.
-    */
-    property string configKey
-
-    /*!
         \qmlproperty array OptionCycler::valueArray
         The array of values to cycle through.
     */
@@ -83,7 +69,7 @@ Item {
 
     /*!
         \qmlproperty string OptionCycler::currentValue
-        The currently selected value, synchronized with the config object.
+        The currently selected value.
     */
     property string currentValue
 
@@ -142,18 +128,10 @@ Item {
 
     HighlightBar {
         onClicked: {
-            if (configObject && configObject.batteryAnimation) {
-                var currentIndex = valueArray.indexOf(currentValue)
-                var nextIndex = (currentIndex + 1) % valueArray.length
-                var newValue = valueArray[nextIndex]
-                currentValue = newValue
-                if (configObject && configKey) {
-                    var newConfig = Object.assign({}, configObject)
-                    newConfig[configKey] = newValue
-                    configObject = newConfig
-                }
-                valueChanged(newValue)
-            }
+            var currentIndex = valueArray.indexOf(currentValue)
+            var nextIndex = (currentIndex + 1) % valueArray.length
+            var newValue = valueArray[nextIndex]
+            valueChanged(newValue)
         }
     }
 }
