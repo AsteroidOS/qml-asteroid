@@ -33,7 +33,7 @@ import QtGraphicalEffects 1.15
 import org.asteroid.controls 1.0
 
 /*!
-    \qmltype Particles
+    \qmltype Particle
     \inqmlmodule org.asteroid.controls
     \brief A particle component for meter animations with various designs.
 
@@ -53,7 +53,7 @@ import org.asteroid.controls 1.0
         height: 20
 
         function createParticle() {
-            var component = Qt.createComponent("qrc:///org/asteroid/controls/qml/Particles.qml");
+            var component = Qt.createComponent("qrc:///org/asteroid/controls/qml/Particle.qml");
             if (component.status === Component.Ready) {
                 var particle = component.createObject(meterFill, {
                     "x": 10,
@@ -82,38 +82,38 @@ Item {
     height: maxSize
 
     /*!
-        \qmlproperty real Particles::maxSize
+        \qmlproperty real Particle::maxSize
         The maximum size of the particle.
     */
     property real maxSize: 10
 
     /*!
-        \qmlproperty real Particles::targetX
+        \qmlproperty real Particle::targetX
         The target X position for the particle's movement.
     */
     property real targetX: 0
 
     /*!
-        \qmlproperty int Particles::lifetime
+        \qmlproperty int Particle::lifetime
         The duration (in milliseconds) before the particle self-destructs.
     */
     property int lifetime: 1200
 
     /*!
-        \qmlproperty bool Particles::isIncreasing
+        \qmlproperty bool Particle::isIncreasing
         Whether the value is increasing, affecting particle behavior.
     */
     property bool isIncreasing: false
 
     /*!
-        \qmlproperty string Particles::design
+        \qmlproperty string Particle::design
         The particle design: "diamonds", "bubbles", "logos", or "flashes".
     */
     property string design: "diamonds"
 
     /*!
-        \qmlproperty rect Particles::clipBounds
-        The bounding rectangle (x, y, width, height) for clipping. Particles are destroyed if they move outside this area.
+        \qmlproperty rect Particle::clipBounds
+        The bounding rectangle (x, y, width, height) for clipping. Particle are destroyed if they move outside this area.
     */
     property rect clipBounds: Qt.rect(0, 0, 0, 0)
 
@@ -134,10 +134,12 @@ Item {
 
     // Check if particle is outside clipBounds and destroy if so
     onXChanged: {
-        if (clipBounds.width > 0 && clipBounds.height > 0) {
-            if (x < clipBounds.x - maxSize || x > clipBounds.x + clipBounds.width) {
-                particleRoot.destroy();
-            }
+        if (clipBounds.width <= 0 || clipBounds.height <= 0) {
+            return;
+        }
+
+        if (x < clipBounds.x - maxSize || x > clipBounds.x + clipBounds.width) {
+            particleRoot.destroy();
         }
     }
 

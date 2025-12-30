@@ -188,7 +188,7 @@ Item {
                 if (!particleContainer.visible || !fill.isVisible || activeParticles >= 16) {
                     return
                 }
-                var component = Qt.createComponent("qrc:///org/asteroid/controls/qml/Particles.qml")
+                var component = Qt.createComponent("qrc:///org/asteroid/controls/qml/Particle.qml")
                 if (component.status === Component.Ready) {
                     var speed = isIncreasing ? 60 : 20
                     var pathLength = isIncreasing ? fill.width / 2 : fill.width
