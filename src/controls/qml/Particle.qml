@@ -125,12 +125,13 @@ Item {
         "flashes": { initialSize: 0.6, maxSize: 1.4, initialOpacity: 0, maxOpacity: 0.6 }
     }
 
-    // Get design properties with fallback
-    function getDesignProp(propName) {
-        return (designProperties[design] && designProperties[design][propName])
-               ? designProperties[design][propName]
-               : designProperties["diamonds"][propName];
-    }
+    property var designObject: switch(particleRoot.design) {
+                        case "diamonds": return diamond;
+                        case "bubbles": return bubble;
+                        case "logos": return logo;
+                        case "flashes": return flash;
+                        default: return diamond;
+                    };
 
     // Check if particle is outside clipBounds and destroy if so
     onXChanged: {
@@ -163,8 +164,13 @@ Item {
         opacity: particleOpacity
         visible: particleRoot.design === "diamonds"
 
-        property real particleSize: getDesignProp("initialSize")
-        property real particleOpacity: getDesignProp("initialOpacity")
+        readonly property real initialSize: 0.3
+        readonly property real maxSize: 0.9
+        readonly property real initialOpacity: 0
+        readonly property real maxOpacity: 0.6
+
+        property real particleSize: initialSize
+        property real particleOpacity: initialOpacity
     }
 
     // Bubble design
@@ -178,8 +184,13 @@ Item {
         opacity: particleOpacity
         visible: particleRoot.design === "bubbles"
 
-        property real particleSize: getDesignProp("initialSize")
-        property real particleOpacity: getDesignProp("initialOpacity")
+        readonly property real initialSize: 0.3
+        readonly property real maxSize: 0.9
+        readonly property real initialOpacity: 0
+        readonly property real maxOpacity: 0.6
+
+        property real particleSize: initialSize
+        property real particleOpacity: initialOpacity
     }
 
     // Logo design
@@ -192,8 +203,13 @@ Item {
         opacity: particleOpacity
         visible: particleRoot.design === "logos"
 
-        property real particleSize: getDesignProp("initialSize")
-        property real particleOpacity: getDesignProp("initialOpacity")
+        readonly property real initialSize: 0.4
+        readonly property real maxSize: 1.2
+        readonly property real initialOpacity: 0
+        readonly property real maxOpacity: 0.6
+
+        property real particleSize: initialSize
+        property real particleOpacity: initialOpacity
     }
 
     // Flash design
@@ -206,8 +222,13 @@ Item {
         opacity: particleOpacity
         visible: particleRoot.design === "flashes"
 
-        property real particleSize: getDesignProp("initialSize")
-        property real particleOpacity: getDesignProp("initialOpacity")
+        readonly property real initialSize: 0.6
+        readonly property real maxSize: 1.4
+        readonly property real initialOpacity: 0
+        readonly property real maxOpacity: 0.6
+
+        property real particleSize: initialSize
+        property real particleOpacity: initialOpacity
     }
 
     ParallelAnimation {
@@ -226,34 +247,18 @@ Item {
         // Size animation - dynamically determine target based on current design
         SequentialAnimation {
             NumberAnimation {
-                target: {
-                    switch(particleRoot.design) {
-                        case "diamonds": return diamond;
-                        case "bubbles": return bubble;
-                        case "logos": return logo;
-                        case "flashes": return flash;
-                        default: return diamond;
-                    }
-                }
+                target: designObject
                 property: "particleSize"
-                from: getDesignProp("initialSize")
-                to: getDesignProp("maxSize")
+                from: designObject.initialSize
+                to: designObject.maxSize
                 duration: lifetime / 2
                 easing.type: Easing.OutQuad
             }
             NumberAnimation {
-                target: {
-                    switch(particleRoot.design) {
-                        case "diamonds": return diamond;
-                        case "bubbles": return bubble;
-                        case "logos": return logo;
-                        case "flashes": return flash;
-                        default: return diamond;
-                    }
-                }
+                target: designObject
                 property: "particleSize"
-                from: getDesignProp("maxSize")
-                to: getDesignProp("initialSize")
+                from: designObject.maxSize
+                to: designObject.initialSize
                 duration: lifetime / 2
                 easing.type: Easing.InQuad
             }
@@ -262,34 +267,18 @@ Item {
         // Opacity animation - dynamically determine target based on current design
         SequentialAnimation {
             NumberAnimation {
-                target: {
-                    switch(particleRoot.design) {
-                        case "diamonds": return diamond;
-                        case "bubbles": return bubble;
-                        case "logos": return logo;
-                        case "flashes": return flash;
-                        default: return diamond;
-                    }
-                }
+                target: designObject
                 property: "particleOpacity"
-                from: getDesignProp("initialOpacity")
-                to: getDesignProp("maxOpacity")
+                from: designObject.initialOpacity
+                to: designObject.maxOpacity
                 duration: lifetime / 2
                 easing.type: Easing.OutQuad
             }
             NumberAnimation {
-                target: {
-                    switch(particleRoot.design) {
-                        case "diamonds": return diamond;
-                        case "bubbles": return bubble;
-                        case "logos": return logo;
-                        case "flashes": return flash;
-                        default: return diamond;
-                    }
-                }
+                target: designObject
                 property: "particleOpacity"
-                from: getDesignProp("maxOpacity")
-                to: getDesignProp("initialOpacity")
+                from: designObject.maxOpacity
+                to: designObject.initialOpacity
                 duration: lifetime / 2
                 easing.type: Easing.InQuad
             }
