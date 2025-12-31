@@ -135,11 +135,11 @@ Item {
         id: fill
         height: parent.height
         width: {
-            var range = valueUpperBound - valueLowerBound
-            var normalizedValue = range > 0 ? (value - valueLowerBound) / range : 0
-            var baseWidth = parent.width * Math.min(Math.max(normalizedValue, 0), 1)
+            const range = valueUpperBound - valueLowerBound
+            const normalizedValue = range > 0 ? (value - valueLowerBound) / range : 0
+            const baseWidth = parent.width * Math.min(Math.max(normalizedValue, 0), 1)
             if (isIncreasing && enableAnimations && fill.isVisible) {
-                var waveAmplitude = parent.width * 0.05
+                const waveAmplitude = parent.width * 0.05
                 return baseWidth + waveAmplitude * Math.sin(waveTime)
             }
             return baseWidth
@@ -166,55 +166,58 @@ Item {
             anchors.fill: parent
             visible: enableAnimations
 
-            property int particleCount: 5
             property int activeParticles: 0
-            property int nextHorizontalBand: 0
-            property int spawnInterval: 300
+            property int horizontalBand: 0
+            property int spawnInterval: isIncreasing ? 200 : 750
 
             function createParticle() {
                 if (!particleContainer.visible || !fill.isVisible || activeParticles >= 16) {
                     return
                 }
-                var component = Qt.createComponent("qrc:///org/asteroid/controls/qml/Particle.qml")
+
+                const component = Qt.createComponent("qrc:///org/asteroid/controls/qml/Particle.qml")
                 if (component.status !== Component.Ready) {
                     return;
                 }
 
-                var speed = isIncreasing ? 60 : 20
-                var pathLength = isIncreasing ? fill.width / 2 : fill.width
-                var lifetime = isIncreasing ? 2500 : 8500
-                particleContainer.spawnInterval = isIncreasing ? 200 : 750
-                var maxSize = fill.height / 2
-                var minSize = fill.height / 6
-                var designType = particleDesign || "diamonds"
-                var isLogoOrFlash = designType === "logos" || designType === "flashes"
-                var sizeMultiplier = isLogoOrFlash ? 1.3 : 1.0
-                var opacity = 0.6
+                const speed = isIncreasing ? 60 : 20
+                const pathLength = isIncreasing ? fill.width / 2 : fill.width
+                const lifetime = isIncreasing ? 2500 : 8500
+                const maxSize = fill.height / 2
+                const minSize = fill.height / 6
+                const isLogoOrFlash = particleDesign === "logos" || particleDesign === "flashes"
+                const sizeMultiplier = isLogoOrFlash ? 1.3 : 1.0
+                const opacity = 0.6
 
-                var horizontalBand = particleContainer.nextHorizontalBand
-                var startX = isIncreasing ?
-                    (horizontalBand === 0 ? Math.random() * (fill.width / 4) : (fill.width / 4) + Math.random() * (fill.width / 4)) :
-                    (horizontalBand === 0 ? fill.width / 2 + Math.random() * (fill.width / 4) : (3 * fill.width / 4) + Math.random() * (fill.width / 4))
-                particleContainer.nextHorizontalBand = (horizontalBand + 1) % 2
+                // Use altering horizontal offsets to ensure particles a certain distance between them.
+                const horizontalBand = particleContainer.horizontalBand;
+                particleContainer.horizontalBand = (horizontalBand + 1) % 2;
 
-                var endX = isIncreasing ? startX + pathLength : startX - pathLength
+                // Place in one of four columns altering between two depending on begin or end.
+                let startX = ((horizontalBand + (isIncreasing ? 0 : 2)) * fill.width / 4);
+                startX += Math.random() * (fill.width / 4)
 
-                var band = Math.floor(Math.random() * 3)
-                var startY = (band * fill.height / 3) + (Math.random() * fill.height / 3)
+                const endX = isIncreasing ? startX + pathLength : startX - pathLength
 
-                var size = (minSize + Math.random() * (maxSize - minSize)) * sizeMultiplier
+                const size = (minSize + Math.random() * (maxSize - minSize)) * sizeMultiplier
 
-                var particle = component.createObject(particleContainer, {
+                const maxHeight = fill.height - size;
+                const verticalBand = Math.floor(Math.random() * 3)
+                const startY = (verticalBand * maxHeight / 3) + (Math.random() * maxHeight / 3)
+
+
+                const particle = component.createObject(particleContainer, {
                     "x": startX,
                     "y": startY,
                     "targetX": endX,
                     "maxSize": size,
                     "lifetime": lifetime,
                     "isIncreasing": isIncreasing,
-                    "design": designType,
+                    "design": particleDesign,
                     "opacity": opacity,
                     "clipBounds": Qt.rect(0, 0, fill.width, fill.height)
                 })
+
                 if (particle !== null) {
                     particle.finished.connect(() => {
                         particle.destroy();
