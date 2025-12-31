@@ -113,17 +113,15 @@ Item {
 
     /*!
         \qmlproperty rect Particle::clipBounds
-        The bounding rectangle (x, y, width, height) for clipping. Particle are destroyed if they move outside this area.
+        The bounding rectangle (x, y, width, height) for clipping.
     */
     property rect clipBounds: Qt.rect(0, 0, 0, 0)
 
-    // Define design-specific properties
-    property var designProperties: {
-        "diamonds": { initialSize: 0.3, maxSize: 0.9, initialOpacity: 0, maxOpacity: 0.6 },
-        "bubbles": { initialSize: 0.3, maxSize: 0.9, initialOpacity: 0, maxOpacity: 0.6 },
-        "logos": { initialSize: 0.4, maxSize: 1.2, initialOpacity: 0, maxOpacity: 0.6 },
-        "flashes": { initialSize: 0.6, maxSize: 1.4, initialOpacity: 0, maxOpacity: 0.6 }
-    }
+    /*!
+        \qmlsignal Particle::finished
+        Emitted when the particle is done animating, ready for cleanup.
+    */
+    signal finished()
 
     property var designObject: switch(particleRoot.design) {
                         case "diamonds": return diamond;
@@ -133,24 +131,23 @@ Item {
                         default: return diamond;
                     };
 
-    // Check if particle is outside clipBounds and destroy if so
+    // Check if particle is outside clipBounds
     onXChanged: {
         if (clipBounds.width <= 0 || clipBounds.height <= 0) {
             return;
         }
 
         if (x < clipBounds.x - maxSize || x > clipBounds.x + clipBounds.width) {
-            particleRoot.destroy();
+            particleRoot.finished();
         }
     }
 
-    // Destroy timer to handle particle cleanup
     Timer {
-        id: destroyTimer
+        id: lifetimeTimer
         interval: lifetime
         running: true
         repeat: false
-        onTriggered: particleRoot.destroy()
+        onTriggered: particleRoot.finished()
     }
 
     // Diamond design

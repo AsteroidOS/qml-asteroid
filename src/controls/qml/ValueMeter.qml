@@ -171,66 +171,56 @@ Item {
             property int nextHorizontalBand: 0
             property int spawnInterval: 300
 
-            Component {
-                id: cleanupTimerComponent
-                Timer {
-                    id: cleanupTimer
-                    interval: 0
-                    running: true
-                    repeat: false
-                    onTriggered: {
-                        particleContainer.activeParticles--
-                    }
-                }
-            }
-
             function createParticle() {
                 if (!particleContainer.visible || !fill.isVisible || activeParticles >= 16) {
                     return
                 }
                 var component = Qt.createComponent("qrc:///org/asteroid/controls/qml/Particle.qml")
-                if (component.status === Component.Ready) {
-                    var speed = isIncreasing ? 60 : 20
-                    var pathLength = isIncreasing ? fill.width / 2 : fill.width
-                    var lifetime = isIncreasing ? 2500 : 8500
-                    particleContainer.spawnInterval = isIncreasing ? 200 : 750
-                    var maxSize = fill.height / 2
-                    var minSize = fill.height / 6
-                    var designType = particleDesign || "diamonds"
-                    var isLogoOrFlash = designType === "logos" || designType === "flashes"
-                    var sizeMultiplier = isLogoOrFlash ? 1.3 : 1.0
-                    var opacity = 0.6
+                if (component.status !== Component.Ready) {
+                    return;
+                }
 
-                    var horizontalBand = particleContainer.nextHorizontalBand
-                    var startX = isIncreasing ?
-                        (horizontalBand === 0 ? Math.random() * (fill.width / 4) : (fill.width / 4) + Math.random() * (fill.width / 4)) :
-                        (horizontalBand === 0 ? fill.width / 2 + Math.random() * (fill.width / 4) : (3 * fill.width / 4) + Math.random() * (fill.width / 4))
-                    particleContainer.nextHorizontalBand = (horizontalBand + 1) % 2
+                var speed = isIncreasing ? 60 : 20
+                var pathLength = isIncreasing ? fill.width / 2 : fill.width
+                var lifetime = isIncreasing ? 2500 : 8500
+                particleContainer.spawnInterval = isIncreasing ? 200 : 750
+                var maxSize = fill.height / 2
+                var minSize = fill.height / 6
+                var designType = particleDesign || "diamonds"
+                var isLogoOrFlash = designType === "logos" || designType === "flashes"
+                var sizeMultiplier = isLogoOrFlash ? 1.3 : 1.0
+                var opacity = 0.6
 
-                    var endX = isIncreasing ? startX + pathLength : startX - pathLength
+                var horizontalBand = particleContainer.nextHorizontalBand
+                var startX = isIncreasing ?
+                    (horizontalBand === 0 ? Math.random() * (fill.width / 4) : (fill.width / 4) + Math.random() * (fill.width / 4)) :
+                    (horizontalBand === 0 ? fill.width / 2 + Math.random() * (fill.width / 4) : (3 * fill.width / 4) + Math.random() * (fill.width / 4))
+                particleContainer.nextHorizontalBand = (horizontalBand + 1) % 2
 
-                    var band = Math.floor(Math.random() * 3)
-                    var startY = (band * fill.height / 3) + (Math.random() * fill.height / 3)
+                var endX = isIncreasing ? startX + pathLength : startX - pathLength
 
-                    var size = (minSize + Math.random() * (maxSize - minSize)) * sizeMultiplier
+                var band = Math.floor(Math.random() * 3)
+                var startY = (band * fill.height / 3) + (Math.random() * fill.height / 3)
 
-                    var particle = component.createObject(particleContainer, {
-                        "x": startX,
-                        "y": startY,
-                        "targetX": endX,
-                        "maxSize": size,
-                        "lifetime": lifetime,
-                        "isIncreasing": isIncreasing,
-                        "design": designType,
-                        "opacity": opacity,
-                        "clipBounds": Qt.rect(0, 0, fill.width, fill.height)
-                    })
-                    if (particle !== null) {
-                        activeParticles++
-                        var cleanupTimer = cleanupTimerComponent.createObject(particleContainer, {
-                            "interval": lifetime
-                        })
-                    }
+                var size = (minSize + Math.random() * (maxSize - minSize)) * sizeMultiplier
+
+                var particle = component.createObject(particleContainer, {
+                    "x": startX,
+                    "y": startY,
+                    "targetX": endX,
+                    "maxSize": size,
+                    "lifetime": lifetime,
+                    "isIncreasing": isIncreasing,
+                    "design": designType,
+                    "opacity": opacity,
+                    "clipBounds": Qt.rect(0, 0, fill.width, fill.height)
+                })
+                if (particle !== null) {
+                    particle.finished.connect(() => {
+                        particle.destroy();
+                        activeParticles--;
+                    });
+                    activeParticles++;
                 }
             }
 
