@@ -137,7 +137,7 @@ Item {
         width: {
             const range = valueUpperBound - valueLowerBound
             const normalizedValue = range > 0 ? (value - valueLowerBound) / range : 0
-            const baseWidth = parent.width * Math.min(Math.max(normalizedValue, 0), 1)
+            const baseWidth = parent.width * normalizedValue
             if (isIncreasing && enableAnimations && fill.isVisible) {
                 const waveAmplitude = parent.width * 0.05
                 return baseWidth + waveAmplitude * Math.sin(waveTime)
