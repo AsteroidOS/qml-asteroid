@@ -126,13 +126,10 @@ Item {
     }
 
     HighlightBar {
-        color: "green"
         onClicked: {
-            console.log("Clicked!")
             var currentIndex = valueArray.indexOf(currentValue)
             var nextIndex = (currentIndex + 1) % valueArray.length
             var newValue = valueArray[nextIndex]
-            console.log("New value = ", newValue)
             valueChanged(newValue)
         }
     }
