@@ -159,7 +159,7 @@ Item {
         anchors.centerIn: parent
         rotation: 45
         opacity: particleOpacity
-        visible: particleRoot.design === "diamonds"
+        visible: particleRoot.designObject === diamond
 
         readonly property real initialSize: 0.3
         readonly property real maxSize: 0.9
@@ -179,7 +179,7 @@ Item {
         color: "#FFFFFF"
         anchors.centerIn: parent
         opacity: particleOpacity
-        visible: particleRoot.design === "bubbles"
+        visible: particleRoot.designObject === bubble
 
         readonly property real initialSize: 0.3
         readonly property real maxSize: 0.9
@@ -198,7 +198,7 @@ Item {
         name: "logo-asteroidos"
         anchors.centerIn: parent
         opacity: particleOpacity
-        visible: particleRoot.design === "logos"
+        visible: particleRoot.designObject === logo
 
         readonly property real initialSize: 0.4
         readonly property real maxSize: 1.2
@@ -217,7 +217,7 @@ Item {
         name: "ios-flash"
         anchors.centerIn: parent
         opacity: particleOpacity
-        visible: particleRoot.design === "flashes"
+        visible: particleRoot.designObject === flash
 
         readonly property real initialSize: 0.6
         readonly property real maxSize: 1.4
