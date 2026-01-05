@@ -106,12 +106,6 @@ Item {
     property bool enableAnimations: true
 
     /*!
-        \qmlproperty bool ValueMeter::enableColoredFill
-        Enables colored fill based on value thresholds when true.
-    */
-    property bool enableColoredFill: false
-
-    /*!
         \qmlproperty string ValueMeter::particleDesign
         The design type for particle effects. Options: "diamonds", "bubbles", "logos", "flashes".
         \sa Particle
