@@ -1,0 +1,9 @@
+/*!
+    \page index.html
+    \title org.asteroid.controls
+
+    This is a list of all of the controls in alphabetical order.
+
+    \generatelist qmltypesbymodule org.asteroid.controls
+
+*/
