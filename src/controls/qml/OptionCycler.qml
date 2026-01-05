@@ -36,7 +36,6 @@ import org.asteroid.controls 1.0
 
     Item {
         anchors.fill: parent
-        property var config: ({ design: "diamonds" })
         property var designOptions: ["diamonds", "bubbles", "logos", "flashes"]
 
         OptionCycler {
@@ -45,9 +44,9 @@ import org.asteroid.controls 1.0
             height: Dims.l(20)
             title: "Tap to cycle designs"
             valueArray: designOptions
-            currentValue: config.design
+            currentValue: designOptions[0]
             onValueChanged: {
-                config.design = value
+                currentValue = value
             }
         }
     }
@@ -127,10 +126,13 @@ Item {
     }
 
     HighlightBar {
+        color: "green"
         onClicked: {
+            console.log("Clicked!")
             var currentIndex = valueArray.indexOf(currentValue)
             var nextIndex = (currentIndex + 1) % valueArray.length
             var newValue = valueArray[nextIndex]
+            console.log("New value = ", newValue)
             valueChanged(newValue)
         }
     }
