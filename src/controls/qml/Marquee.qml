@@ -20,7 +20,7 @@ import org.asteroid.controls 1.0
 
 /*!
     \qmltype Marquee
-    \inqmlmodule AsteroidControls
+    \inqmlmodule org.asteroid.controls
 
     \brief Display text that may be longer than the available space.
 

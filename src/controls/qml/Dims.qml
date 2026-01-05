@@ -27,7 +27,7 @@ pragma Singleton
 
 /*!
     \qmltype Dims
-    \inqmlmodule AsteroidControls
+    \inqmlmodule org.asteroid.controls
 
     \brief Provides access to dimensions relative to a ratio of the screen width/height.
 

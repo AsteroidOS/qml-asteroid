@@ -20,7 +20,7 @@ import QtQuick 2.9
 
 /*!
     \qmltype PageDot
-    \inqmlmodule AsteroidControls
+    \inqmlmodule org.asteroid.controls
 
     \brief Display indicator dots indicating a fixed collection.
 

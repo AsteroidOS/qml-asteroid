@@ -23,7 +23,7 @@ import org.asteroid.controls 1.0
 
 /*!
     \qmltype IntSelector
-    \inqmlmodule AsteroidControls
+    \inqmlmodule org.asteroid.controls
 
     \brief A control to select an integer value from a range.
 

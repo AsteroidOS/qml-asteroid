@@ -32,7 +32,7 @@ import QtQuick.VirtualKeyboard 2.1
 
 /*!
     \qmltype TextField
-    \inqmlmodule AsteroidControls
+    \inqmlmodule org.asteroid.controls
 
     \brief Editable text field.
 

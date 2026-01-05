@@ -20,7 +20,7 @@ import org.asteroid.controls 1.0
 
 /*!
     \qmltype SpinnerDelegate
-    \inqmlmodule AsteroidControls
+    \inqmlmodule org.asteroid.controls
 
     \brief Provides a delegate for use with CircularSpinner.
 
@@ -51,7 +51,7 @@ import org.asteroid.controls 1.0
     \endqml
 
     This somewhat more complex example shows a month and a year \l CircularSpinner 
-    each with a \l SpinnerDelegate that overrides the \l text attribute.
+    each with a \l SpinnerDelegate that overrides the \l SpinnerDelegate::text attribute.
 
     \qml
     import QtQuick 2.12

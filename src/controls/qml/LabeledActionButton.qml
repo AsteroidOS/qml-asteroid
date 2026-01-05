@@ -23,7 +23,7 @@ import org.asteroid.controls 1.0
 
 /*!
     \qmltype LabeledActionButton
-    \inqmlmodule AsteroidControls
+    \inqmlmodule org.asteroid.controls
 
     \brief Clickable label plus icon.
 

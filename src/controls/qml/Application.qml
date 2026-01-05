@@ -22,7 +22,7 @@ import org.asteroid.utils 1.0
 
 /*!
     \qmltype Application
-    \inqmlmodule AsteroidControls
+    \inqmlmodule org.asteroid.controls
     \brief Shows a flat mesh background with indicators.
 
     The Application type is intended to be used as the top level QML object
