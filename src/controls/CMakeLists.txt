@@ -29,8 +29,11 @@ set(controls
         LayerStack
         ListItem
         Marquee
+        OptionCycler
         PageDot
         PageHeader
+        Particle
+        RemorseTimer
         SegmentedArc
         Spinner
         SpinnerDelegate
@@ -39,6 +42,7 @@ set(controls
         TextArea
         TextBase
         TextField
+        ValueMeter
 )
 set(controls-docs "$<LIST:TRANSFORM,$<LIST:TRANSFORM,$<LOWER_CASE:${controls}>,PREPEND,qml->,APPEND,.html>")
 set(doc-dir "${CMAKE_BINARY_DIR}/doc/html")
