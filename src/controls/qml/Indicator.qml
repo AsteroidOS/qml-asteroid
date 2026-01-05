@@ -20,7 +20,7 @@ import org.asteroid.controls 1.0
 
 /*!
     \qmltype Indicator
-    \inqmlmodule AsteroidControls
+    \inqmlmodule org.asteroid.controls
 
     \brief Edge indicator for AsteroidOS.
 

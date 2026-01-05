@@ -20,7 +20,7 @@ import QtQuick.VirtualKeyboard 2.1
 
 /*!
     \qmltype HandWritingKeyboard
-    \inqmlmodule AsteroidControls
+    \inqmlmodule org.asteroid.controls
 
     \brief A hand writing keyboard for AsteroidOS.
 

@@ -27,7 +27,7 @@ import QtQuick.Shapes 1.1
 
 /*!
     \qmltype SegmentedArc
-    \inqmlmodule AsteroidControls
+    \inqmlmodule org.asteroid.controls
 
     \brief A segmented arc that uses color to represent a value.
 

@@ -21,7 +21,7 @@ import QtQuick 2.9
 
 /*!
     \qmltype LayerStack
-    \inqmlmodule AsteroidControls
+    \inqmlmodule org.asteroid.controls
 
     \brief A simple stack of QML components.
 

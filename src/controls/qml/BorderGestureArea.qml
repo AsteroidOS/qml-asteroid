@@ -35,7 +35,7 @@ import org.asteroid.utils 1.0
 
 /*!
     \qmltype BorderGestureArea
-    \inqmlmodule AsteroidControls
+    \inqmlmodule org.asteroid.controls
 
     \brief Provides simple gesture support for swiping up, down, left, right.
 

@@ -22,7 +22,7 @@ import org.asteroid.utils 1.0
 
 /*!
     \qmltype ListItem
-    \inqmlmodule AsteroidControls
+    \inqmlmodule org.asteroid.controls
 
     \brief A delegate to display a icon and text combo.
 

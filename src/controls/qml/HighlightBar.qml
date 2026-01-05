@@ -23,7 +23,7 @@ import org.asteroid.controls 1.0
 
 /*!
     \qmltype HighlightBar
-    \inqmlmodule AsteroidControls
+    \inqmlmodule org.asteroid.controls
 
     \brief A combined Rectangle and MouseArea.
 

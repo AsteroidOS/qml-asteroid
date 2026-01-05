@@ -20,7 +20,7 @@ import org.asteroid.controls 1.0
 
 /*!
     \qmltype CircularSpinner
-    \inqmlmodule AsteroidControls
+    \inqmlmodule org.asteroid.controls
 
     \brief A simplified vertical circular spinner, handy for selecting values.
 

@@ -32,7 +32,7 @@ import QtQuick.VirtualKeyboard 2.15
 
 /*!
     \qmltype TextArea
-    \inqmlmodule AsteroidControls
+    \inqmlmodule org.asteroid.controls
 
     \brief Editable multi-line text field.
 

@@ -21,7 +21,7 @@ import org.asteroid.controls 1.0
 
 /*!
     \qmltype Spinner
-    \inqmlmodule AsteroidControls
+    \inqmlmodule org.asteroid.controls
 
     \brief Simple spinner to select values from collection.
 
