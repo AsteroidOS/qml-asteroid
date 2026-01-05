@@ -53,7 +53,7 @@ add_custom_target(
 
 add_custom_command(
     OUTPUT  "${full-controls-docs}"
-    COMMAND "qdoc" "-indexdir" "/usr/share/doc/qt5" "-outputdir" "${doc-dir}" "${CMAKE_CURRENT_SOURCE_DIR}/doc/asteroid_controls.qdocconf" 
+    COMMAND "qdoc" "-indexdir" "/usr/share/doc/qt5" "-outputdir" "${doc-dir}" "${CMAKE_CURRENT_SOURCE_DIR}/master.qdocconf" "-single-exec"
     COMMENT "Generating HTML format Reference documentation..." VERBATIM
 )
 
