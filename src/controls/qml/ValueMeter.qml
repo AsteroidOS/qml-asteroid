@@ -54,9 +54,8 @@ import org.asteroid.controls 1.0
         valueLowerBound: 0
         valueUpperBound: 100
         value: 75
-        isActive: true
+        isIncreasing: true
         enableAnimations: true
-        enableColoredFill: false
         particleDesign: "diamonds"
     }
     \endqml
@@ -115,6 +114,7 @@ Item {
     /*!
         \qmlproperty string ValueMeter::particleDesign
         The design type for particle effects. Options: "diamonds", "bubbles", "logos", "flashes".
+        \sa Particle
     */
     property string particleDesign: "diamonds"
 
