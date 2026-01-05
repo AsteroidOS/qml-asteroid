@@ -54,7 +54,7 @@ import org.asteroid.controls 1.0
         RemorseTimer {
             id: remorse
             action: qsTrId("id-power-off")
-            interval: 3000
+            duration: 3000
             gaugeSegmentAmount: 6
             gaugeStartDegree: -130
             gaugeEndFromStartDegree: 265
