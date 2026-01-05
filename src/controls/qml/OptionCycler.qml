@@ -75,7 +75,7 @@ Item {
 
     /*!
         \qmlsignal OptionCycler::valueChanged(string value)
-        Emitted when the selected value changes, passing the new value.
+        Emitted when the selected value changes, passing the new \a value.
     */
     signal valueChanged(string value)
 
