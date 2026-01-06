@@ -94,8 +94,15 @@ PathView {
     layer.enabled: true
     layer.effect: ShaderEffect {
         fragmentShader: "
-        precision mediump float;
-        varying highp vec2 qt_TexCoord0;
+        #ifdef GL_ES
+            precision mediump float;
+            varying highp vec2 qt_TexCoord0;
+        #else
+            #define highp
+            #define mediump
+            #define lowp
+            varying vec2 qt_TexCoord0;
+        #endif
         uniform sampler2D source;
         void main(void)
         {
