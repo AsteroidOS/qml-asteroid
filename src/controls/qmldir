@@ -17,8 +17,11 @@ LabeledSwitch 1.0 qrc:///org/asteroid/controls/qml/LabeledSwitch.qml
 LayerStack 1.0 qrc:///org/asteroid/controls/qml/LayerStack.qml
 ListItem 1.0 qrc:///org/asteroid/controls/qml/ListItem.qml
 Marquee 1.0 qrc:///org/asteroid/controls/qml/Marquee.qml
+OptionCycler 1.0 qrc:///org/asteroid/controls/qml/OptionCycler.qml
 PageDot 1.0 qrc:///org/asteroid/controls/qml/PageDot.qml
 PageHeader 1.0 qrc:///org/asteroid/controls/qml/PageHeader.qml
+Particle 1.0 qrc:///org/asteroid/controls/qml/Particle.qml
+RemorseTimer 1.0 qrc:///org/asteroid/controls/qml/RemorseTimer.qml
 SegmentedArc 1.0 qrc:///org/asteroid/controls/qml/SegmentedArc.qml
 Spinner 1.0 qrc:///org/asteroid/controls/qml/Spinner.qml
 SpinnerDelegate 1.0 qrc:///org/asteroid/controls/qml/SpinnerDelegate.qml
@@ -27,3 +30,4 @@ Switch 1.0 qrc:///org/asteroid/controls/qml/Switch.qml
 TextArea 1.0 qrc:///org/asteroid/controls/qml/TextArea.qml
 TextBase 1.0 qrc:///org/asteroid/controls/qml/TextBase.qml
 TextField 1.0 qrc:///org/asteroid/controls/qml/TextField.qml
+ValueMeter 1.0 qrc:///org/asteroid/controls/qml/ValueMeter.qml
