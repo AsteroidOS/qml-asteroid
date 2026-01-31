@@ -79,6 +79,8 @@ Item {
     property int iconSize: Dims.l(20)
     /*! size of the label text */
     property int labelFontSize: Dims.l(6)
+    /*! whether the actual value should be shown */
+    property bool valueLabelVisible: true
 
     /*! width defaults to parent's width */
     width: parent.width
@@ -114,6 +116,7 @@ Item {
         verticalAlignment: Text.AlignVCenter
         wrapMode: Text.Wrap
         height: parent.height
+        visible: valueLabelVisible
     }
 
     IconButton {
