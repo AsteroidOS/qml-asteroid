@@ -113,8 +113,9 @@ for i in range(random_shifts_nb):
     r = radius * math.sqrt(random.random())
     alpha = 2 * math.pi * random.random()
 
-    x = r * math.cos(alpha)
-    y = r * math.sin(alpha)
+    # The 80% factor reduces the wiggle room a bit to make movements less extreme
+    x = r * math.cos(alpha) * 0.8
+    y = r * math.sin(alpha) * 0.8
     out.write("    " + str(x/2) + ", " + str(y/2) + ",\n")
 out.write("};\n")
 out.write("static const int flatmesh_shifts_nb = " + str(random_shifts_nb) + ";\n")
