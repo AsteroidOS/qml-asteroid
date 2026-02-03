@@ -58,7 +58,9 @@ static const char *vertexShaderSource =
     "{"
          // Two vertices can have the same coordinate (if they give different colors to 2 triangles)
          // However, they need to move in sync, so we hash their coordinates as an index for shifts
-        "int shiftIndex = loopNb+floatBitsToInt(coord.x)+floatBitsToInt(coord.y);"
+        "int xHash = int(coord.x * 100.0);"
+        "int yHash = int(coord.y * 100.0);"
+        "int shiftIndex = loopNb+xHash+yHash;"
 
          // Interpolate between (coord + shiftA) and (coord + shiftB) in the [-0.5, 0.5] domain
         "vec2 pos = coord.xy + mix(shifts[(shiftIndex)%"   FLATMESH_SHIFTS_NB_STR "],"
