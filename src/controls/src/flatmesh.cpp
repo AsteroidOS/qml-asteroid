@@ -104,10 +104,12 @@ class SGFlatMeshMaterialShader : public QSGMaterialShader
 public:
     SGFlatMeshMaterialShader() {}
     const char *vertexShader() const override {
-        return versionedShaderCode(vertexShaderSource);
+        static QByteArray source = versionedShaderCode(vertexShaderSource);
+        return source.constData();
     }
     const char *fragmentShader() const override {
-        return versionedShaderCode(fragmentShaderSource);
+        static QByteArray source = versionedShaderCode(fragmentShaderSource);
+        return source.constData();
     }
     void updateState(const RenderState &state, QSGMaterial *newEffect, QSGMaterial *oldEffect) override {
         // On every run, update the animation state uniforms
