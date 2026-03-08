@@ -33,39 +33,8 @@
 #include <QQuickItem>
 #include <QSGNode>
 #include <QColor>
-#include <QVariantAnimation>
-#include <QSGMaterial>
+#include <QTimer>
 
-// This is the scene graph material used by FlatMesh. It just creates the Shader object and holds values for some of the uniforms
-class SGFlatMeshMaterial : public QSGMaterial
-{
-public:
-    // Start the animation at a random point. Disable SceneGraph optimizations that assume our vertex coordinates to be in pixels
-    SGFlatMeshMaterial() : m_loopNb(random()) { setFlag(QSGMaterial::RequiresFullMatrix); }
-    int compare(const QSGMaterial *other) const override { return 0; }
-    void setScreenScaleFactor(float screenScaleFactor) { m_screenScaleFactor = screenScaleFactor; }
-    float screenScaleFactor() { return m_screenScaleFactor; }
-    void setShiftMix(float shiftMix) { m_shiftMix = shiftMix; }
-    float shiftMix() { return m_shiftMix; }
-    void setSize(float width, float height) { m_width = width; m_height = height; }
-    float width() { return m_width; }
-    float height() { return m_height; }
-    void incrementLoopNb() { m_loopNb++; }
-    int loopNb() { return m_loopNb; }
-protected:
-    QSGMaterialType *type() const override { static QSGMaterialType type; return &type; }
-    QSGMaterialShader *createShader() const override;
-private:
-    float m_screenScaleFactor;
-    float m_shiftMix;
-    float m_width;
-    float m_height;
-    int m_loopNb;
-};
-
-struct FlatMeshVertex;
-
-// The QtQuick item per-se, this is the highest level construct that exposes properties to QML
 class FlatMesh : public QQuickItem
 {
     Q_OBJECT
@@ -79,10 +48,6 @@ public:
     bool getAnimated() const { return m_animated; }
     void setAnimated(bool animated);
 
-    // As an optimization for color animations, make it possible to change the two colors
-    // on one call. Then, updateColors() will only run once saving some CPU cycles
-    Q_INVOKABLE void setColors(QColor center, QColor outer);
-
     QColor getCenterColor() const { return m_centerColor; }
     void setCenterColor(QColor c);
 
@@ -94,25 +59,14 @@ signals:
 
 protected:
     QSGNode *updatePaintNode(QSGNode *node, UpdatePaintNodeData *data);
-    void geometryChanged(const QRectF &newGeometry, const QRectF &oldGeometry) override;
 
 private slots:
     void maybeEnableAnimation();
-    void updateColors();
 
 private:
     QColor m_centerColor, m_outerColor;
     bool m_animated;
-    QVariantAnimation m_animation;
-    // Note: the Qt documentation says "It is crucial that [...] interaction with the scene
-    // graph happens exclusively on the render thread, primarily during the updatePaintNode()
-    // call. The rule of thumb is to only use classes with the "QSG" prefix inside the
-    // QQuickItem::updatePaintNode() function."
-    // However, no hell broke loose for instantiating these in the FlatMesh constructor so...
-    // It doesn't look like we're doing anything nasty here but let's keep an eye on it.
-    SGFlatMeshMaterial m_material;
-    QSGGeometry m_geometry;
-    bool m_geometryDirty;
+    QTimer m_timer;
 };
 
 #endif // FLATMESH_H
