@@ -27,46 +27,54 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLATMESH_H
-#define FLATMESH_H
+#ifndef FLATMESHNODE_H
+#define FLATMESHNODE_H
 
-#include <QQuickItem>
-#include <QSGNode>
-#include <QColor>
-#include <QTimer>
+#include <QObject>
+#include <QQuickWindow>
+#include <QSGSimpleRectNode>
 
-class FlatMesh : public QQuickItem
-{
-    Q_OBJECT
-    Q_PROPERTY(QColor centerColor WRITE setCenterColor READ getCenterColor)
-    Q_PROPERTY(QColor outerColor WRITE setOuterColor READ getOuterColor)
-    Q_PROPERTY(bool animated WRITE setAnimated READ getAnimated NOTIFY animatedChanged)
+#define NUM_POINTS_X 13
+#define NUM_POINTS_Y 13
 
-public:
-    FlatMesh(QQuickItem *parent = 0);
+struct Point {
+    qreal centerX;
+    qreal centerY;
 
-    bool getAnimated() const { return m_animated; }
-    void setAnimated(bool animated);
+    qreal animOriginX;
+    qreal animOriginY;
 
-    QColor getCenterColor() const { return m_centerColor; }
-    void setCenterColor(QColor c);
+    qreal animEndX;
+    qreal animEndY;
 
-    QColor getOuterColor() const { return m_outerColor; }
-    void setOuterColor(QColor c);
-
-signals:
-    void animatedChanged();
-
-protected:
-    QSGNode *updatePaintNode(QSGNode *node, UpdatePaintNodeData *data);
-
-private slots:
-    void maybeEnableAnimation();
-
-private:
-    QColor m_centerColor, m_outerColor;
-    bool m_animated;
-    QTimer m_timer;
+    QSGGeometry::Point2D currentPos;
 };
 
-#endif // FLATMESH_H
+class FlatMeshNode : public QObject, public QSGSimpleRectNode
+{
+    Q_OBJECT
+public:
+    FlatMeshNode(QQuickWindow *window, QRectF rect);
+    void setAnimated(bool animated);
+
+    void setCenterColor(QColor c);
+    void setOuterColor(QColor c);
+
+public slots:
+    void maybeAnimate();
+    void generateGrid();
+
+private:
+    void updateColors();
+
+    qreal m_animationState;
+    bool m_animated;
+    int m_unitWidth, m_unitHeight;
+    QColor m_centerColor, m_outerColor;
+    QQuickWindow *m_window;
+    Point m_points[NUM_POINTS_X*NUM_POINTS_Y];
+};
+
+
+#endif // FLATMESHNODE_H
+
