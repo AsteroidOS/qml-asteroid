@@ -30,48 +30,57 @@
 #include <QOpenGLShaderProgram>
 #include <QOpenGLFunctions>
 #include <QSettings>
+#include <QVector>
 
 #include "flatmesh.h"
 #include "flatmeshgeometry.h"
 
 // Our Adreno drivers fail to load shaders that are too long so we have to be concise and skip
 // every unnecessary character such as spaces, \n, etc... This is effectively one long line!
-static const char *vertexShaderSource =
-    // Qt dynamically injects an "attribute" before main. With GLES3, this should be "in"
-    "#define attribute in\n"
+//
+// GLES 2.0 (GLSL ES 1.00) lacks: in/out qualifiers, flat, and the % operator for integers.
+// versionedShaderCode() injects "#define GLES2" for GLES 2.0 contexts so the #ifdef
+// blocks below select the right syntax at compile time.
 
-    // Attributes are per-vertex information, they give base coordinates and colors
+static const char *vertexShaderSource =
+    // GLES2: attribute/varying; GLES3+: in/out with flat shading
+    // imod() abstracts the missing % operator in GLSL ES 1.00
+    "#ifdef GLES2\n"
+    "attribute vec4 coord;"
+    "attribute vec4 color;"
+    "varying vec4 fragColor;"
+    "int imod(int a,int b){return a-(a/b)*b;}"
+    "\n#else\n"
+    // Qt may inject "attribute" qualifiers; redirect them to "in" for GLES3+
+    "#define attribute in\n"
     "in vec4 coord;"
     "in vec4 color;"
+    "flat out vec4 fragColor;"
+    "int imod(int a,int b){return a%b;}"
+    "\n#endif\n"
 
-    // Uniforms are FlatMesh-wide, they give scaling information, the animation state or shifts
     "uniform mat4 matrix;"
     "uniform float shiftMix;"
     "uniform int loopNb;"
     "uniform vec2 shifts[" FLATMESH_SHIFTS_NB_STR "];"
 
-    // This is the color vector outputted here and forwarded to the fragment shaders
-    // The flat keyword enables flat shading (no interpolation between the vertices of a triangle)
-    "flat out vec4 fragColor;"
-
-    "void main()"
-    "{"
+    "void main(){"
          // Two vertices can have the same coordinate (if they give different colors to 2 triangles)
          // However, they need to move in sync, so we hash their coordinates as an index for shifts
-        "int xHash = int(coord.x * 100.0);"
-        "int yHash = int(coord.y * 100.0);"
-        "int shiftIndex = loopNb+xHash+yHash;"
+        "int xHash=int(coord.x*100.0);"
+        "int yHash=int(coord.y*100.0);"
+        "int shiftIndex=loopNb+xHash+yHash;"
 
          // Interpolate between (coord + shiftA) and (coord + shiftB) in the [-0.5, 0.5] domain
-        "vec2 pos = coord.xy + mix(shifts[(shiftIndex)%"   FLATMESH_SHIFTS_NB_STR "],"
-                                  "shifts[(shiftIndex+1)%" FLATMESH_SHIFTS_NB_STR "],"
-                                  "shiftMix);"
+        "vec2 pos=coord.xy+mix(shifts[imod(shiftIndex,"   FLATMESH_SHIFTS_NB_STR ")],"
+                              "shifts[imod(shiftIndex+1," FLATMESH_SHIFTS_NB_STR ")],"
+                              "shiftMix);"
 
         // Apply scene graph transformations (FlatMesh position and size) to get the final coords
-        "gl_Position = matrix * vec4(pos, 0, 1);"
+        "gl_Position=matrix*vec4(pos,0,1);"
 
         // Forward the color in the vertex attribute to the fragment shaders
-        "fragColor = color;"
+        "fragColor=color;"
     "}";
 
 static const char *fragmentShaderSource =
@@ -79,20 +88,29 @@ static const char *fragmentShaderSource =
     "precision mediump float;"
     "\n#endif\n"
 
-    // The flat keyword disables interpolation in triangles
-    // Each pixel gets the color of the last vertex of the triangle it belongs to
+    // GLES2: varying + gl_FragColor; GLES3+: flat in + explicit out
+    "#ifdef GLES2\n"
+    "varying vec4 fragColor;"
+    "void main(){gl_FragColor=fragColor;}"
+    "\n#else\n"
+    // flat disables interpolation: each pixel gets the color of the provoking vertex
     "flat in vec4 fragColor;"
     "out vec4 color;"
+    "void main(){color=fragColor;}"
+    "\n#endif";
 
-    // Just keep the provided color
-    "void main()"
-    "{"
-        "color = fragColor;"
-    "}";
+static bool isGLES2()
+{
+    QOpenGLContext *ctx = QOpenGLContext::currentContext();
+    return ctx->isOpenGLES() && ctx->format().majorVersion() < 3;
+}
 
 static QByteArray versionedShaderCode(const char *src)
 {
-    return (QOpenGLContext::currentContext()->isOpenGLES()
+    QOpenGLContext *ctx = QOpenGLContext::currentContext();
+    if (ctx->isOpenGLES() && ctx->format().majorVersion() < 3)
+        return QByteArrayLiteral("#version 100\n#define GLES2\n") + src;
+    return (ctx->isOpenGLES()
             ? QByteArrayLiteral("#version 300 es\n")
             : QByteArrayLiteral("#version 330\n"))
               + src;
@@ -125,8 +143,11 @@ public:
             combinedMatrix.scale(material->screenScaleFactor());
             program()->setUniformValue(m_matrix_id, combinedMatrix);
         }
-        // Enable a mode such that 0xFF indices mean "restart a strip"
-        m_glFuncs->glEnable(GL_PRIMITIVE_RESTART_FIXED_INDEX);
+        // Enable a mode such that 0xFFFF indices mean "restart a strip"
+        // on GLES 2.0 this the 0xFFFF restart markers in the index buffer will be
+        // result in visual corruption.
+        if (!isGLES2())
+            m_glFuncs->glEnable(GL_PRIMITIVE_RESTART_FIXED_INDEX);
     }
     char const *const *attributeNames() const override {
         // Map attribute numbers to attribute names in the vertex shader
@@ -134,7 +155,8 @@ public:
         return attr;
     }
     void deactivate() override {
-        m_glFuncs->glDisable(GL_PRIMITIVE_RESTART_FIXED_INDEX);
+        if (!isGLES2())
+            m_glFuncs->glDisable(GL_PRIMITIVE_RESTART_FIXED_INDEX);
     }
 private:
     void initialize() override {
@@ -158,7 +180,7 @@ QSGMaterialShader *SGFlatMeshMaterial::createShader() const
     return new SGFlatMeshMaterialShader;
 }
 
-FlatMesh::FlatMesh(QQuickItem *parent) : QQuickItem(parent), m_geometry(QSGGeometry::defaultAttributes_ColoredPoint2D(), flatmesh_vertices_sz, flatmesh_indices_sz)
+FlatMesh::FlatMesh(QQuickItem *parent) : QQuickItem(parent), m_geometry(QSGGeometry::defaultAttributes_ColoredPoint2D(), flatmesh_vertices_sz, flatmesh_indices_sz), m_geometryInitialized(false)
 {
     // Don't overflow the item dimensions
     setClip(true);
@@ -270,6 +292,42 @@ void FlatMesh::geometryChanged(const QRectF &newGeometry, const QRectF &oldGeome
 // Called by the SceneGraph on every update()
 QSGNode *FlatMesh::updatePaintNode(QSGNode *old, UpdatePaintNodeData *)
 {
+    // On the very first render, a GL context is active. On GLES2, the index buffer
+    // contains 0xFFFF primitive-restart markers which GLES2 doesn't understand —
+    // it would treat them as vertex index 65535 (way out of bounds), causing a GPU fault.
+    // Expand the triangle strips to plain GL_TRIANGLES instead.
+    if (!m_geometryInitialized) {
+        m_geometryInitialized = true;
+        if (isGLES2()) {
+            QVector<unsigned short> triIdx;
+            int i = 0;
+            while (i < flatmesh_indices_sz) {
+                int start = i;
+                while (i < flatmesh_indices_sz && flatmesh_indices[i] != 0xFFFF)
+                    ++i;
+                int len = i - start;
+                ++i; // skip the 0xFFFF restart marker
+                // GL_TRIANGLE_STRIP alternates winding on odd triangles; match that in GL_TRIANGLES
+                for (int j = 0; j < len - 2; ++j) {
+                    if (j % 2 == 0)
+                        triIdx << flatmesh_indices[start+j] << flatmesh_indices[start+j+1] << flatmesh_indices[start+j+2];
+                    else
+                        triIdx << flatmesh_indices[start+j+1] << flatmesh_indices[start+j] << flatmesh_indices[start+j+2];
+                }
+            }
+            m_geometry.allocate(flatmesh_vertices_sz, triIdx.size());
+            m_geometry.setDrawingMode(QSGGeometry::DrawTriangles);
+            // allocate() resets the buffer, so re-initialize vertices and colors
+            QSGGeometry::ColoredPoint2D *verts = m_geometry.vertexDataAsColoredPoint2D();
+            for (int j = 0; j < flatmesh_vertices_sz; ++j) {
+                verts[j].x = flatmesh_vertices[j].x();
+                verts[j].y = flatmesh_vertices[j].y();
+            }
+            memcpy(m_geometry.indexData(), triIdx.constData(), triIdx.size() * sizeof(unsigned short));
+            updateColors(); // re-applies vertex color attributes after re-allocation
+        }
+    }
+
     // On the first update(), create a scene graph node for the mesh
     QSGGeometryNode *n = static_cast<QSGGeometryNode *>(old);
     if (!n) {

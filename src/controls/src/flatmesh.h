@@ -113,6 +113,7 @@ private:
     SGFlatMeshMaterial m_material;
     QSGGeometry m_geometry;
     bool m_geometryDirty;
+    bool m_geometryInitialized;
 };
 
 #endif // FLATMESH_H
