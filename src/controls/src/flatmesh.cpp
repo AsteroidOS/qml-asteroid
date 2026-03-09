@@ -30,6 +30,7 @@
 #include <QOpenGLShaderProgram>
 #include <QOpenGLFunctions>
 #include <QSettings>
+#include <QVector>
 
 #include "flatmesh.h"
 #include "flatmeshgeometry.h"
@@ -179,7 +180,7 @@ QSGMaterialShader *SGFlatMeshMaterial::createShader() const
     return new SGFlatMeshMaterialShader;
 }
 
-FlatMesh::FlatMesh(QQuickItem *parent) : QQuickItem(parent), m_geometry(QSGGeometry::defaultAttributes_ColoredPoint2D(), flatmesh_vertices_sz, flatmesh_indices_sz)
+FlatMesh::FlatMesh(QQuickItem *parent) : QQuickItem(parent), m_geometry(QSGGeometry::defaultAttributes_ColoredPoint2D(), flatmesh_vertices_sz, flatmesh_indices_sz), m_geometryInitialized(false)
 {
     // Don't overflow the item dimensions
     setClip(true);
@@ -291,6 +292,42 @@ void FlatMesh::geometryChanged(const QRectF &newGeometry, const QRectF &oldGeome
 // Called by the SceneGraph on every update()
 QSGNode *FlatMesh::updatePaintNode(QSGNode *old, UpdatePaintNodeData *)
 {
+    // On the very first render, a GL context is active. On GLES2, the index buffer
+    // contains 0xFFFF primitive-restart markers which GLES2 doesn't understand —
+    // it would treat them as vertex index 65535 (way out of bounds), causing a GPU fault.
+    // Expand the triangle strips to plain GL_TRIANGLES instead.
+    if (!m_geometryInitialized) {
+        m_geometryInitialized = true;
+        if (isGLES2()) {
+            QVector<unsigned short> triIdx;
+            int i = 0;
+            while (i < flatmesh_indices_sz) {
+                int start = i;
+                while (i < flatmesh_indices_sz && flatmesh_indices[i] != 0xFFFF)
+                    ++i;
+                int len = i - start;
+                ++i; // skip the 0xFFFF restart marker
+                // GL_TRIANGLE_STRIP alternates winding on odd triangles; match that in GL_TRIANGLES
+                for (int j = 0; j < len - 2; ++j) {
+                    if (j % 2 == 0)
+                        triIdx << flatmesh_indices[start+j] << flatmesh_indices[start+j+1] << flatmesh_indices[start+j+2];
+                    else
+                        triIdx << flatmesh_indices[start+j+1] << flatmesh_indices[start+j] << flatmesh_indices[start+j+2];
+                }
+            }
+            m_geometry.allocate(flatmesh_vertices_sz, triIdx.size());
+            m_geometry.setDrawingMode(QSGGeometry::DrawTriangles);
+            // allocate() resets the buffer, so re-initialize vertices and colors
+            QSGGeometry::ColoredPoint2D *verts = m_geometry.vertexDataAsColoredPoint2D();
+            for (int j = 0; j < flatmesh_vertices_sz; ++j) {
+                verts[j].x = flatmesh_vertices[j].x();
+                verts[j].y = flatmesh_vertices[j].y();
+            }
+            memcpy(m_geometry.indexData(), triIdx.constData(), triIdx.size() * sizeof(unsigned short));
+            updateColors(); // re-applies vertex color attributes after re-allocation
+        }
+    }
+
     // On the first update(), create a scene graph node for the mesh
     QSGGeometryNode *n = static_cast<QSGGeometryNode *>(old);
     if (!n) {
