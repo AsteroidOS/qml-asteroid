@@ -1,5 +1,6 @@
 /*
- * Copyright (C) 2017 Florent Revest <revestflo@gmail.com>
+ * Copyright (C) 2026 Timo Könnecke <github.com/moWerk>
+ *               2017 Florent Revest <revestflo@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as
@@ -25,9 +26,14 @@ import org.asteroid.controls 1.0
     \brief Display text that may be longer than the available space.
 
     The \l Marquee control shows as much as possible of the string
-    initially, then animates it moving to the left until it gets to
-    the end of the string.  It then resets to the beginning of the
-    string and repeats infinitely.
+    initially, then animates it scrolling left until the end of the
+    string is visible, pauses briefly, then scrolls back to the start
+    and repeats.
+
+    Scrolling only runs when the text is wider than the available width.
+    When text fits no animation runs. The \l paused property allows
+    callers to suppress scrolling entirely, for example when the
+    containing page is not visible.
 
     Here is a short example:
 
@@ -55,6 +61,8 @@ Item {
     property alias font: animatedText.font
     /*! the text color */
     property alias color: animatedText.color
+    /*! suspend scrolling, e.g. when the containing page is not visible */
+    property bool paused: false
 
     function originX() {
         var ret = container.width-animatedText.width
@@ -70,13 +78,21 @@ Item {
 
     function restartAnimation() {
         animation.stop()
-        animation1.from = originX()
-        animation1.to = originX()
-        animation2.to = destinationX()
-        animation.start()
+        if(paused || animatedText.width <= container.width) return
+            var scrollDuration = animatedText.width/Dims.w(0.08)
+            animHold.from = originX()
+            animHold.to = originX()
+            animForward.to = destinationX()
+            animForward.duration = scrollDuration
+            animHoldEnd.from = destinationX()
+            animHoldEnd.to = destinationX()
+            animBack.to = originX()
+            animBack.duration = scrollDuration
+            animation.start()
     }
 
     onWidthChanged: restartAnimation()
+    onPausedChanged: restartAnimation()
 
     Label {
         id: animatedText
@@ -90,25 +106,31 @@ Item {
         loops: Animation.Infinite
 
         NumberAnimation {
-            id: animation1
+            id: animHold
             target: animatedText
             property: "x"
             duration: 2000
         }
 
         NumberAnimation {
-            id: animation2
+            id: animForward
             target: animatedText
             property: "x"
-            duration: (animatedText.width)/Dims.w(0.08)
             easing.type: Easing.InOutQuad
         }
 
         NumberAnimation {
+            id: animHoldEnd
             target: animatedText
             property: "x"
-            duration: 2000
+            duration: 400
+        }
+
+        NumberAnimation {
+            id: animBack
+            target: animatedText
+            property: "x"
+            easing.type: Easing.InOutQuad
         }
     }
 }
-
