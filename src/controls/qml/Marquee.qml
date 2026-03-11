@@ -96,9 +96,11 @@ Item {
     onWidthChanged: restartAnimation()
     onPausedChanged: restartAnimation()
     onSpeedChanged: restartAnimation()
+    implicitHeight: animatedText.contentHeight
 
     Label {
         id: animatedText
+        y: Math.round((container.height - contentHeight) / 2)
         width: contentWidth
         onWidthChanged: restartAnimation()
         elide: Text.ElideNone
