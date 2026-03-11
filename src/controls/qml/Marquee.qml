@@ -63,6 +63,8 @@ Item {
     property alias color: animatedText.color
     /*! suspend scrolling, e.g. when the containing page is not visible */
     property bool paused: false
+    /*! relative speed for forward or backward motion */
+    property real speed: 1.0
 
     function originX() {
         var ret = container.width-animatedText.width
@@ -79,7 +81,7 @@ Item {
     function restartAnimation() {
         animation.stop()
         if(paused || animatedText.width <= container.width) return
-            var scrollDuration = 1000 * animatedText.width / (container.width > 0 ? container.width : 1)
+            var scrollDuration = 1000 * animatedText.width / (speed * (container.width > 0 ? container.width : 1))
             animHold.from = originX()
             animHold.to = originX()
             animForward.to = destinationX()
@@ -93,6 +95,7 @@ Item {
 
     onWidthChanged: restartAnimation()
     onPausedChanged: restartAnimation()
+    onSpeedChanged: restartAnimation()
 
     Label {
         id: animatedText
