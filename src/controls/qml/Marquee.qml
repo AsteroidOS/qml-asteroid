@@ -79,7 +79,7 @@ Item {
     function restartAnimation() {
         animation.stop()
         if(paused || animatedText.width <= container.width) return
-            var scrollDuration = animatedText.width/Dims.w(0.08)
+            var scrollDuration = 1000 * animatedText.width / (container.width > 0 ? container.width : 1)
             animHold.from = originX()
             animHold.to = originX()
             animForward.to = destinationX()
