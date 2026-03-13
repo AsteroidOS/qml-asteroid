@@ -20,6 +20,7 @@
         <file>qml/PageHeader.qml</file>
         <file>qml/Particle.qml</file>
         <file>qml/RemorseTimer.qml</file>
+        <file>qml/RowSeparator.qml</file>
         <file>qml/SegmentedArc.qml</file>
         <file>qml/Spinner.qml</file>
         <file>qml/SpinnerDelegate.qml</file>

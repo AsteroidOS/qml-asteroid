@@ -32,6 +32,7 @@ set(controls
         PageHeader
         Particle
         RemorseTimer
+        RowSeparator
         SegmentedArc
         Spinner
         SpinnerDelegate
