@@ -22,6 +22,7 @@ PageDot 1.0 qrc:///org/asteroid/controls/qml/PageDot.qml
 PageHeader 1.0 qrc:///org/asteroid/controls/qml/PageHeader.qml
 Particle 1.0 qrc:///org/asteroid/controls/qml/Particle.qml
 RemorseTimer 1.0 qrc:///org/asteroid/controls/qml/RemorseTimer.qml
+RowSeparator 1.0 qrc:///org/asteroid/controls/qml/RowSeparator.qml
 SegmentedArc 1.0 qrc:///org/asteroid/controls/qml/SegmentedArc.qml
 Spinner 1.0 qrc:///org/asteroid/controls/qml/Spinner.qml
 SpinnerDelegate 1.0 qrc:///org/asteroid/controls/qml/SpinnerDelegate.qml
