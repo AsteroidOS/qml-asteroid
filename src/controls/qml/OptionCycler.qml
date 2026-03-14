@@ -78,11 +78,17 @@ Item {
     */
     signal valueChanged(string value)
 
-    /*! Left and right margin for the label content */
-    property int labelMargin: Dims.w(15)
+    /*! Left and right margin for the row content — matches LabeledSwitch rowMargin */
+    property int rowMargin: Dims.w(15)
 
-    /*! Size of the label text */
+    /*! Size of the phantom switch placeholder — matches LabeledSwitch iconSize */
+    property int iconSize: Dims.l(20)
+
+    /*! Size of the title label text */
     property int labelFontSize: Dims.l(6)
+
+    /*! Size of the value label text — one step larger to distinguish from title */
+    property int valueFontSize: Dims.l(7)
 
     /*! Default width is parent width */
     width: parent.width
@@ -97,32 +103,45 @@ Item {
         }
     }
 
+    Item {
+        id: phantomSwitch
+        anchors {
+            right: parent.right
+            rightMargin: rowMargin
+            verticalCenter: parent.verticalCenter
+        }
+        width: iconSize
+        height: iconSize
+    }
+
     Label {
         id: titleLabel
         anchors {
-            top: parent.top
             left: parent.left
-            leftMargin: labelMargin
+            leftMargin: rowMargin
+            right: phantomSwitch.left
+            rightMargin: Dims.h(6)
+            verticalCenter: parent.verticalCenter
         }
         font.pixelSize: labelFontSize
-        verticalAlignment: Text.AlignTop
         horizontalAlignment: Text.AlignLeft
         wrapMode: Text.Wrap
-        height: parent.height / 2
     }
 
     Label {
         id: valueLabel
         anchors {
-            top: titleLabel.bottom
-            horizontalCenter: parent.horizontalCenter
+            horizontalCenter: phantomSwitch.horizontalCenter
+            verticalCenter: phantomSwitch.verticalCenter
         }
         text: currentValue
-        font.pixelSize: labelFontSize
-        verticalAlignment: Text.AlignTop
-        horizontalAlignment: Text.AlignRight
+        font {
+            pixelSize: valueFontSize
+            family: "Noto Sans SemiCondensed"
+            bold: true
+        }
+        horizontalAlignment: Text.AlignHCenter
         wrapMode: Text.Wrap
-        height: parent.height / 2
     }
 
     HighlightBar {
