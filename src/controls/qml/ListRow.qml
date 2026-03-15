@@ -73,9 +73,9 @@ Item {
     /*!
         \qmlproperty Component ListRow::actionComponent
         The component to instantiate in the right-side action area.
-        The Loader is \l iconSize + Dims.l(12) wide and \l iconSize tall, providing
-        Dims.l(6) padding on each side around centered content. The Loader resizes
-        its instantiated root item to fill itself, so action components must wrap
+        The Loader is \l iconSize + 2 * \l actionSlotPadding wide and \l iconSize tall,
+        providing \l actionSlotPadding on each side around centered content. The Loader
+        resizes its instantiated root item to fill itself, so action components must wrap
         their widget in an Item and size it explicitly using \l iconSize.
     */
     property Component actionComponent: null
@@ -87,6 +87,17 @@ Item {
         via the internal \c labelContainer.
     */
     readonly property alias actionArea: actionLoader
+
+    /*!
+        \qmlproperty bool ListRow::highlightBarEnabled*
+        Set to false to disable the HighlightBar, allowing child items to receive
+        taps directly. Defaults to true. Set to false for components such as
+        \l IntSelector that manage multiple independent tap targets.
+    */
+    property bool highlightBarEnabled: true
+
+    /*! Padding on each side of the action icon within the action slot, too enable placement of items wider than \l iconSize */
+    property int actionSlotPadding: Dims.l(6)
 
     /*! Left and right margin for the row content */
     property int rowMargin: Dims.w(15)
@@ -129,15 +140,16 @@ Item {
         id: actionLoader
         anchors {
             right: parent.right
-            rightMargin: rowMargin - Dims.l(6)
+            rightMargin: rowMargin - actionSlotPadding
             verticalCenter: parent.verticalCenter
         }
-        width: iconSize + Dims.l(12)
+        width: iconSize + 2 * actionSlotPadding
         height: iconSize
         sourceComponent: actionComponent
     }
 
     HighlightBar {
+        enabled: highlightBarEnabled
         onClicked: parent.clicked()
     }
 }
