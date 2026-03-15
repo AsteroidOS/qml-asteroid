@@ -26,6 +26,7 @@ set(controls
         LabeledSwitch
         LayerStack
         ListItem
+        ListRow
         Marquee
         OptionCycler
         PageDot
