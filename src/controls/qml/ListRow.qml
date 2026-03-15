@@ -140,10 +140,10 @@ Item {
         id: actionLoader
         anchors {
             right: parent.right
-            rightMargin: rowMargin - actionSlotPadding
+            rightMargin: actionComponent ? rowMargin - actionSlotPadding : 0
             verticalCenter: parent.verticalCenter
         }
-        width: iconSize + 2 * actionSlotPadding
+        width: actionComponent ? iconSize + 2 * actionSlotPadding : 0
         height: iconSize
         sourceComponent: actionComponent
     }
