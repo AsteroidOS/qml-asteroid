@@ -14,6 +14,7 @@
         <file>qml/LabeledSwitch.qml</file>
         <file>qml/LayerStack.qml</file>
         <file>qml/ListItem.qml</file>
+        <file>qml/ListRow.qml</file>
         <file>qml/Marquee.qml</file>
         <file>qml/OptionCycler.qml</file>
         <file>qml/PageDot.qml</file>
