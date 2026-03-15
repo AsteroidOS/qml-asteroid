@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 - Timo Könnecke <github.com/eLtMosen>
+ * Copyright (C) 2026 - Timo Könnecke <github.com/moWerk>
  * Copyright (C) 2022 - Ed Beroset <github.com/beroset>
  * Copyright (C) 2020 - Darrel Griët <idanlcontact@gmail.com>
  * Copyright (C) 2015 - Florent Revest <revestflo@gmail.com>
@@ -34,7 +34,7 @@ import org.asteroid.controls 1.0
     Here is a short example:
 
     \qml
-    import QtQuick 2.0
+    import QtQuick 2.9
     import org.asteroid.controls 1.0
 
     Item {
@@ -46,59 +46,50 @@ import org.asteroid.controls 1.0
     }
     \endqml
 */
-Item {
-    /*! alias to receive string icon.name */
-    property alias icon: icon.name
-    /*! alias to receive string label.text */
+ListRow {
+    /*!
+     \qmlproperty string LabeledActionButton::icon
+     The icon name to display on the right side of the row.
+     */
+    property string icon: ""
+
+    /*!
+     \qmlproperty string LabeledActionButton::text
+     The descriptive label text displayed on the left side of the row.
+     */
     property alias text: label.text
-    /*! left and right margin for the row content */
-    property int rowMargin: Dims.w(15)
-    /*! size of the icon/s */
-    property int iconSize: Dims.l(20)
-    /*! size of the label text */
-    property int labelFontSize: Dims.l(6)
-    /*! forward the clicked() signal to parent */
-    signal clicked()
 
-    width: parent.width
-    height: parent.height
-
-    Behavior on opacity {
-        NumberAnimation {
-            duration: 200;
-            easing.type: Easing.OutQuad
+    Connections {
+        target: actionArea
+        onStatusChanged: {
+            if (actionArea.status === Loader.Ready)
+                actionArea.item.name = Qt.binding(function() { return icon })
         }
     }
 
-    HighlightBar {
-        onClicked: parent.clicked()
+    actionComponent: Item {
+        property string name: ""
+        onNameChanged: icon.name = name
+
+        Icon {
+            id: icon
+            anchors.centerIn: parent
+            width: iconSize
+            height: iconSize
+        }
     }
 
     Label {
         id: label
-
         anchors {
             left: parent.left
             leftMargin: rowMargin
-            right: icon.left
-            rightMargin: Dims.h(4)
+            right: parent.right
+            verticalCenter: parent.verticalCenter
         }
-        text: value
         font.pixelSize: labelFontSize
         verticalAlignment: Text.AlignVCenter
         wrapMode: Text.Wrap
         height: parent.height
-    }
-
-    Icon {
-        id: icon
-
-        anchors {
-            right: parent.right
-            rightMargin: rowMargin
-            verticalCenter: parent.verticalCenter
-        }
-        height: iconSize
-        width: height
     }
 }
