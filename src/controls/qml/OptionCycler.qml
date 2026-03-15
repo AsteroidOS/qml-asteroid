@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Timo Könnecke <github.com/eLtMosen>
+ * Copyright (C) 2026 Timo Könnecke <github.com/moWerk>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 import QtQuick 2.9
 import org.asteroid.controls 1.0
 
@@ -24,11 +23,9 @@ import org.asteroid.controls 1.0
 
     \brief A component that displays and cycles through a list of configuration values.
 
-    This component displays a title label and a value label showing the current value from a provided array of configuration options.
-    Clicking the component cycles to the next value in the array, looping back to the first value when the end is reached.
-    It is designed to work with configuration settings, updating a specified configuration object when the value changes.
-
-    This example shows a centered \l OptionCycler that cycles through a list of design options, updating a configuration object.
+    This component displays a title label and a value label showing the current value
+    from a provided array of configuration options. Clicking the component cycles to
+    the next value in the array, looping back to the first value when the end is reached.
 
     \qml
     import QtQuick 2.9
@@ -39,29 +36,25 @@ import org.asteroid.controls 1.0
         property var designOptions: ["diamonds", "bubbles", "logos", "flashes"]
 
         OptionCycler {
-            anchors.centerIn: parent
-            width: Dims.l(80)
+            width: parent.width
             height: Dims.l(20)
             title: "Tap to cycle designs"
             valueArray: designOptions
             currentValue: designOptions[0]
-            onValueChanged: {
-                currentValue = value
-            }
+            onValueChanged: currentValue = value
         }
     }
     \endqml
 */
-
-Item {
+ListRow {
     /*!
         \qmlproperty string OptionCycler::title
-        The title text to display above the current value.
+        The title text to display on the left side.
     */
     property alias title: titleLabel.text
 
     /*!
-        \qmlproperty array OptionCycler::valueArray
+        \qmlproperty var OptionCycler::valueArray
         The array of values to cycle through.
     */
     property var valueArray
@@ -78,40 +71,17 @@ Item {
     */
     signal valueChanged(string value)
 
-    /*! Left and right margin for the row content — matches LabeledSwitch rowMargin */
-    property int rowMargin: Dims.w(15)
-
-    /*! Size of the phantom switch placeholder — matches LabeledSwitch iconSize */
-    property int iconSize: Dims.l(20)
-
-    /*! Size of the title label text */
-    property int labelFontSize: Dims.l(6)
-
-    /*! Size of the value label text — one step larger to distinguish from title */
+    /*!
+        \qmlproperty int OptionCycler::valueFontSize
+        Size of the value label text. One step larger than \l labelFontSize to
+        distinguish the operator value from the informational description.
+    */
     property int valueFontSize: Dims.l(7)
 
-    /*! Default width is parent width */
-    width: parent.width
-
-    /*! Default height is parent height */
-    height: parent.height
-
-    Behavior on opacity {
-        NumberAnimation {
-            duration: 200
-            easing.type: Easing.OutQuad
-        }
-    }
-
-    Item {
-        id: phantomSwitch
-        anchors {
-            right: parent.right
-            rightMargin: rowMargin
-            verticalCenter: parent.verticalCenter
-        }
-        width: iconSize
-        height: iconSize
+    onClicked: {
+        var currentIndex = valueArray.indexOf(currentValue)
+        var nextIndex = (currentIndex + 1) % valueArray.length
+        valueChanged(valueArray[nextIndex])
     }
 
     Label {
@@ -119,8 +89,7 @@ Item {
         anchors {
             left: parent.left
             leftMargin: rowMargin
-            right: phantomSwitch.left
-            rightMargin: Dims.h(6)
+            right: parent.right
             verticalCenter: parent.verticalCenter
         }
         font.pixelSize: labelFontSize
@@ -128,28 +97,29 @@ Item {
         wrapMode: Text.Wrap
     }
 
-    Label {
-        id: valueLabel
-        anchors {
-            horizontalCenter: phantomSwitch.horizontalCenter
-            verticalCenter: phantomSwitch.verticalCenter
+    Connections {
+        target: actionArea
+        onStatusChanged: {
+            if (actionArea.status === Loader.Ready)
+                actionArea.item.text = Qt.binding(function() { return currentValue })
         }
-        text: currentValue
-        font {
-            pixelSize: valueFontSize
-            family: "Noto Sans SemiCondensed"
-            bold: true
-        }
-        horizontalAlignment: Text.AlignHCenter
-        wrapMode: Text.Wrap
     }
 
-    HighlightBar {
-        onClicked: {
-            var currentIndex = valueArray.indexOf(currentValue)
-            var nextIndex = (currentIndex + 1) % valueArray.length
-            var newValue = valueArray[nextIndex]
-            valueChanged(newValue)
+    actionComponent: Item {
+        property alias text: valueLabel.text
+
+        Label {
+            id: valueLabel
+            anchors.centerIn: parent
+            width: parent.width
+            font {
+                pixelSize: valueFontSize
+                family: "Noto Sans SemiCondensed"
+                bold: true
+            }
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+            wrapMode: Text.Wrap
         }
     }
 }
