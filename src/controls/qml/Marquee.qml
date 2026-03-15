@@ -79,6 +79,7 @@ Item {
     }
 
     function restartAnimation() {
+        animation.start()
         animation.stop()
         if(paused || animatedText.width <= container.width) return
             var scrollDuration = 1000 * animatedText.width / (speed * (container.width > 0 ? container.width : 1))
@@ -103,6 +104,7 @@ Item {
         y: Math.round((container.height - contentHeight) / 2)
         width: contentWidth
         onWidthChanged: restartAnimation()
+        onTextChanged: restartAnimation()
         elide: Text.ElideNone
     }
 
