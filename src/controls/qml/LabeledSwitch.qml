@@ -1,8 +1,8 @@
 /*
- * Copyright (C) 2023 - Timo Könnecke <github.com/eLtMosen>
- * Copyright (C) 2022 - Ed Beroset <github.com/beroset>
- * Copyright (C) 2020 - Darrel Griët <idanlcontact@gmail.com>
- * Copyright (C) 2015 - Florent Revest <revestflo@gmail.com>
+ * Copyright (C) 2026 - Timo Könnecke  <github.com/moWerk>
+ *               2022 - Ed Beroset     <github.com/beroset>
+ *               2020 - Darrel Griët   <idanlcontact@gmail.com>
+ *               2015 - Florent Revest <revestflo@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,7 +17,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 import QtQuick 2.9
 import org.asteroid.controls 1.0
 
@@ -53,68 +52,59 @@ import org.asteroid.controls 1.0
             onCheckedChanged: {
                 if (checked) {
                     square.color = "green"
-                } else { 
+                } else {
                     square.color = "red"
                 }
             }
         }
     }
-
     \endqml
 */
-Item {
-    /*! alias to receive string toggle.checked */
-    property alias checked: toggle.checked
-    /*! alias to receive string label.text */
+ListRow {
+    /*!
+        \qmlproperty string LabeledSwitch::text
+        The descriptive label text displayed on the left side of the row.
+    */
     property alias text: label.text
-    /*! left and right margin for the row content */
-    property int rowMargin: Dims.w(15)
-    /*! size of the icon/s */
-    property int iconSize: Dims.l(20)
-    /*! size of the label text */
-    property int labelFontSize: Dims.l(6)
 
-    /*! default width is parent width */
-    width: parent.width
-    /*! default height is parent height */
-    height: parent.height
+    /*!
+        \qmlproperty bool LabeledSwitch::checked
+        The toggle state of the switch. Toggled by tapping anywhere in the row.
+    */
+    property bool checked: false
 
-    Behavior on opacity {
-        NumberAnimation {
-            duration: 200;
-            easing.type: Easing.OutQuad
+    onClicked: checked = !checked
+
+    Connections {
+        target: actionArea
+        onStatusChanged: {
+            if (actionArea.status === Loader.Ready)
+                actionArea.item.checked = Qt.binding(function() { return checked })
+        }
+    }
+
+    actionComponent: Item {
+        property alias checked: toggle.checked
+
+        Switch {
+            id: toggle
+            anchors.centerIn: parent
+            width: iconSize
+            height: iconSize
         }
     }
 
     Label {
         id: label
-
         anchors {
             left: parent.left
             leftMargin: rowMargin
-            right: toggle.left
-            rightMargin: Dims.h(4)
+            right: parent.right
+            verticalCenter: parent.verticalCenter
         }
-        text: value
         font.pixelSize: labelFontSize
         verticalAlignment: Text.AlignVCenter
         wrapMode: Text.Wrap
         height: parent.height
-    }
-
-    Switch {
-        id: toggle
-
-        anchors {
-            right: parent.right
-            rightMargin: rowMargin
-            verticalCenter: parent.verticalCenter
-        }
-        height: iconSize
-        width: height
-    }
-
-    HighlightBar {
-        onClicked: toggle.checked = !toggle.checked
     }
 }
