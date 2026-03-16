@@ -62,12 +62,6 @@ import org.asteroid.controls 1.0
 */
 ListRow {
     /*!
-        \qmlproperty string LabeledSwitch::text
-        The descriptive label text displayed on the left side of the row.
-    */
-    property alias text: label.text
-
-    /*!
         \qmlproperty bool LabeledSwitch::checked
         The toggle state of the switch. Toggled by tapping anywhere in the row.
     */
@@ -92,19 +86,5 @@ ListRow {
             width: iconSize
             height: iconSize
         }
-    }
-
-    Label {
-        id: label
-        anchors {
-            left: parent.left
-            leftMargin: rowMargin
-            right: parent.right
-            verticalCenter: parent.verticalCenter
-        }
-        font.pixelSize: labelFontSize
-        verticalAlignment: Text.AlignVCenter
-        wrapMode: Text.Wrap
-        height: parent.height
     }
 }
