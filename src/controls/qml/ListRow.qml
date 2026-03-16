@@ -96,6 +96,13 @@ Item {
     */
     property bool highlightBarEnabled: true
 
+    /*!
+     \qmlproperty string ListRow::text   *
+     The descriptive label text displayed on the left side of the row.
+     Leave unset and add child items via the default property for custom left-side content.
+    */
+    property alias text: labelContainer.text
+
     /*! Padding on each side of the action icon within the action slot, too enable placement of items wider than \l iconSize */
     property int actionSlotPadding: Dims.l(6)
 
@@ -126,14 +133,19 @@ Item {
         }
     }
 
-    Item {
+    Label {
         id: labelContainer
         anchors {
             left: parent.left
+            leftMargin: rowMargin
             right: actionLoader.left
             top: parent.top
             bottom: parent.bottom
         }
+        font.pixelSize: labelFontSize
+        verticalAlignment: Text.AlignVCenter
+        horizontalAlignment: Text.AlignLeft
+        wrapMode: Text.Wrap
     }
 
     Loader {

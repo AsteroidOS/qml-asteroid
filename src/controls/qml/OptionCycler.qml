@@ -38,7 +38,7 @@ import org.asteroid.controls 1.0
         OptionCycler {
             width: parent.width
             height: Dims.l(20)
-            title: "Tap to cycle designs"
+            text: "Tap to cycle designs"
             valueArray: designOptions
             currentValue: designOptions[0]
             onValueChanged: currentValue = value
@@ -47,12 +47,6 @@ import org.asteroid.controls 1.0
     \endqml
 */
 ListRow {
-    /*!
-        \qmlproperty string OptionCycler::title
-        The title text to display on the left side.
-    */
-    property alias title: titleLabel.text
-
     /*!
         \qmlproperty var OptionCycler::valueArray
         The array of values to cycle through.
@@ -82,19 +76,6 @@ ListRow {
         var currentIndex = valueArray.indexOf(currentValue)
         var nextIndex = (currentIndex + 1) % valueArray.length
         valueChanged(valueArray[nextIndex])
-    }
-
-    Label {
-        id: titleLabel
-        anchors {
-            left: parent.left
-            leftMargin: rowMargin
-            right: parent.right
-            verticalCenter: parent.verticalCenter
-        }
-        font.pixelSize: labelFontSize
-        horizontalAlignment: Text.AlignLeft
-        wrapMode: Text.Wrap
     }
 
     Connections {
