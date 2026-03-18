@@ -80,7 +80,7 @@ Rectangle {
     /*! the color of the separator line, defaults to low-opacity white */
     color: "#40ffffff"
     /*! the thickness of the separator, defaults to Dims.l(0.25) */
-    height: Dims.l(0.25)
+    height: Math.max(1, Dims.l(0.25))
     /*! anchor the separator to the bottom edge of the parent, useful
      *       inside list delegates. Defaults to false for use in Column
      *       and Flickable layouts. */
