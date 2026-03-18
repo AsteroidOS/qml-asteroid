@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.6.0)
+cmake_minimum_required(VERSION 3.27.0)
 
 project(qml-asteroid
 	VERSION 2.0.0
