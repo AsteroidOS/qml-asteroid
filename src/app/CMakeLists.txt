@@ -30,10 +30,6 @@ install(FILES ${HEADERS}
 	DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/asteroidapp
 	COMPONENT Devel)
 
-install(FILES asteroidapp.prf
-	DESTINATION ${CMAKE_INSTALL_LIBDIR}/mkspecs/features
-	COMPONENT Devel)
-
 ecm_generate_pkgconfig_file(
 	BASE_NAME asteroidapp
 	DEPS qdeclarative5-boostable
