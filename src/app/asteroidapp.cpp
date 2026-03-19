@@ -26,14 +26,14 @@
 
 #include "asteroidapp.h"
 
-#include <QQuickView>
-#include <QQmlEngine>
-#include <QGuiApplication>
-#include <QScreen>
+#include <MDeclarativeCache>
 #include <QFileInfo>
-#include <MDesktopEntry>
+#include <QGuiApplication>
+#include <QQmlEngine>
+#include <QQuickView>
+#include <QScreen>
+#include <QSettings>
 #include <QTranslator>
-#include <mdeclarativecache5/MDeclarativeCache>
 
 static QString applicationPath()
 {
@@ -79,10 +79,10 @@ namespace AsteroidApp {
     QQuickView *createView()
     {
         QQuickView *view = MDeclarativeCache::qQuickView();
-        MDesktopEntry entry("/usr/share/applications/" + appName() + ".desktop");
-        if (entry.isValid()) {
-            view->setTitle(entry.name());
-        }
+        QString path = "/usr/share/applications/" + appName() + ".desktop";
+        QSettings applicationSettings(path, QSettings::IniFormat);
+        auto applicationName = applicationSettings.value("Desktop Entry/Name");
+        view->setTitle(applicationName.toString());
 
         QObject::connect(view->engine(), &QQmlEngine::quit,
                          qApp, &QGuiApplication::quit);

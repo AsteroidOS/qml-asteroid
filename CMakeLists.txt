@@ -21,7 +21,6 @@ set(ASTEROID_MODULES_INSTALL_DIR ${CMAKE_INSTALL_DATADIR}/asteroidapp/cmake)
 
 find_package(Qt5 ${QT_MIN_VERSION} COMPONENTS DBus Qml Quick Svg REQUIRED)
 if (WITH_ASTEROIDAPP)
-    find_package(Mlite5 MODULE REQUIRED)
     find_package(Mapplauncherd_qt5 MODULE REQUIRED)
 endif()
 
