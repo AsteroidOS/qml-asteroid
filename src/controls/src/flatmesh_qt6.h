@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 Florent Revest <revestflo@gmail.com>
+ * Copyright (C) 2016 Florent Revest <revestflo@gmail.com>
  * All rights reserved.
  *
  * You may use this file under the terms of BSD license as follows:
@@ -27,49 +27,46 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef ICON_H
-#define ICON_H
+#ifndef FLATMESH_H
+#define FLATMESH_H
 
-#include <QQuickPaintedItem>
-#include <QIcon>
-#include <QPixmap>
+#include <QQuickItem>
+#include <QSGNode>
+#include <QColor>
+#include <QTimer>
 
-class Icon : public QQuickPaintedItem
+class FlatMesh : public QQuickItem
 {
     Q_OBJECT
-
-    Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
-    Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged)
+    Q_PROPERTY(QColor centerColor WRITE setCenterColor READ getCenterColor)
+    Q_PROPERTY(QColor outerColor WRITE setOuterColor READ getOuterColor)
+    Q_PROPERTY(bool animated WRITE setAnimated READ getAnimated NOTIFY animatedChanged)
 
 public:
-    Icon();
+    FlatMesh(QQuickItem *parent = 0);
 
-    QString name();
-    void setName(QString);
+    bool getAnimated() const { return m_animated; }
+    void setAnimated(bool animated);
 
-    QColor color();
-    void setColor(QColor);
+    QColor getCenterColor() const { return m_centerColor; }
+    void setCenterColor(QColor c);
 
-    void paint(QPainter *painter) override;
-#ifdef QT6
-    void geometryChange(const QRectF &newGeometry, const QRectF &oldGeometry) override;
-#else
-    void geometryChanged(const QRectF &newGeometry, const QRectF &oldGeometry) override;
-#endif
+    QColor getOuterColor() const { return m_outerColor; }
+    void setOuterColor(QColor c);
 
 signals:
-    void nameChanged();
-    void colorChanged();
+    void animatedChanged();
+
+protected:
+    QSGNode *updatePaintNode(QSGNode *node, UpdatePaintNodeData *data);
+
+private slots:
+    void maybeEnableAnimation();
 
 private:
-    void updateBasePixmap();
-    void updatePixmapContent();
-    void updatePixmapColor();
-
-    float m_size;
-    QString m_name;
-    QColor m_color;
-    QPixmap m_pixmap;
+    QColor m_centerColor, m_outerColor;
+    bool m_animated;
+    QTimer m_timer;
 };
 
-#endif // ICON_H
+#endif // FLATMESH_H

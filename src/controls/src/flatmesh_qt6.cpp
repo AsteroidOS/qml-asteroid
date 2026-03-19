@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 Florent Revest <revestflo@gmail.com>
+ * Copyright (C) 2016 Florent Revest <revestflo@gmail.com>
  * All rights reserved.
  *
  * You may use this file under the terms of BSD license as follows:
@@ -27,49 +27,70 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef ICON_H
-#define ICON_H
+#include "flatmesh_qt6.h"
+#include "flatmeshnode.h"
 
-#include <QQuickPaintedItem>
-#include <QIcon>
-#include <QPixmap>
-
-class Icon : public QQuickPaintedItem
+FlatMesh::FlatMesh(QQuickItem *parent) : QQuickItem(parent)
 {
-    Q_OBJECT
+    m_timer.setInterval(90);
+    m_timer.setSingleShot(false);
+    connect(&m_timer, SIGNAL(timeout()), this, SLOT(update()));
+    m_timer.start();
 
-    Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
-    Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged)
+    m_centerColor = QColor("#ffaa39");
+    m_outerColor = QColor("#df4829");
 
-public:
-    Icon();
+    connect(this, SIGNAL(visibleChanged()), this, SLOT(maybeEnableAnimation()));
 
-    QString name();
-    void setName(QString);
+    setFlag(ItemHasContents);
+    setAnimated(true);
+}
 
-    QColor color();
-    void setColor(QColor);
+void FlatMesh::setCenterColor(QColor c)
+{
+    if (c == m_centerColor)
+        return;
+    m_centerColor = c;
+    update();
+}
 
-    void paint(QPainter *painter) override;
-#ifdef QT6
-    void geometryChange(const QRectF &newGeometry, const QRectF &oldGeometry) override;
-#else
-    void geometryChanged(const QRectF &newGeometry, const QRectF &oldGeometry) override;
-#endif
+void FlatMesh::setOuterColor(QColor c)
+{
+    if (c == m_outerColor)
+        return;
+    m_outerColor = c;
+    update();
+}
 
-signals:
-    void nameChanged();
-    void colorChanged();
+void FlatMesh::maybeEnableAnimation()
+{
+    if (isVisible() && m_animated) {
+        m_timer.start();
+    } else {
+        m_timer.stop();
+    }
+    update();
+}
 
-private:
-    void updateBasePixmap();
-    void updatePixmapContent();
-    void updatePixmapColor();
+void FlatMesh::setAnimated(bool animated)
+{
+    if (animated == m_animated)
+        return;
+    m_animated = animated;
+    emit animatedChanged();
+    maybeEnableAnimation();
+}
 
-    float m_size;
-    QString m_name;
-    QColor m_color;
-    QPixmap m_pixmap;
-};
+QSGNode *FlatMesh::updatePaintNode(QSGNode *old, UpdatePaintNodeData *)
+{
+    FlatMeshNode *n = static_cast<FlatMeshNode *>(old);
+    if (!n)
+        n = new FlatMeshNode(window(), boundingRect());
 
-#endif // ICON_H
+    n->setAnimated(m_animated);
+    n->setRect(boundingRect());
+    n->setCenterColor(m_centerColor);
+    n->setOuterColor(m_outerColor);
+
+    return n;
+}
