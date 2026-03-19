@@ -6,6 +6,13 @@ project(qml-asteroid
 
 find_package(ECM REQUIRED NO_MODULE)
 
+option(BUILD_WITH_QT6 "Build a Qt6 version (WIP)" OFF)
+if (BUILD_WITH_QT6)
+    set(QT_VERSION_MAJOR 6)
+else()
+    set(QT_VERSION_MAJOR 5)
+endif()
+
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake)
 
 option(WITH_ASTEROIDAPP "Build the AsteroidApp class" ON)
@@ -19,12 +26,23 @@ include(AsteroidCMakeSettings)
 
 set(ASTEROID_MODULES_INSTALL_DIR ${CMAKE_INSTALL_DATADIR}/asteroidapp/cmake)
 
-find_package(Qt5 ${QT_MIN_VERSION} COMPONENTS DBus Qml Quick Svg REQUIRED)
-if (WITH_ASTEROIDAPP)
-    find_package(Mapplauncherd_qt5 MODULE REQUIRED)
+if (${QT_VERSION_MAJOR} EQUAL 6)
+    set(QT_MIN_VERSION "6.10.0")
+    find_package(Qt6 ${QT_MIN_VERSION} CONFIG REQUIRED DBus Qml Quick Svg)
+    ecm_find_qmlmodule(Qt5Compat.GraphicalEffects 1.0 REQUIRED)
+    if (WITH_ASTEROIDAPP)
+        find_package(Mapplauncherd_qt6 MODULE REQUIRED)
+    endif()
+
+    add_compile_definitions(QT6)
+else()
+    find_package(Qt5 5.15 CONFIG REQUIRED DBus Qml Quick Svg)
+    if (WITH_ASTEROIDAPP)
+        find_package(Mapplauncherd_qt5 MODULE REQUIRED)
+    endif()
 endif()
 
-ecm_find_qmlmodule(QtQuick.VirtualKeyboard 2.1)
+ecm_find_qmlmodule(QtQuick.VirtualKeyboard 2.1 REQUIRED)
 
 if (WITH_CMAKE_MODULES)
 # Install CMake modules

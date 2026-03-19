@@ -1,34 +1,48 @@
-set(SRC asteroidapp.cpp)
-set(HEADERS asteroidapp.h)
+set(TARGET asteroidapp)
+set(NAME AsteroidApp)
+if (${QT_VERSION_MAJOR} EQUAL 6)
+	set(TARGET asteroidapp6)
+	set(NAME AsteroidApp6)
+endif()
 
-add_library(asteroidapp ${SRC} ${HEADERS})
+add_library(${TARGET} asteroidapp.cpp)
 
-target_link_libraries(asteroidapp
+target_link_libraries(
+	${TARGET}
 	PUBLIC
-		Qt5::Qml
-		Qt5::Quick
+		Qt::Qml
+		Qt::Quick
 	PRIVATE
-		Qt5::Core
-		Mapplauncherd_qt5::Mapplauncherd_qt5)
+		Qt::Core
+)
 
-set_target_properties(asteroidapp PROPERTIES
-	EXPORT_NAME AsteroidApp
-	SOVERSION ${PROJECT_VERSION_MAJOR}
-	VERSION ${PROJECT_VERSION})
+if (${QT_VERSION_MAJOR} EQUAL 6})
+	target_link_libraries(
+		${TARGET}
+		PRIVATE
+			Mapplauncherd_qt6::Mapplauncherd_qt6
+	)
+else()
+	target_link_libraries(
+		${TARGET}
+		PRIVATE
+			Mapplauncherd_qt5::Mapplauncherd_qt5
+	)
+endif()
 
-target_include_directories(asteroidapp PUBLIC
+target_include_directories(
+	${TARGET} PUBLIC
 	$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
-	$<INSTALL_INTERFACE:include/asteroidapp>)
-
-# Install the library
-install(TARGETS asteroidapp
-	EXPORT AsteroidAppTargets
-	LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
+	$<INSTALL_INTERFACE:include/${TARGET}>
+)
 
 # Install headers
-install(FILES ${HEADERS}
-	DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/asteroidapp
-	COMPONENT Devel)
+set(ASTEROID_INCLUDEDIR "${CMAKE_INSTALL_INCLUDEDIR}/${TARGET}")
+install(
+	FILES asteroidapp.h
+	DESTINATION ${ASTEROID_INCLUDEDIR}
+	COMPONENT Devel
+)
 
 ecm_generate_pkgconfig_file(
 	BASE_NAME asteroidapp
@@ -39,28 +53,74 @@ ecm_generate_pkgconfig_file(
 
 # Configure and install the CMake Config file
 include(CMakePackageConfigHelpers)
-set(CMAKECONFIG_INSTALL_DIR ${CMAKE_INSTALL_LIBDIR}/cmake/asteroidapp)
+
+set(CMAKECONFIG_INSTALL_DIR ${CMAKE_INSTALL_LIBDIR}/cmake/${TARGET})
+
+if (${QT_VERSION_MAJOR} EQUAL 6)
+	ecm_generate_pkgconfig_file(
+		BASE_NAME ${TARGET}
+		DEPS qdeclarative6-boostable
+		FILENAME_VAR ${TARGET}
+		DESCRIPTION ${PROJECT_DESCRIPTION}
+		INSTALL
+	)
+
+	write_basic_package_version_file(
+		${CMAKE_CURRENT_BINARY_DIR}/${NAME}ConfigVersion.cmake
+		VERSION ${asteroidapp6_VERSION}
+		COMPATIBILITY SameMajorVersion
+	)
+else()
+	ecm_generate_pkgconfig_file(
+		BASE_NAME ${TARGET}
+		DEPS qdeclarative5-boostable
+		FILENAME_VAR asteroidapp
+		DESCRIPTION ${PROJECT_DESCRIPTION}
+		INSTALL
+	)
+
+	write_basic_package_version_file(
+		${CMAKE_CURRENT_BINARY_DIR}/AsteroidAppConfigVersion.cmake
+		VERSION ${asteroidapp_VERSION}
+		COMPATIBILITY SameMajorVersion
+	)
+endif()
+
+set_target_properties(
+	${TARGET} PROPERTIES
+	EXPORT_NAME ${NAME}
+	NAMESPACE Asteroid::
+	SOVERSION ${PROJECT_VERSION_MAJOR}
+	VERSION ${PROJECT_VERSION}
+)
+
+install(
+	TARGETS ${TARGET}
+	EXPORT ${NAME}Targets
+	LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+	INCLUDES DESTINATION ${ASTEROID_INCLUDEDIR}
+)
 
 configure_package_config_file(
-	"AsteroidAppConfig.cmake.in"
-	"${CMAKE_CURRENT_BINARY_DIR}/AsteroidAppConfig.cmake"
+	"AsteroidApp6Config.cmake.in"
+	"${CMAKE_CURRENT_BINARY_DIR}/AsteroidApp6Config.cmake"
 	INSTALL_DESTINATION ${CMAKECONFIG_INSTALL_DIR}
 	PATH_VARS
-		CMAKE_INSTALL_PREFIX
-		CMAKE_INSTALL_INCLUDEDIR
-		CMAKE_INSTALL_LIBDIR
 		ASTEROID_MODULES_INSTALL_DIR
-	NO_CHECK_REQUIRED_COMPONENTS_MACRO)
-write_basic_package_version_File(${CMAKE_CURRENT_BINARY_DIR}/AsteroidAppConfigVersion.cmake
-	VERSION ${asteroidapp_VERSION}
-	COMPATIBILITY SameMajorVersion)
+)
 
-install(EXPORT AsteroidAppTargets
+install(
+	EXPORT ${NAME}Targets
+	NAMESPACE Asteroid::
+	FILE ${NAME}Targets.cmake
 	DESTINATION ${CMAKECONFIG_INSTALL_DIR}
-	COMPONENT Devel)
+)
 
-install(FILES
-	"${CMAKE_CURRENT_BINARY_DIR}/AsteroidAppConfig.cmake"
-	"${CMAKE_CURRENT_BINARY_DIR}/AsteroidAppConfigVersion.cmake"
+install(
+	FILES
+	"${CMAKE_CURRENT_BINARY_DIR}/${NAME}Config.cmake"
+	"${CMAKE_CURRENT_BINARY_DIR}/${NAME}ConfigVersion.cmake"
 	DESTINATION ${CMAKECONFIG_INSTALL_DIR}
-	COMPONENT Devel)
+	COMPONENT Devel
+)
+

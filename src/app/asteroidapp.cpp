@@ -34,6 +34,11 @@
 #include <QScreen>
 #include <QSettings>
 #include <QTranslator>
+#ifdef QT6
+#include <mdeclarativecache6/MDeclarativeCache>
+#else
+#include <mdeclarativecache5/MDeclarativeCache>
+#endif
 
 static QString applicationPath()
 {

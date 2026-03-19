@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 Florent Revest <revestflo@gmail.com>
+ * Copyright (C) 2016 Florent Revest <revestflo@gmail.com>
  * All rights reserved.
  *
  * You may use this file under the terms of BSD license as follows:
@@ -27,49 +27,54 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef ICON_H
-#define ICON_H
+#ifndef FLATMESHNODE_H
+#define FLATMESHNODE_H
 
-#include <QQuickPaintedItem>
-#include <QIcon>
-#include <QPixmap>
+#include <QObject>
+#include <QQuickWindow>
+#include <QSGSimpleRectNode>
 
-class Icon : public QQuickPaintedItem
-{
-    Q_OBJECT
+#define NUM_POINTS_X 13
+#define NUM_POINTS_Y 13
 
-    Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
-    Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged)
+struct Point {
+    qreal centerX;
+    qreal centerY;
 
-public:
-    Icon();
+    qreal animOriginX;
+    qreal animOriginY;
 
-    QString name();
-    void setName(QString);
+    qreal animEndX;
+    qreal animEndY;
 
-    QColor color();
-    void setColor(QColor);
-
-    void paint(QPainter *painter) override;
-#ifdef QT6
-    void geometryChange(const QRectF &newGeometry, const QRectF &oldGeometry) override;
-#else
-    void geometryChanged(const QRectF &newGeometry, const QRectF &oldGeometry) override;
-#endif
-
-signals:
-    void nameChanged();
-    void colorChanged();
-
-private:
-    void updateBasePixmap();
-    void updatePixmapContent();
-    void updatePixmapColor();
-
-    float m_size;
-    QString m_name;
-    QColor m_color;
-    QPixmap m_pixmap;
+    QSGGeometry::Point2D currentPos;
 };
 
-#endif // ICON_H
+class FlatMeshNode : public QObject, public QSGSimpleRectNode
+{
+    Q_OBJECT
+public:
+    FlatMeshNode(QQuickWindow *window, QRectF rect);
+    void setAnimated(bool animated);
+
+    void setCenterColor(QColor c);
+    void setOuterColor(QColor c);
+
+public slots:
+    void maybeAnimate();
+    void generateGrid();
+
+private:
+    void updateColors();
+
+    qreal m_animationState;
+    bool m_animated;
+    int m_unitWidth, m_unitHeight;
+    QColor m_centerColor, m_outerColor;
+    QQuickWindow *m_window;
+    Point m_points[NUM_POINTS_X*NUM_POINTS_Y];
+};
+
+
+#endif // FLATMESHNODE_H
+
