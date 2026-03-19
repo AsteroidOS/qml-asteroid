@@ -8,7 +8,7 @@ target_link_libraries(asteroidapp
 		Qt5::Qml
 		Qt5::Quick
 	PRIVATE
-		Mlite5::Mlite5
+		Qt5::Core
 		Mapplauncherd_qt5::Mapplauncherd_qt5)
 
 set_target_properties(asteroidapp PROPERTIES
