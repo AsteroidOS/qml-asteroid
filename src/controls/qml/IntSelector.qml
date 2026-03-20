@@ -20,6 +20,7 @@
 
 import QtQuick 2.9
 import org.asteroid.controls 1.0
+import QtGraphicalEffects 1.15
 
 /*!
     \qmltype IntSelector
@@ -123,12 +124,20 @@ ListRow {
         radius: height / 2
         color: Qt.rgba(0, 0, 0, 0)
 
+        layer.enabled: true
+        layer.effect: OpacityMask {
+            maskSource: Rectangle {
+                width: track.width
+                height: track.height
+                radius: track.radius
+            }
+        }
+
         Rectangle {
             id: indicator
             property real fraction: max > min ? Math.max(0, Math.min(1, (value - min) / (max - min))) : 0
-            width: height + fraction * (track.width - height)
+            width: track.width * fraction
             height: parent.height
-            radius: height / 2
             color: dragArea.tracking ? Qt.rgba(0, 0, 0, 0.6) : Qt.rgba(0, 0, 0, 0.4)
             visible: valueLabelVisible
 
@@ -156,11 +165,12 @@ ListRow {
             iconName: "ios-remove"
             anchors {
                 left: parent.left
-                leftMargin: -Dims.l(0.5)
+                leftMargin: -Dims.l(1.5)
                 verticalCenter: parent.verticalCenter
             }
-            width: iconSize * 0.86
-            height: width
+            width: iconSize
+            height: iconSize
+            opacity: value <= min ? 0.3 : 1.0
             onClicked: value = Math.max(min, value - stepSize)
         }
 
@@ -169,11 +179,12 @@ ListRow {
             iconName: "ios-add"
             anchors {
                 right: parent.right
-                rightMargin: -Dims.l(0.5)
+                rightMargin: -Dims.l(1.5)
                 verticalCenter: parent.verticalCenter
             }
-            width: iconSize * 0.86
-            height: width
+            width: iconSize
+            height: iconSize
+            opacity: value >= max ? 0.3 : 1.0
             onClicked: value = Math.min(max, value + stepSize)
         }
 
@@ -185,6 +196,8 @@ ListRow {
                 family: "Noto Sans SemiCondensed"
                 bold: true
             }
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
             color: Qt.rgba(1, 1, 1, 1.0)
             visible: valueLabelVisible
         }
