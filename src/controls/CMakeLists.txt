@@ -62,7 +62,6 @@ else()
         set(controls ${controls} ValueMeter)
 endif()
 foreach(control ${controls})
-        message(${control})
         list(APPEND controls-qml "qml/${control}.qml")
 endforeach()
 
