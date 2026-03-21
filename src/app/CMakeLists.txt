@@ -102,8 +102,8 @@ install(
 )
 
 configure_package_config_file(
-	"AsteroidApp6Config.cmake.in"
-	"${CMAKE_CURRENT_BINARY_DIR}/AsteroidApp6Config.cmake"
+	"${NAME}Config.cmake.in"
+	"${CMAKE_CURRENT_BINARY_DIR}/${NAME}Config.cmake"
 	INSTALL_DESTINATION ${CMAKECONFIG_INSTALL_DIR}
 	PATH_VARS
 		ASTEROID_MODULES_INSTALL_DIR
