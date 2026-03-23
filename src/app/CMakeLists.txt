@@ -45,9 +45,9 @@ install(
 )
 
 ecm_generate_pkgconfig_file(
-	BASE_NAME asteroidapp
-	DEPS qdeclarative5-boostable
-	FILENAME_VAR asteroidapp
+	BASE_NAME ${TARGET}
+	DEPS qdeclarative${QT_VERSION_MAJOR}-boostable
+	FILENAME_VAR ${TARGET}
 	DESCRIPTION ${PROJECT_DESCRIPTION}
 	INSTALL)
 
@@ -57,28 +57,12 @@ include(CMakePackageConfigHelpers)
 set(CMAKECONFIG_INSTALL_DIR ${CMAKE_INSTALL_LIBDIR}/cmake/${TARGET})
 
 if (${QT_VERSION_MAJOR} EQUAL 6)
-	ecm_generate_pkgconfig_file(
-		BASE_NAME ${TARGET}
-		DEPS qdeclarative6-boostable
-		FILENAME_VAR ${TARGET}
-		DESCRIPTION ${PROJECT_DESCRIPTION}
-		INSTALL
-	)
-
 	write_basic_package_version_file(
 		${CMAKE_CURRENT_BINARY_DIR}/${NAME}ConfigVersion.cmake
 		VERSION ${asteroidapp6_VERSION}
 		COMPATIBILITY SameMajorVersion
 	)
 else()
-	ecm_generate_pkgconfig_file(
-		BASE_NAME ${TARGET}
-		DEPS qdeclarative5-boostable
-		FILENAME_VAR asteroidapp
-		DESCRIPTION ${PROJECT_DESCRIPTION}
-		INSTALL
-	)
-
 	write_basic_package_version_file(
 		${CMAKE_CURRENT_BINARY_DIR}/AsteroidAppConfigVersion.cmake
 		VERSION ${asteroidapp_VERSION}
