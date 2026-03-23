@@ -30,6 +30,7 @@ if (${QT_VERSION_MAJOR} EQUAL 6)
     set(QT_MIN_VERSION "6.10.0")
     find_package(Qt6 ${QT_MIN_VERSION} CONFIG REQUIRED DBus Qml Quick Svg)
     ecm_find_qmlmodule(Qt5Compat.GraphicalEffects 1.0 REQUIRED)
+    ecm_find_qmlmodule(QtQuick.VirtualKeyboard 2.1 REQUIRED)
     if (WITH_ASTEROIDAPP)
         find_package(Mapplauncherd_qt6 MODULE REQUIRED)
     endif()
@@ -41,8 +42,6 @@ else()
         find_package(Mapplauncherd_qt5 MODULE REQUIRED)
     endif()
 endif()
-
-ecm_find_qmlmodule(QtQuick.VirtualKeyboard 2.1 REQUIRED)
 
 if (WITH_CMAKE_MODULES)
 # Install CMake modules
