@@ -15,12 +15,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.9
-import org.asteroid.controls 1.0
+import QtQuick
+import org.asteroid.controls
 
 /*!
    \qmltype Label
-   \inqmlmodule org.asteroid.controls 1.0
+   \inqmlmodule org.asteroid.controls
 
    \brief Provides a way to get a text label sized for AsteroidOS.
 
@@ -30,8 +30,8 @@ import org.asteroid.controls 1.0
    Here is a short example that shows some text in a blue rectangle on a yellow background:
 
     \qml
-    import QtQuick 2.9
-    import org.asteroid.controls 1.0
+    import QtQuick
+    import org.asteroid.controls
 
     Rectangle {
         anchors.fill: parent

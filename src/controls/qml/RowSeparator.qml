@@ -15,9 +15,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.9
-import org.asteroid.utils 1.0
-import org.asteroid.controls 1.0
+import QtQuick
+import org.asteroid.utils
+import org.asteroid.controls
 
 /*!
  *   \qmltype RowSeparator
@@ -39,8 +39,8 @@ import org.asteroid.controls 1.0
  *   \l Flickable layout:
  *
  *   \qml
- *   import QtQuick 2.0
- *   import org.asteroid.controls 1.0
+ *   import QtQuick
+ *   import org.asteroid.controls
  *
  *   Column {
  *       width: parent.width
@@ -57,8 +57,8 @@ import org.asteroid.controls 1.0
  *   bottom edge of the row, set \l pinToBottom to \c true:
  *
  *   \qml
- *   import QtQuick 2.0
- *   import org.asteroid.controls 1.0
+ *   import QtQuick
+ *   import org.asteroid.controls
  *
  *   ListView {
  *       model: 5

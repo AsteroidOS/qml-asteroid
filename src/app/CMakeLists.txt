@@ -1,9 +1,5 @@
-set(TARGET asteroidapp)
-set(NAME AsteroidApp)
-if (${QT_VERSION_MAJOR} EQUAL 6)
-	set(TARGET asteroidapp6)
-	set(NAME AsteroidApp6)
-endif()
+set(TARGET asteroidapp6)
+set(NAME AsteroidApp6)
 
 add_library(${TARGET} asteroidapp.cpp)
 
@@ -16,19 +12,11 @@ target_link_libraries(
 		Qt::Core
 )
 
-if (${QT_VERSION_MAJOR} EQUAL 6})
-	target_link_libraries(
-		${TARGET}
-		PRIVATE
-			Mapplauncherd_qt6::Mapplauncherd_qt6
-	)
-else()
-	target_link_libraries(
-		${TARGET}
-		PRIVATE
-			Mapplauncherd_qt5::Mapplauncherd_qt5
-	)
-endif()
+target_link_libraries(
+	${TARGET}
+	PRIVATE
+		Mapplauncherd_qt6::Mapplauncherd_qt6
+)
 
 target_include_directories(
 	${TARGET} PUBLIC
@@ -56,19 +44,11 @@ include(CMakePackageConfigHelpers)
 
 set(CMAKECONFIG_INSTALL_DIR ${CMAKE_INSTALL_LIBDIR}/cmake/${TARGET})
 
-if (${QT_VERSION_MAJOR} EQUAL 6)
-	write_basic_package_version_file(
-		${CMAKE_CURRENT_BINARY_DIR}/${NAME}ConfigVersion.cmake
-		VERSION ${asteroidapp6_VERSION}
-		COMPATIBILITY SameMajorVersion
-	)
-else()
-	write_basic_package_version_file(
-		${CMAKE_CURRENT_BINARY_DIR}/AsteroidAppConfigVersion.cmake
-		VERSION ${asteroidapp_VERSION}
-		COMPATIBILITY SameMajorVersion
-	)
-endif()
+write_basic_package_version_file(
+	${CMAKE_CURRENT_BINARY_DIR}/${NAME}ConfigVersion.cmake
+	VERSION ${asteroidapp6_VERSION}
+	COMPATIBILITY SameMajorVersion
+)
 
 set_target_properties(
 	${TARGET} PROPERTIES

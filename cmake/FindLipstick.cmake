@@ -6,16 +6,16 @@
 # LIPSTICK_DEFINITIONS - Compiler switches required for using lipstick
 
 find_package(PkgConfig REQUIRED)
-pkg_check_modules(PC_Lipstick QUIET lipstick-qt5)
+pkg_check_modules(PC_Lipstick QUIET lipstick-qt6)
 set(Lipstick_DEFINITIONS ${PC_Lipstick_CFLAGS_OTHER})
 
 find_path(Lipstick_INCLUDE_DIRS
 	NAMES lipstickcompositor.h
-	PATH_SUFFIXES lipstick-qt5
+	PATH_SUFFIXES lipstick-qt6
 	PATHS ${PC_Lipstick_INCLUDEDIR} ${PC_Lipstick_INCLUDE_DIRS})
 
 find_library(Lipstick_LIBRARIES
-	NAMES lipstick-qt5
+	NAMES lipstick-qt6
 	PATHS ${PC_Lipstick_LIBDIR} ${PC_Lipstick_LIBRARY_DIRS})
 
 set(Lipstick_VERSION ${PC_Lipstick_VERSION})

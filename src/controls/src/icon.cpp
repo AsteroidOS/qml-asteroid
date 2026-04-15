@@ -81,16 +81,9 @@ void Icon::paint(QPainter *painter)
 }
 
 
-#ifdef QT6
 void Icon::geometryChange(const QRectF &newGeometry, const QRectF &oldGeometry)
 {
     QQuickPaintedItem::geometryChange(newGeometry, oldGeometry);
-#else
-void Icon::geometryChanged(const QRectF &newGeometry, const QRectF &oldGeometry)
-{
-    QQuickPaintedItem::geometryChanged(newGeometry, oldGeometry);
-#endif
-
     if(newGeometry.size() == oldGeometry.size() || newGeometry.width() == 0 || newGeometry.height() == 0)
         return;
     updateBasePixmap();
