@@ -51,11 +51,7 @@ public:
     void setColor(QColor);
 
     void paint(QPainter *painter) override;
-#ifdef QT6
     void geometryChange(const QRectF &newGeometry, const QRectF &oldGeometry) override;
-#else
-    void geometryChanged(const QRectF &newGeometry, const QRectF &oldGeometry) override;
-#endif
 
 signals:
     void nameChanged();
