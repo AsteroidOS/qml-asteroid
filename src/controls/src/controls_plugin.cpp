@@ -20,11 +20,7 @@
 #include <QGuiApplication>
 #include <QtQml>
 #include "application_p.h"
-#ifdef QT6
-#include "flatmesh_qt6.h"
-#else
 #include "flatmesh.h"
-#endif
 #include "icon.h"
 
 ControlsPlugin::ControlsPlugin(QObject *parent) : QQmlExtensionPlugin(parent)

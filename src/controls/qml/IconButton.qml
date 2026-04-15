@@ -16,12 +16,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.9
-import org.asteroid.controls 1.0
+import QtQuick
+import org.asteroid.controls
 
 /*!
     \qmltype IconButton
-    \inqmlmodule org.asteroid.controls 1.0
+    \inqmlmodule org.asteroid.controls
 
     \brief Provides a virtual button with settable icon.
 
@@ -32,8 +32,8 @@ import org.asteroid.controls 1.0
     the bottom of the screen.  When the button is pressed, the square turns green.
 
     \qml
-    import QtQuick 2.9
-    import org.asteroid.controls 1.0
+    import QtQuick
+    import org.asteroid.controls
 
     Rectangle {
         id: square

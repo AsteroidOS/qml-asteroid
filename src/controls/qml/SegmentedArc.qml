@@ -22,8 +22,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.15
-import QtQuick.Shapes 1.1
+import QtQuick
+import QtQuick.Shapes
 
 /*!
     \qmltype SegmentedArc
@@ -44,8 +44,8 @@ import QtQuick.Shapes 1.1
     but can be changed via the \l IntSelector control.
 
     \qml
-    import QtQuick 2.15
-    import org.asteroid.controls 1.0
+    import QtQuick
+    import org.asteroid.controls
 
     Item {
         IntSelector {

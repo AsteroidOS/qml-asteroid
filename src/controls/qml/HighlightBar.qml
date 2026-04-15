@@ -18,8 +18,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.9
-import org.asteroid.controls 1.0
+import QtQuick
+import org.asteroid.controls
 
 /*!
     \qmltype HighlightBar
@@ -39,8 +39,8 @@ import org.asteroid.controls 1.0
 
     The simplest example is this:
     \qml
-    import QtQuick 2.9
-    import org.asteroid.controls 1.0
+    import QtQuick
+    import org.asteroid.controls
 
     HighlightBar { }
     \endqml
@@ -53,8 +53,8 @@ import org.asteroid.controls 1.0
     or blue \l Rectangle with each mouse click.  
 
     \qml
-    import QtQuick 2.9
-    import org.asteroid.controls 1.0
+    import QtQuick
+    import org.asteroid.controls
 
     Item {
         Item {

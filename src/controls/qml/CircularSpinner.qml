@@ -15,8 +15,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.15
-import org.asteroid.controls 1.0
+import QtQuick
+import org.asteroid.controls
 
 /*!
     \qmltype CircularSpinner
@@ -30,8 +30,8 @@ import org.asteroid.controls 1.0
     to two digits.  This is particularly convenient for setting times and dates
 
     \qml
-    import QtQuick 2.15
-    import org.asteroid.controls 1.0
+    import QtQuick
+    import org.asteroid.controls
 
     CircularSpinner {
         id: rating
@@ -46,8 +46,8 @@ import org.asteroid.controls 1.0
     a user to select an animal.
 
     \qml
-    import QtQuick 2.9
-    import org.asteroid.controls 1.0
+    import QtQuick
+    import org.asteroid.controls
 
     CircularSpinner {
         id: animals
@@ -95,26 +95,6 @@ PathView {
 
     layer.enabled: true
     layer.effect: ShaderEffect {
-        fragmentShader: "
-        #ifdef GL_ES
-            precision mediump float;
-            varying highp vec2 qt_TexCoord0;
-        #else
-            #define highp
-            #define mediump
-            #define lowp
-            varying vec2 qt_TexCoord0;
-        #endif
-        uniform sampler2D source;
-        void main(void)
-        {
-            vec4 sourceColor = texture2D(source, qt_TexCoord0);
-            float alpha = 1.0;
-            if(qt_TexCoord0.y < 0.2)
-                alpha = qt_TexCoord0.y*5.0;
-            if(qt_TexCoord0.y > 0.8)
-                alpha = (1.0-qt_TexCoord0.y)*5.0;
-            gl_FragColor = sourceColor * alpha;
-        }"
+        fragmentShader: "spinnerfade.frag.qsb"
     }
 }

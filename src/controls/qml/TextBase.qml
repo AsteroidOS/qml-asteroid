@@ -27,8 +27,8 @@
 **
 ****************************************************************************/
 
-import QtQuick 2.9
-import QtQuick.VirtualKeyboard 2.1
+import QtQuick
+import QtQuick.VirtualKeyboard
 
 FocusScope {
     id: textBase

@@ -16,12 +16,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.5
-import org.asteroid.controls 1.0
+import QtQuick
+import org.asteroid.controls
 
 /*!
     \qmltype Switch
-    \inqmlmodule org.asteroid.controls 1.0
+    \inqmlmodule org.asteroid.controls
 
     \brief Specializes \l IconButton to provide an on/off toggle.
 
@@ -32,8 +32,8 @@ import org.asteroid.controls 1.0
     Switch is checked, the square turns green.  When it is unchecked, the square turns red.
 
     \qml
-    import QtQuick 2.9
-    import org.asteroid.controls 1.0
+    import QtQuick
+    import org.asteroid.controls
 
     Item {
         anchors.centerIn: parent

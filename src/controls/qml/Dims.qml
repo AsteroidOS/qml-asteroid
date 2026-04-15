@@ -19,9 +19,9 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-import QtQuick 2.9
-import QtQuick.Window 2.2
-import org.asteroid.utils 1.0
+import QtQuick
+import QtQuick.Window
+import org.asteroid.utils
 
 pragma Singleton
 
@@ -40,8 +40,8 @@ pragma Singleton
     Here is a short example:
 
     \qml
-    import QtQuick 2.0
-    import org.asteroid.controls 1.0
+    import QtQuick
+    import org.asteroid.controls
 
     Rectangle {
         width: Dims.w(80) // 80 % of screen width
