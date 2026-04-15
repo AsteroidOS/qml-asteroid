@@ -27,8 +27,8 @@
 **
 ****************************************************************************/
 
-import QtQuick 2.9
-import QtQuick.VirtualKeyboard 2.1
+import QtQuick
+import QtQuick.VirtualKeyboard
 
 /*!
     \qmltype TextField
@@ -46,8 +46,8 @@ import QtQuick.VirtualKeyboard 2.1
     of the field once filled in is \l text.
 
     \qml
-    import QtQuick 2.9
-    import org.asteroid.controls 1.0
+    import QtQuick
+    import org.asteroid.controls
 
     Item {
         HandWritingKeyboard {

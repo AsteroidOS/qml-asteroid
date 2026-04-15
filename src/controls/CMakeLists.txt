@@ -3,14 +3,16 @@ set(SRC
 	src/application_p.cpp
 	src/flatmesh.cpp
 	src/flatmeshnode.cpp
-	src/icon.cpp)
+	src/icon.cpp
+)
 set(HEADERS
 	src/controls_plugin.h
 	src/application_p.h
 	src/flatmesh.h
 	src/flatmeshnode.h
 	src/flatmeshgeometry.h
-	src/icon.h)
+	src/icon.h
+)
 
 set(controls
         Application
@@ -43,52 +45,47 @@ set(controls
         TextArea
         TextBase
         TextField
+        ValueMeter
 )
-if (${QT_VERSION_MAJOR} EQUAL 6)
-        set(controls ${controls} ValueMeter_qt6)
-        foreach(control ${controls})
-                list(APPEND controls-qml "qml/${control}.qml")
-        endforeach()
 
-        add_library(asteroidcontrolsplugin ${SRC} ${HEADERS})
-        qt_add_resources(
-                asteroidcontrolsplugin "asteroidcontrolsplugin_qrc"
-                PREFIX "/org/asteroid/controls/"
-                FILES "${controls-qml}"
-        )
-else()
-        set(controls ${controls} ValueMeter)
-        add_library(asteroidcontrolsplugin ${SRC} ${HEADERS} resources.qrc)
-endif()
+foreach(control ${controls})
+    list(APPEND controls-qml "qml/${control}.qml")
+endforeach()
 
+add_library(asteroidcontrolsplugin ${SRC} ${HEADERS})
+qt_add_resources(
+    asteroidcontrolsplugin "asteroidcontrolsplugin_qrc"
+    PREFIX "/org/asteroid/controls/"
+    FILES "${controls-qml}"
+)
 
 set(controls-docs "$<LIST:TRANSFORM,$<LIST:TRANSFORM,$<LOWER_CASE:${controls}>,PREPEND,qml->,APPEND,.html>")
 set(doc-dir "${CMAKE_BINARY_DIR}/doc/html")
 set(full-controls-docs "$<LIST:TRANSFORM,${controls-docs},PREPEND,${doc-dir}>")
 
 add_custom_target(
-        doc
-        DEPENDS "${full-controls-docs}"
+    doc
+    DEPENDS "${full-controls-docs}"
 )
 
 add_custom_command(
-        OUTPUT  "${full-controls-docs}"
-        COMMAND "qdoc" "-indexdir" "/usr/share/doc/qt5" "-outputdir" "${doc-dir}" "${CMAKE_CURRENT_SOURCE_DIR}/master.qdocconf" "-single-exec"
-        COMMENT "Generating HTML format Reference documentation..." VERBATIM
+    OUTPUT  "${full-controls-docs}"
+    COMMAND "qdoc" "-indexdir" "/usr/share/doc/qt5" "-outputdir" "${doc-dir}" "${CMAKE_CURRENT_SOURCE_DIR}/master.qdocconf" "-single-exec"
+    COMMENT "Generating HTML format Reference documentation..." VERBATIM
 )
 
 target_link_libraries(
-        asteroidcontrolsplugin
-	Qt::Qml
-	Qt::Quick
-	Qt::Svg
+    asteroidcontrolsplugin
+    Qt::Qml
+    Qt::Quick
+    Qt::Svg
 )
 
 install(
-        TARGETS asteroidcontrolsplugin
-	DESTINATION ${INSTALL_QML_IMPORT_DIR}/org/asteroid/controls
+    TARGETS asteroidcontrolsplugin
+    DESTINATION ${INSTALL_QML_IMPORT_DIR}/org/asteroid/controls
 )
 install(
-        FILES qmldir
-	DESTINATION ${INSTALL_QML_IMPORT_DIR}/org/asteroid/controls
+    FILES qmldir
+    DESTINATION ${INSTALL_QML_IMPORT_DIR}/org/asteroid/controls
 )

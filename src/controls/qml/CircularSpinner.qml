@@ -15,8 +15,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.15
-import org.asteroid.controls 1.0
+import QtQuick
+import org.asteroid.controls
 
 /*!
     \qmltype CircularSpinner
@@ -30,8 +30,8 @@ import org.asteroid.controls 1.0
     to two digits.  This is particularly convenient for setting times and dates
 
     \qml
-    import QtQuick 2.15
-    import org.asteroid.controls 1.0
+    import QtQuick
+    import org.asteroid.controls
 
     CircularSpinner {
         id: rating
@@ -46,8 +46,8 @@ import org.asteroid.controls 1.0
     a user to select an animal.
 
     \qml
-    import QtQuick 2.9
-    import org.asteroid.controls 1.0
+    import QtQuick
+    import org.asteroid.controls
 
     CircularSpinner {
         id: animals

@@ -15,8 +15,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.9
-import QtQuick.VirtualKeyboard 2.1
+import QtQuick
+import QtQuick.VirtualKeyboard
 
 /*!
     \qmltype HandWritingKeyboard
@@ -33,8 +33,8 @@ import QtQuick.VirtualKeyboard 2.1
     of the screen with preview text "sample text".  
 
     \qml
-    import QtQuick 2.9
-    import org.asteroid.controls 1.0
+    import QtQuick
+    import org.asteroid.controls
 
     Item {
         HandWritingKeyboard {
