@@ -22,9 +22,7 @@ else()
                 src/flatmeshgeometry.h)
 endif()
 
-add_library(asteroidcontrolsplugin ${SRC} ${HEADERS})
-
-set(controls 
+set(controls
         Application
         BorderGestureArea
         CircularSpinner
@@ -58,18 +56,21 @@ set(controls
 )
 if (${QT_VERSION_MAJOR} EQUAL 6)
         set(controls ${controls} ValueMeter_qt6)
+        foreach(control ${controls})
+                list(APPEND controls-qml "qml/${control}.qml")
+        endforeach()
+
+        add_library(asteroidcontrolsplugin ${SRC} ${HEADERS})
+        qt_add_resources(
+                asteroidcontrolsplugin "asteroidcontrolsplugin_qrc"
+                PREFIX "/org/asteroid/controls/"
+                FILES "${controls-qml}"
+        )
 else()
         set(controls ${controls} ValueMeter)
+        add_library(asteroidcontrolsplugin ${SRC} ${HEADERS} resources.qrc)
 endif()
-foreach(control ${controls})
-        list(APPEND controls-qml "qml/${control}.qml")
-endforeach()
 
-qt_add_resources(
-        asteroidcontrolsplugin "asteroidcontrolsplugin_qrc"
-        PREFIX "/org/asteroid/controls/"
-        FILES "${controls-qml}"
-)
 
 set(controls-docs "$<LIST:TRANSFORM,$<LIST:TRANSFORM,$<LOWER_CASE:${controls}>,PREPEND,qml->,APPEND,.html>")
 set(doc-dir "${CMAKE_BINARY_DIR}/doc/html")
