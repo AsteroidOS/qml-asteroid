@@ -62,7 +62,6 @@ public:
 
 public slots:
     void maybeAnimate();
-    void generateGrid();
 
 private:
     void updateColors();
@@ -72,6 +71,8 @@ private:
     int m_unitWidth, m_unitHeight;
     QColor m_centerColor, m_outerColor;
     QQuickWindow *m_window;
+    int m_loopCount;
+    float m_screenScaleFactor;
     Point m_points[NUM_POINTS_X*NUM_POINTS_Y];
 };
 
