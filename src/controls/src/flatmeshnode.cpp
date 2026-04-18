@@ -28,11 +28,13 @@
  */
 
 #include "flatmeshnode.h"
+#include "flatmeshgeometry.h"
 
 #include <math.h>
 
 #include <QScreen>
 #include <QElapsedTimer>
+#include <QSettings>
 
 /* Used to compute a triangle color from its distance to the center */
 static inline QColor interpolateColors(const QColor& color1, const QColor& color2, qreal ratio)
@@ -50,32 +52,28 @@ static inline QColor interpolateColors(const QColor& color1, const QColor& color
 
 FlatMeshNode::FlatMeshNode(QQuickWindow *window, QRectF boundingRect)
     : QSGSimpleRectNode(boundingRect, Qt::transparent),
-      m_animationState(0), m_animated(true), m_window(window)
+      m_animationState(0), m_animated(true), m_window(window), m_loopCount(0)
 {
     connect(window, SIGNAL(afterRendering()), this, SLOT(maybeAnimate()));
 
-    connect(window, SIGNAL(widthChanged(int)), this, SLOT(generateGrid()));
-    connect(window, SIGNAL(heightChanged(int)), this, SLOT(generateGrid()));
+    QSettings machineConf("/etc/asteroid/machine.conf", QSettings::IniFormat);
+    m_screenScaleFactor = machineConf.value("Display/ROUND", false).toBool() ? 1.2f : 1.7f;
 
-    srand(time(NULL));
-    generateGrid();
+    /* Create triangle nodes based on pre-computed indices */
+    int numTriangles = flatmesh_indices_sz / 3;
 
-    for(int y = 0; y < NUM_POINTS_Y-1; y++) {
-        for(int x = 0; x < NUM_POINTS_X-1; x++) {
-            for(int n = 0; n < 2; n++) {
-                QSGGeometryNode *triangle = new QSGGeometryNode();
+    for (int i = 0; i < numTriangles; i++) {
+        QSGGeometryNode *triangle = new QSGGeometryNode();
 
-                QSGFlatColorMaterial *color = new QSGFlatColorMaterial;
-                triangle->setOpaqueMaterial(color);
-                triangle->setFlag(QSGNode::OwnsMaterial);
+        QSGFlatColorMaterial *color = new QSGFlatColorMaterial;
+        triangle->setOpaqueMaterial(color);
+        triangle->setFlag(QSGNode::OwnsMaterial);
 
-                QSGGeometry *geometry = new QSGGeometry(QSGGeometry::defaultAttributes_Point2D(), 3);
-                triangle->setGeometry(geometry);
-                triangle->setFlag(QSGNode::OwnsGeometry);
+        QSGGeometry *geometry = new QSGGeometry(QSGGeometry::defaultAttributes_Point2D(), 3);
+        triangle->setGeometry(geometry);
+        triangle->setFlag(QSGNode::OwnsGeometry);
 
-                appendChildNode(triangle);
-            }
-        }
+        appendChildNode(triangle);
     }
 
     maybeAnimate();
@@ -83,23 +81,20 @@ FlatMeshNode::FlatMeshNode(QQuickWindow *window, QRectF boundingRect)
 
 void FlatMeshNode::updateColors()
 {
-    int centerX = m_unitWidth*((NUM_POINTS_X-2)/2);
-    int centerY = m_unitHeight*((NUM_POINTS_Y-2)/2);
-    int radius = rect().width()*0.6;
-
+    int numTriangles = flatmesh_indices_sz / 3;
     QSGGeometryNode *triangle = static_cast<QSGGeometryNode *>(firstChild());
-    for(int y = 0; y < NUM_POINTS_Y-1; y++) {
-        for(int x = 0; x < NUM_POINTS_X-1; x++) {
-            for(int n = 0; n < 2; n++) {
-                QSGFlatColorMaterial *color = static_cast<QSGFlatColorMaterial *>(triangle->opaqueMaterial());
-                color->setColor(interpolateColors(m_centerColor, m_outerColor,
-                                sqrt(pow(m_points[y*NUM_POINTS_Y+x].centerX-centerX, 2) + pow(m_points[y*NUM_POINTS_Y+x].centerY-centerY, 2))/radius));
-                triangle->setOpaqueMaterial(color);
 
-                triangle->markDirty(QSGNode::DirtyMaterial);
-                triangle = static_cast<QSGGeometryNode *>(triangle->nextSibling());
-            }
-        }
+    for (int i = 0; i < numTriangles; i++) {
+        /* Get the first vertex index of this triangle to get the color ratio (stored in Z) */
+        unsigned short srcIdx = flatmesh_indices[i * 3];
+        float ratio = flatmesh_vertices[srcIdx].z();
+
+        QSGFlatColorMaterial *color = static_cast<QSGFlatColorMaterial *>(triangle->opaqueMaterial());
+        color->setColor(interpolateColors(m_centerColor, m_outerColor, ratio));
+        triangle->setOpaqueMaterial(color);
+        triangle->markDirty(QSGNode::DirtyMaterial);
+
+        triangle = static_cast<QSGGeometryNode *>(triangle->nextSibling());
     }
 }
 
@@ -119,43 +114,6 @@ void FlatMeshNode::setOuterColor(QColor c)
     updateColors();
 }
 
-/* When the size changes, regenerate a grid of points that serves as a base for further operations */
-void FlatMeshNode::generateGrid()
-{
-    m_unitWidth = rect().width()/(NUM_POINTS_X-2);
-    m_unitHeight = rect().height()/(NUM_POINTS_Y-2);
-
-    for(int y = 0; y < NUM_POINTS_Y; y++) {
-        for(int x = 0; x < NUM_POINTS_X; x++) {
-            Point *point = &m_points[y*NUM_POINTS_Y+x];
-            point->centerX = m_unitWidth*x;
-            point->centerY = m_unitHeight*y;
-
-            if(x != 0 && x != (NUM_POINTS_X-1) && y != 0 && y != (NUM_POINTS_Y-1)) {
-                int offsetX = rand()%m_unitWidth - m_unitWidth/3;
-                int offsetY = rand()%m_unitHeight - m_unitHeight/3;
-                float normalization = ((float)m_unitWidth)/(2*(abs(offsetX)+abs(offsetY)));
-                offsetX*=normalization;
-                offsetY*=normalization;
-                point->animOriginX = point->centerX + offsetX;
-                point->animOriginY = point->centerY + offsetY;
-
-                offsetX = rand()%m_unitWidth - m_unitWidth/3;
-                offsetY = rand()%m_unitHeight - m_unitHeight/3;
-                normalization = ((float)m_unitWidth)/(2*(abs(offsetX)+abs(offsetY)));
-                offsetX*=normalization;
-                offsetY*=normalization;
-                point->animEndX = point->centerX + offsetX;
-                point->animEndY = point->centerY + offsetY;
-            }
-            else {
-                point->animEndX = point->animOriginX = point->centerX;
-                point->animEndY = point->animOriginY = point->centerY;
-            }
-        }
-    }
-}
-
 void FlatMeshNode::setAnimated(bool animated)
 {
     m_animated = animated;
@@ -169,62 +127,51 @@ void FlatMeshNode::maybeAnimate()
         t.start();
         firstFrame = true;
     }
+
     if (firstFrame || (m_animated && t.elapsed() >= 80)) {
         t.restart();
-        m_animationState += 0.03;
+        m_animationState += 0.02f;
 
-        /* Interpolate all points positions according to the animationState */
-        for(int i = 0; i < NUM_POINTS_X*NUM_POINTS_Y; i++) {
-            Point *p = &m_points[i];
+        float shiftMix = m_animationState;
+        float xOffset = rect().x();
+        float yOffset = rect().y();
+        float itemWidth = rect().width();
+        float itemHeight = rect().height();
 
-            p->currentPos.x = p->animOriginX + (p->animEndX-p->animOriginX)*m_animationState;
-            p->currentPos.y = p->animOriginY + (p->animEndY-p->animOriginY)*m_animationState;
-        }
-
-        /* Update all triangles' geometries according to the new points position */
-        qreal lastCenterX = m_unitWidth*(NUM_POINTS_X-1);
-        qreal lastcenterY = m_unitHeight*(NUM_POINTS_Y-1);
+        int numTriangles = flatmesh_indices_sz / 3;
         QSGGeometryNode *triangle = static_cast<QSGGeometryNode *>(firstChild());
-        for(int i = 0; i < NUM_POINTS_X*NUM_POINTS_Y; i++) {
-            if(m_points[i].centerX != lastCenterX && m_points[i].centerY != lastcenterY) {
-                QSGGeometry::Point2D *lowerV = triangle->geometry()->vertexDataAsPoint2D();
-                lowerV[0] = m_points[i].currentPos;
-                lowerV[1] = m_points[i+NUM_POINTS_X].currentPos;
-                lowerV[2] = m_points[i+NUM_POINTS_X+1].currentPos;
-                triangle->markDirty(QSGNode::DirtyGeometry);
-                triangle = static_cast<QSGGeometryNode *>(triangle->nextSibling());
 
-                QSGGeometry::Point2D *upperV = triangle->geometry()->vertexDataAsPoint2D();
-                upperV[0] = m_points[i].currentPos;
-                upperV[1] = m_points[i+1].currentPos;
-                upperV[2] = m_points[i+NUM_POINTS_X+1].currentPos;
-                triangle = static_cast<QSGGeometryNode *>(triangle->nextSibling());
+        for (int i = 0; i < numTriangles; i++) {
+            QSGGeometry::Point2D *verts = triangle->geometry()->vertexDataAsPoint2D();
+
+            for (int j = 0; j < 3; j++) {
+                unsigned short srcIdx = flatmesh_indices[i * 3 + j];
+
+                float baseX = flatmesh_vertices[srcIdx].x();
+                float baseY = flatmesh_vertices[srcIdx].y();
+
+                int xHash = static_cast<int>(baseX * 100.0f);
+                int yHash = static_cast<int>(baseY * 100.0f);
+                int shiftIndex = m_loopCount + xHash + yHash;
+
+                int idxA = (shiftIndex % flatmesh_shifts_nb + flatmesh_shifts_nb) % flatmesh_shifts_nb;
+                int idxB = ((shiftIndex + 1) % flatmesh_shifts_nb + flatmesh_shifts_nb) % flatmesh_shifts_nb;
+
+                float shiftX = flatmesh_shifts[idxA * 2] + (flatmesh_shifts[idxB * 2] - flatmesh_shifts[idxA * 2]) * shiftMix;
+                float shiftY = flatmesh_shifts[idxA * 2 + 1] + (flatmesh_shifts[idxB * 2 + 1] - flatmesh_shifts[idxA * 2 + 1]) * shiftMix;
+
+                /* Transform: scale by screenScaleFactor, then translate by 0.5, then scale by item size */
+                verts[j].x = xOffset + ((baseX + shiftX) * m_screenScaleFactor + 0.5f) * itemWidth;
+                verts[j].y = yOffset + ((baseY + shiftY) * m_screenScaleFactor + 0.5f) * itemHeight;
             }
+
+            triangle->markDirty(QSGNode::DirtyGeometry);
+            triangle = static_cast<QSGGeometryNode *>(triangle->nextSibling());
         }
 
-        /* Regenerate a set of animation end points when the animation is finished */
-        if(m_animationState >= 1.0) {
-            m_animationState = 0.0;
-
-            for(int y = 0; y < NUM_POINTS_Y; y++) {
-                for(int x = 0; x < NUM_POINTS_X; x++) {
-                    Point *point = &m_points[y*NUM_POINTS_Y+x];
-
-                    if(x != 0 && x != (NUM_POINTS_X-1) && y != 0 && y != (NUM_POINTS_Y-1)) {
-                        int offsetX = rand()%m_unitWidth - m_unitWidth/3;
-                        int offsetY = rand()%m_unitHeight - m_unitHeight/3;
-                        float normalization = ((float)m_unitWidth)/(2*(abs(offsetX)+abs(offsetY)));
-                        offsetX*=normalization;
-                        offsetY*=normalization;
-
-                        point->animOriginX = point->animEndX;
-                        point->animEndX = point->centerX + offsetX;
-
-                        point->animOriginY = point->animEndY;
-                        point->animEndY = point->centerY + offsetY;
-                    }
-                }
-            }
+        if (m_animationState >= 1.0f) {
+            m_animationState = 0.0f;
+            m_loopCount++;
         }
     }
 }
