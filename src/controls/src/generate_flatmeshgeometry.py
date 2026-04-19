@@ -22,8 +22,8 @@ cloud = pv.PolyData(np.hstack((points, np.zeros((points.shape[0], 1)))))
 # Generate a Delaunay triangulation of this points cloud
 mesh = cloud.delaunay_2d()
 
-# Find a series of triangle strips (see GL_TRIANGLE_STRIP) that describes this mesh
-strips = mesh.strip()
+# Get faces indices as 2D array, drop count column
+faces = mesh.faces.reshape(-1, 4)[:, 1:]
 
 # Coordinates can be repeated if a point at x, y needs different color mixes as the last point of different triangles
 # However, we try to de-duplicate vertices as much as we can and use an index array to point back to this buffer
@@ -65,23 +65,14 @@ def triangle_color_mix(index0, index1, index2):
     mix = distance_to_center**1.7
     return min(mix, 1.0)
 
-# Iterate over all the strips found by PyVista
-strip_len_index = 0
-for i in range(strips.n_strips):
-    strip_len = strips.strips[strip_len_index]
-    # The first two points of the strip don't need a color mix
-    add_vertex(strips.strips[strip_len_index+1])
-    add_vertex(strips.strips[strip_len_index+2])
-    # Iterate over all the other points of the strip
-    for i in range(strip_len_index+3, strip_len_index+1+strip_len):
-        index = strips.strips[i]
-        add_vertex(index, triangle_color_mix(strips.strips[i-2], strips.strips[i-1], index))
-
-    strip_len_index = strip_len_index + 1 + strip_len
-
-    # Start a new strip using GL_PRIMITIVE_RESTART
-    if not strip_len_index == len(strips.strips):
-        indices.append(0xffff)
+# Iterate over all faces found by PyVista
+for triangle in faces:
+    i0, i1, i2 = triangle)
+    mix = triangle_color_mix(i0, i1, i2)
+    # Add all 3 vertices of the triangle with the same mix value
+    add_vertex(i0, mix)
+    add_vertex(i1, mix)
+    add_vertex(i2, mix)
 
 # Generate a C++ header that contains the vertices/indices/shifts
 out = open("flatmeshgeometry.h", "w")
