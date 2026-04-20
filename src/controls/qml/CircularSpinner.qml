@@ -15,7 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.9
+import QtQuick 2.15
 import org.asteroid.controls 1.0
 
 /*!
@@ -30,7 +30,7 @@ import org.asteroid.controls 1.0
     to two digits.  This is particularly convenient for setting times and dates
 
     \qml
-    import QtQuick 2.9
+    import QtQuick 2.15
     import org.asteroid.controls 1.0
 
     CircularSpinner {
@@ -72,6 +72,8 @@ PathView {
     preferredHighlightEnd: 0.5
     highlightRangeMode: PathView.StrictlyEnforceRange
     highlightMoveDuration: 0
+    snapMode: PathView.SnapToItem
+    dragMargin: width/2
     clip: true
 
     delegate: SpinnerDelegate { }
