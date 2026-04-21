@@ -71,7 +71,7 @@ ListRow {
 
     Connections {
         target: actionArea
-        onStatusChanged: {
+        function onStatusChanged() {
             if (actionArea.status === Loader.Ready)
                 actionArea.item.checked = Qt.binding(function() { return checked })
         }

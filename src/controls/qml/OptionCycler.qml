@@ -80,7 +80,7 @@ ListRow {
 
     Connections {
         target: actionArea
-        onStatusChanged: {
+        function onStatusChanged() {
             if (actionArea.status === Loader.Ready)
                 actionArea.item.text = Qt.binding(function() { return currentValue })
         }

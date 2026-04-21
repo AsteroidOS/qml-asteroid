@@ -55,7 +55,7 @@ ListRow {
 
     Connections {
         target: actionArea
-        onStatusChanged: {
+        function onStatusChanged() {
             if (actionArea.status === Loader.Ready)
                 actionArea.item.name = Qt.binding(function() { return icon })
         }
