@@ -47,6 +47,8 @@ import org.asteroid.controls 1.0
     \endqml
 */
 ListRow {
+    id: root
+    property alias text: root.text
     /*!
         \qmlproperty var OptionCycler::valueArray
         The array of values to cycle through.
