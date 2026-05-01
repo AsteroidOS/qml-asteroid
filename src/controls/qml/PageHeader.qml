@@ -16,13 +16,13 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.9
-import org.asteroid.controls 1.0
-import org.asteroid.utils 1.0
+import QtQuick
+import org.asteroid.controls
+import org.asteroid.utils
 
 /*!
     \qmltype PageHeader
-    \inqmlmodule org.asteroid.controls 1.0
+    \inqmlmodule org.asteroid.controls
 
     \brief Provides a title on a page.
 
@@ -34,8 +34,8 @@ import org.asteroid.utils 1.0
     and a \l PageHeader at the top of the screen.
 
     \qml
-    import QtQuick 2.9
-    import org.asteroid.controls 1.0
+    import QtQuick
+    import org.asteroid.controls
 
     Item {
         PageHeader { text: "Example Page" }

@@ -16,9 +16,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.9
-import org.asteroid.controls 1.0
-import org.asteroid.utils 1.0
+import QtQuick
+import org.asteroid.controls
+import org.asteroid.utils
 
 /*!
     \qmltype Application
@@ -32,8 +32,8 @@ import org.asteroid.utils 1.0
     Here's a short example:
 
     \qml
-    import QtQuick 2.9
-    import org.asteroid.controls 1.0
+    import QtQuick
+    import org.asteroid.controls
 
     Application {
         // show a purple-ish flat mesh background

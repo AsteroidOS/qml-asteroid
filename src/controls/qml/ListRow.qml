@@ -15,12 +15,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.9
-import org.asteroid.controls 1.0
+import QtQuick
+import org.asteroid.controls
 
 /*!
     \qmltype ListRow
-    \inqmlmodule org.asteroid.controls 1.0
+    \inqmlmodule org.asteroid.controls
 
     \brief A layout base for list rows with a left content area and a right action widget.
 
@@ -40,8 +40,8 @@ import org.asteroid.controls 1.0
     This example shows a simple row with a label on the left and a custom icon on the right:
 
     \qml
-    import QtQuick 2.9
-    import org.asteroid.controls 1.0
+    import QtQuick
+    import org.asteroid.controls
 
     ListRow {
         width: parent.width

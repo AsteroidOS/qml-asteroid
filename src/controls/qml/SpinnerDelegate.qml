@@ -15,8 +15,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.9
-import org.asteroid.controls 1.0
+import QtQuick
+import org.asteroid.controls
 
 /*!
     \qmltype SpinnerDelegate
@@ -31,8 +31,8 @@ import org.asteroid.controls 1.0
     to select a value.
 
     \qml
-    import QtQuick 2.9
-    import org.asteroid.controls 1.0
+    import QtQuick
+    import org.asteroid.controls
 
     ListView {
         id: rating
@@ -54,8 +54,8 @@ import org.asteroid.controls 1.0
     each with a \l SpinnerDelegate that overrides the \l SpinnerDelegate::text attribute.
 
     \qml
-    import QtQuick 2.12
-    import org.asteroid.controls 1.0
+    import QtQuick
+    import org.asteroid.controls
 
     Item {
         id: combinationSelector

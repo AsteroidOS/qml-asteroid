@@ -27,8 +27,8 @@
 **
 ****************************************************************************/
 
-import QtQuick 2.9
-import QtQuick.VirtualKeyboard 2.15
+import QtQuick
+import QtQuick.VirtualKeyboard
 
 /*!
     \qmltype TextArea
@@ -43,8 +43,8 @@ import QtQuick.VirtualKeyboard 2.15
     \l TextArea is created in the upper left corner of the screen.
 
     \qml
-    import QtQuick 2.9
-    import org.asteroid.controls 1.0
+    import QtQuick
+    import org.asteroid.controls
 
     Item {
         HandWritingKeyboard {

@@ -29,9 +29,9 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import QtQuick 2.9
-import QtQuick.Window 2.0
-import org.asteroid.utils 1.0
+import QtQuick
+import QtQuick.Window
+import org.asteroid.utils
 
 /*!
     \qmltype BorderGestureArea
@@ -45,8 +45,8 @@ import org.asteroid.utils 1.0
     yellow.  No action is assigned to swipes up.
 
     \qml
-    import QtQuick 2.9
-    import org.asteroid.controls 1.0
+    import QtQuick
+    import org.asteroid.controls
 
     Application {
         id: myapp

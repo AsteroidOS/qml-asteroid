@@ -14,12 +14,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-import QtQuick 2.9
-import org.asteroid.controls 1.0
+import QtQuick
+import org.asteroid.controls
 
 /*!
     \qmltype OptionCycler
-    \inqmlmodule org.asteroid.controls 1.0
+    \inqmlmodule org.asteroid.controls
 
     \brief A component that displays and cycles through a list of configuration values.
 
@@ -28,8 +28,8 @@ import org.asteroid.controls 1.0
     the next value in the array, looping back to the first value when the end is reached.
 
     \qml
-    import QtQuick 2.9
-    import org.asteroid.controls 1.0
+    import QtQuick
+    import org.asteroid.controls
 
     Item {
         anchors.fill: parent
