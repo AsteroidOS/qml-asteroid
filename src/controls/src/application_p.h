@@ -47,6 +47,9 @@ public:
 private:
     bool m_overridesSystemGestures;
 
+protected:
+    void itemChange(ItemChange change, const ItemChangeData &data) override;
+
 signals:
     void overridesSystemGesturesChanged();
 };

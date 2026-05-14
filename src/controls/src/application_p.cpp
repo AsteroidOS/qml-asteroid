@@ -51,3 +51,20 @@ bool Application_p::overridesSystemGestures()
 {
     return m_overridesSystemGestures;
 }
+
+void Application_p::itemChange(ItemChange change, const ItemChangeData &data)
+{
+    QQuickItem::itemChange(change, data);
+    if (change == ItemSceneChange && data.window) {
+        auto syncSize = [this]() {
+            QQuickWindow *w = window();
+            if (w && w->width() > 0) {
+                setWidth(w->width());
+                setHeight(w->height());
+            }
+        };
+        syncSize();
+        connect(data.window, &QQuickWindow::widthChanged, this, syncSize);
+        connect(data.window, &QQuickWindow::heightChanged, this, syncSize);
+    }
+}
