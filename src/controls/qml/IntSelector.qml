@@ -219,7 +219,7 @@ ListRow {
                 tracking = false
             }
 
-            onPositionChanged: {
+            onPositionChanged: (mouse) => {
                 if (!tracking) {
                     var dx = Math.abs(mouseX - startX)
                     var dy = Math.abs(mouseY - startY)
