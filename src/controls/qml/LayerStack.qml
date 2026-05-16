@@ -188,15 +188,15 @@ Item {
 
         property real swipeThreshold: 0.15
 
-        onGestureStarted: {
+        onGestureStarted: (gesture) => {
             swipeAnimation.stop()
             cancelAnimation.stop()
-            if(gesture == "right")
+            if (gesture == "right")
                 state = "swipe"
         }
 
-        onGestureFinished: {
-            if(gesture == "right") {
+        onGestureFinished: (gesture) => {
+            if (gesture == "right") {
                 if (gestureArea.progress >= swipeThreshold) {
                     swipeAnimation.valueTo = width
                     swipeAnimation.start()
