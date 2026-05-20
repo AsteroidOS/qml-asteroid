@@ -17,6 +17,6 @@ target_link_libraries(asteroidutilsplugin
 	Qt::Quick)
 
 install(TARGETS asteroidutilsplugin
-	DESTINATION ${INSTALL_QML_IMPORT_DIR}/org/asteroid/utils)
+	DESTINATION ${KDE_INSTALL_QMLDIR}/org/asteroid/utils)
 install(FILES qmldir
-	DESTINATION ${INSTALL_QML_IMPORT_DIR}/org/asteroid/utils)
+	DESTINATION ${KDE_INSTALL_QMLDIR}/org/asteroid/utils)
