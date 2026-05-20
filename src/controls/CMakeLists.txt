@@ -89,9 +89,9 @@ target_link_libraries(
 
 install(
     TARGETS asteroidcontrolsplugin
-    DESTINATION ${INSTALL_QML_IMPORT_DIR}/org/asteroid/controls
+    DESTINATION ${KDE_INSTALL_QMLDIR}/org/asteroid/controls
 )
 install(
     FILES qmldir
-    DESTINATION ${INSTALL_QML_IMPORT_DIR}/org/asteroid/controls
+    DESTINATION ${KDE_INSTALL_QMLDIR}/org/asteroid/controls
 )

@@ -5,7 +5,7 @@ project(qml-asteroid
 	DESCRIPTION "QML components, styles and demos for AsteroidOS"
 )
 
-find_package(ECM REQUIRED NO_MODULE)
+find_package(ECM 6.0.0 REQUIRED NO_MODULE)
 
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake)
 
@@ -14,6 +14,7 @@ option(WITH_CMAKE_MODULES "Install AsteroidOS CMake modules" ON)
 
 include(FeatureSummary)
 include(GNUInstallDirs)
+include(KDEInstallDirs)
 include(ECMFindQmlModule)
 include(ECMGeneratePkgConfigFile)
 include(Asteroid6CMakeSettings)
@@ -40,7 +41,6 @@ else()
                         OUTPUT_VARIABLE QT_INSTALL_QML
                         ERROR_QUIET OUTPUT_STRIP_TRAILING_WHITESPACE)
     endif()
-    set(INSTALL_QML_IMPORT_DIR ${QT_INSTALL_QML})
 endif()
 
 add_subdirectory(src)

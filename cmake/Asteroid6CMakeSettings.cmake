@@ -31,8 +31,5 @@ if (NOT ASTEROID_SKIP_BUILD_SETTINGS)
 	# Since CMake 3.0
 	set(CMAKE_AUTORCC ON)
 
-	set(INSTALL_QML_IMPORT_DIR "${CMAKE_INSTALL_FULL_LIBDIR}/qml" 
-		CACHE PATH "Custom QML import installation directory")
-
 	set(QT_MIN_VERSION "6.10.0")
 endif()
