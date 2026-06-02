@@ -1,6 +1,7 @@
 set(SRC
 	src/controls_plugin.cpp
 	src/application_p.cpp
+	src/gesturesextension.cpp
 	src/flatmesh.cpp
 	src/flatmeshnode.cpp
 	src/icon.cpp
@@ -8,6 +9,7 @@ set(SRC
 set(HEADERS
 	src/controls_plugin.h
 	src/application_p.h
+	src/gesturesextension.h
 	src/flatmesh.h
 	src/flatmeshnode.h
 	src/flatmeshgeometry.h
@@ -80,11 +82,17 @@ add_custom_command(
     COMMENT "Generating HTML format Reference documentation..." VERBATIM
 )
 
+qt6_generate_wayland_protocol_client_sources(asteroidcontrolsplugin
+    FILES "${CMAKE_SOURCE_DIR}/wayland-protocols/asteroid-gestures-unstable-v1.xml"
+)
+
 target_link_libraries(
     asteroidcontrolsplugin
     Qt::Qml
     Qt::Quick
     Qt::Svg
+    Qt::WaylandClient
+    Qt::GuiPrivate
 )
 
 install(

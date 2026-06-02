@@ -28,26 +28,47 @@
  */
 
 #include "application_p.h"
+#include "gesturesextension.h"
 
 Application_p::Application_p() : QQuickItem()
 {
     m_overridesSystemGestures = false;
 }
 
+Application_p::~Application_p() = default;
+
 void Application_p::setOverridesSystemGestures(bool enable)
 {
-    if(m_overridesSystemGestures != enable)
-    {
-        m_overridesSystemGestures = enable;
-        if(enable)
-            window()->setFlags(window()->flags() | Qt::WindowOverridesSystemGestures);
-        else
-            window()->setFlags(window()->flags() & ~Qt::WindowOverridesSystemGestures);
-        emit overridesSystemGesturesChanged();
-    }
+    if (m_overridesSystemGestures == enable)
+        return;
+
+    m_overridesSystemGestures = enable;
+    applyOverrideToCompositor();
+    emit overridesSystemGesturesChanged();
 }
 
 bool Application_p::overridesSystemGestures()
 {
     return m_overridesSystemGestures;
+}
+
+void Application_p::applyOverrideToCompositor()
+{
+    // The wl_surface only exists once the window has been created and
+    // exposed; setOverridesSystemGestures may run before that. Defer to
+    // windowChanged()/QQuickItem::componentComplete in that case via a
+    // single-shot connection.
+    auto *win = window();
+    if (!win) {
+        connect(this, &QQuickItem::windowChanged, this,
+                [this](QQuickWindow *) { applyOverrideToCompositor(); },
+                Qt::SingleShotConnection);
+        return;
+    }
+
+    if (!m_gestureSurface)
+        m_gestureSurface.reset(GestureSurface::forWindow(win));
+
+    if (m_gestureSurface)
+        m_gestureSurface->set_overrides_system_gestures(m_overridesSystemGestures ? 1 : 0);
 }
