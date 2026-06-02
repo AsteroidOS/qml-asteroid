@@ -33,6 +33,8 @@
 #include <QIcon>
 #include <QSvgRenderer>
 #include <QFile>
+#include <QQuickWindow>
+#include <QGuiApplication>
 
 #define ICONS_DIRECTORY "/usr/share/icons/asteroid/"
 
@@ -42,9 +44,23 @@ Icon::Icon()
     m_color = Qt::white;
 }
 
+static qreal effectiveDpr(QQuickItem *item)
+{
+    if (item->window())
+        return item->window()->effectiveDevicePixelRatio();
+    return qGuiApp ? qGuiApp->devicePixelRatio() : 1.0;
+}
+
 void Icon::updateBasePixmap()
 {
-    m_pixmap = QPixmap(QSize(width(), height()));
+    const qreal dpr = effectiveDpr(this);
+    const QSize pixelSize(qRound(width()  * dpr),
+                          qRound(height() * dpr));
+
+    m_pixmap = QPixmap(pixelSize);
+    m_pixmap.setDevicePixelRatio(dpr);
+
+    setTextureSize(pixelSize);
 }
 
 void Icon::updatePixmapContent()
@@ -58,8 +74,10 @@ void Icon::updatePixmapContent()
         return;
 
     QPainter painter(&m_pixmap);
+    painter.setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
+
     QSvgRenderer svgRenderer(ICONS_DIRECTORY + m_name + ".svg");
-    svgRenderer.render(&painter);
+    svgRenderer.render(&painter, QRectF(0, 0, width(), height()));
 }
 
 void Icon::updatePixmapColor()
