@@ -32,6 +32,9 @@
 
 #include <QQuickItem>
 #include <QQuickWindow>
+#include <memory>
+
+class GestureSurface;
 
 class Application_p : public QQuickItem
 {
@@ -41,11 +44,15 @@ class Application_p : public QQuickItem
 
 public:
     explicit Application_p();
+    ~Application_p();
     Q_INVOKABLE void setOverridesSystemGestures(bool enable);
     bool overridesSystemGestures();
 
 private:
+    void applyOverrideToCompositor();
+
     bool m_overridesSystemGestures;
+    std::unique_ptr<GestureSurface> m_gestureSurface;
 
 signals:
     void overridesSystemGesturesChanged();
