@@ -27,6 +27,7 @@
 #include "asteroidapp.h"
 
 #include <MDeclarativeCache>
+#include <QFile>
 #include <QFileInfo>
 #include <QGuiApplication>
 #include <QQmlEngine>
@@ -34,6 +35,7 @@
 #include <QScreen>
 #include <QSettings>
 #include <QTranslator>
+#include <QUrl>
 #include <mdeclarativecache6/MDeclarativeCache>
 
 static QString applicationPath()
@@ -97,7 +99,19 @@ namespace AsteroidApp {
     {
         QScopedPointer<QGuiApplication> app(AsteroidApp::application(argc, argv));
         QScopedPointer<QQuickView> view(AsteroidApp::createView());
-        view->setSource(QUrl("qrc:/main.qml"));
+
+        QString uri = appName();
+        if (uri.startsWith(QStringLiteral("asteroid-")))
+            uri = uri.mid(qstrlen("asteroid-"));
+        if (!uri.isEmpty())
+            uri[0] = uri[0].toUpper();
+
+        const QString cachegenPath = QStringLiteral(":/") + uri + QStringLiteral("/main.qml");
+        if (QFile::exists(cachegenPath))
+            view->setSource(QUrl(QStringLiteral("qrc") + cachegenPath));
+        else
+            view->setSource(QUrl(QStringLiteral("qrc:/main.qml")));
+
         view->resize(app->primaryScreen()->size());
         view->show();
         return app->exec();
