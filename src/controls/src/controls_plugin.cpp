@@ -16,25 +16,12 @@
  */
 
 #include "controls_plugin.h"
-#include <QFontDatabase>
+#include <QFont>
 #include <QGuiApplication>
-#include <QtQml>
-#include "application_p.h"
-#include "flatmesh.h"
-#include "icon.h"
 
-ControlsPlugin::ControlsPlugin(QObject *parent) : QQmlExtensionPlugin(parent)
+void ControlsPlugin::initializeEngine(QQmlEngine *engine, const char *uri)
 {
-}
-
-void ControlsPlugin::registerTypes(const char *uri)
-{
-    Q_ASSERT(uri == QLatin1String("org.asteroid.controls"));
-
+    Q_UNUSED(engine)
+    Q_UNUSED(uri)
     QGuiApplication::setFont(QFont("Noto Sans"));
-
-    qmlRegisterType<Application_p>(uri, 1, 0, "Application_p");
-    qmlRegisterType<FlatMesh>(uri, 1, 0, "FlatMesh");
-    qmlRegisterType<Icon>(uri, 1, 0, "Icon");
 }
-

@@ -18,17 +18,15 @@
 #ifndef CONTROLSPLUGIN_H
 #define CONTROLSPLUGIN_H
 
-#include <QQmlExtensionPlugin>
+#include <QQmlEngineExtensionPlugin>
 
-class ControlsPlugin : public QQmlExtensionPlugin
+class ControlsPlugin : public QQmlEngineExtensionPlugin
 {
     Q_OBJECT
-    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QQmlExtensionInterface")
+    Q_PLUGIN_METADATA(IID QQmlEngineExtensionInterface_iid)
 
 public:
-    explicit ControlsPlugin(QObject *parent = 0);
-    void registerTypes(const char *uri);
+    void initializeEngine(QQmlEngine *engine, const char *uri) override;
 };
 
 #endif // CONTROLSPLUGIN_H
-
