@@ -33,3 +33,19 @@ if (NOT ASTEROID_SKIP_BUILD_SETTINGS)
 
 	set(QT_MIN_VERSION "6.10.0")
 endif()
+
+function(asteroid_app_qml_module target)
+	string(REGEX REPLACE "^asteroid-" "" _bare "${target}")
+	string(SUBSTRING "${_bare}" 0 1 _first)
+	string(TOUPPER "${_first}" _first)
+	string(SUBSTRING "${_bare}" 1 -1 _rest)
+	set(_uri "${_first}${_rest}")
+
+	qt6_add_qml_module(${target}
+		URI ${_uri}
+		VERSION 1.0
+		RESOURCE_PREFIX "/"
+		NO_PLUGIN
+		QML_FILES ${ARGN}
+	)
+endfunction()
