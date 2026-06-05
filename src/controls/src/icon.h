@@ -33,10 +33,12 @@
 #include <QQuickPaintedItem>
 #include <QIcon>
 #include <QPixmap>
+#include <QtQml/qqmlregistration.h>
 
 class Icon : public QQuickPaintedItem
 {
     Q_OBJECT
+    QML_NAMED_ELEMENT(Icon)
 
     Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
     Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged)

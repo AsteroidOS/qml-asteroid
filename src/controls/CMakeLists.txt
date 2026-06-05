@@ -54,12 +54,19 @@ foreach(control ${controls})
     list(APPEND controls-qml "qml/${control}.qml")
 endforeach()
 
-add_library(asteroidcontrolsplugin ${SRC} ${HEADERS})
-qt_add_resources(
-    asteroidcontrolsplugin "asteroidcontrolsplugin_qrc"
-    PREFIX "/org/asteroid/controls/"
-    FILES "${controls-qml}"
+set_source_files_properties(qml/Dims.qml PROPERTIES QT_QML_SINGLETON_TYPE TRUE)
+
+qt6_add_qml_module(asteroidcontrolsplugin
+    URI org.asteroid.controls
+    VERSION 1.0
+    PLUGIN_TARGET asteroidcontrolsplugin
+    CLASS_NAME ControlsPlugin
+    NO_GENERATE_PLUGIN_SOURCE
+    SOURCES ${SRC} ${HEADERS}
+    QML_FILES ${controls-qml}
 )
+
+target_include_directories(asteroidcontrolsplugin PRIVATE src)
 
 qt_add_shaders(
     asteroidcontrolsplugin "asteroidcontrolsplugin_shaders"
@@ -88,11 +95,12 @@ qt6_generate_wayland_protocol_client_sources(asteroidcontrolsplugin
 
 target_link_libraries(
     asteroidcontrolsplugin
-    Qt::Qml
-    Qt::Quick
-    Qt::Svg
-    Qt::WaylandClient
-    Qt::GuiPrivate
+    PRIVATE
+        Qt::Qml
+        Qt::Quick
+        Qt::Svg
+        Qt::WaylandClient
+        Qt::GuiPrivate
 )
 
 install(
@@ -100,6 +108,6 @@ install(
     DESTINATION ${KDE_INSTALL_QMLDIR}/org/asteroid/controls
 )
 install(
-    FILES qmldir
+    FILES "${CMAKE_CURRENT_BINARY_DIR}/qmldir"
     DESTINATION ${KDE_INSTALL_QMLDIR}/org/asteroid/controls
 )

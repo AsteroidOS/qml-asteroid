@@ -34,10 +34,12 @@
 #include <QSGNode>
 #include <QColor>
 #include <QTimer>
+#include <QtQml/qqmlregistration.h>
 
 class FlatMesh : public QQuickItem
 {
     Q_OBJECT
+    QML_NAMED_ELEMENT(FlatMesh)
     Q_PROPERTY(QColor centerColor WRITE setCenterColor READ getCenterColor)
     Q_PROPERTY(QColor outerColor WRITE setOuterColor READ getOuterColor)
     Q_PROPERTY(bool animated WRITE setAnimated READ getAnimated NOTIFY animatedChanged)

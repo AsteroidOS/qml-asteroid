@@ -32,6 +32,7 @@
 
 #include <QQuickItem>
 #include <QQuickWindow>
+#include <QtQml/qqmlregistration.h>
 #include <memory>
 
 class GestureSurface;
@@ -39,6 +40,7 @@ class GestureSurface;
 class Application_p : public QQuickItem
 {
     Q_OBJECT
+    QML_NAMED_ELEMENT(Application_p)
     Q_PROPERTY(QQuickWindow* window READ window CONSTANT)
     Q_PROPERTY(bool overridesSystemGestures READ overridesSystemGestures WRITE setOverridesSystemGestures NOTIFY overridesSystemGesturesChanged)
 
