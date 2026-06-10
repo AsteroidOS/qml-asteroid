@@ -38,8 +38,6 @@ public:
     void setPowered(bool);
     bool getPowered();
     bool getConnected();
-    void updatePowered();
-    void updateConnected();
 
 public slots:
     void serviceRegistered(const QString& name);
@@ -53,6 +51,11 @@ signals:
     void poweredChanged();
 
 private:
+    // Asynchronously fetch the BlueZ object tree and recompute powered/connected
+    // from a single GetManagedObjects reply, off the GUI thread.
+    void refresh();
+    void handleManagedObjects(const class QDBusMessage &reply);
+
     bool mConnected, mPowered;
     QDBusConnection mBus;
     QDBusServiceWatcher *mWatcher;

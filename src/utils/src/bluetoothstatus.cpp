@@ -22,6 +22,8 @@
 #include <QDBusInterface>
 #include <QDBusArgument>
 #include <QDBusMessage>
+#include <QDBusPendingCall>
+#include <QDBusPendingCallWatcher>
 
 #include <QDBusMetaType>
 
@@ -36,11 +38,10 @@ BluetoothStatus::BluetoothStatus(QObject *parent) : QObject(parent), mBus(QDBusC
     connect(mWatcher, SIGNAL(serviceRegistered(const QString&)), this, SLOT(serviceRegistered(const QString&)));
     connect(mWatcher, SIGNAL(serviceUnregistered(const QString&)), this, SLOT(serviceUnregistered(const QString&)));
 
-    QDBusInterface remoteOm("org.bluez", "/", "org.freedesktop.DBus.ObjectManager", mBus);
-    if(remoteOm.isValid())
-        serviceRegistered("org.bluez");
-    else
-        serviceUnregistered("org.bluez");
+    // Subscribe and kick off an async fetch unconditionally; if org.bluez is
+    // not up yet the reply just errors out (treated as unpowered) and the
+    // service watcher re-fetches once it appears.
+    serviceRegistered("org.bluez");
 }
 
 void BluetoothStatus::serviceRegistered(const QString& name)
@@ -48,8 +49,7 @@ void BluetoothStatus::serviceRegistered(const QString& name)
     mBus.connect("org.bluez", "/", "org.freedesktop.DBus.ObjectManager", "InterfacesAdded", this, SLOT(InterfacesAdded(QDBusObjectPath, InterfaceList)));
     mBus.connect("org.bluez", "/", "org.freedesktop.DBus.ObjectManager", "InterfacesRemoved", this, SLOT(InterfacesRemoved(QDBusObjectPath, QStringList)));
 
-    updatePowered();
-    updateConnected();
+    refresh();
 }
 
 void BluetoothStatus::serviceUnregistered(const QString& name)
@@ -65,66 +65,56 @@ void BluetoothStatus::serviceUnregistered(const QString& name)
     }
 }
 
-void BluetoothStatus::updatePowered()
+void BluetoothStatus::refresh()
+{
+    QDBusInterface remoteOm("org.bluez", "/", "org.freedesktop.DBus.ObjectManager", mBus);
+    QDBusPendingCall call = remoteOm.asyncCall("GetManagedObjects");
+    QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(call, this);
+    connect(watcher, &QDBusPendingCallWatcher::finished, this, [this](QDBusPendingCallWatcher *w) {
+        QDBusMessage reply = w->reply();
+        w->deleteLater();
+        handleManagedObjects(reply);
+    });
+}
+
+void BluetoothStatus::handleManagedObjects(const QDBusMessage &reply)
 {
     bool powered = false;
-    QDBusInterface remoteOm("org.bluez", "/", "org.freedesktop.DBus.ObjectManager", mBus);
+    bool connected = false;
 
-    QDBusMessage result = remoteOm.call("GetManagedObjects");
+    if (reply.type() == QDBusMessage::ReplyMessage && !reply.arguments().isEmpty()) {
+        const QDBusArgument argument = reply.arguments().at(0).value<QDBusArgument>();
+        if (argument.currentType() == QDBusArgument::MapType) {
+            argument.beginMap();
+            while (!argument.atEnd()) {
+                    QString key;
+                    InterfaceList value;
 
-    const QDBusArgument argument = result.arguments().at(0).value<QDBusArgument>();
-    if (argument.currentType() == QDBusArgument::MapType) {
-        argument.beginMap();
-        while (!argument.atEnd()) {
-                QString key;
-                InterfaceList value;
+                    argument.beginMapEntry();
+                    argument >> key >> value;
+                    argument.endMapEntry();
 
-                argument.beginMapEntry();
-                argument >> key >> value;
-                argument.endMapEntry();
+                    if (value.contains("org.bluez.Adapter1")) {
+                         mBus.connect("org.bluez", key, "org.freedesktop.DBus.Properties", "PropertiesChanged", this, SLOT(PropertiesChanged(QString, QMap<QString, QVariant>, QStringList)));
+                         QMap<QString, QVariant> properties = value.value("org.bluez.Adapter1");
+                         if(properties.contains("Powered"))
+                            powered |= properties.value("Powered").toBool();
+                    }
 
-                if (value.contains("org.bluez.Adapter1")) {
-                     mBus.connect("org.bluez", key, "org.freedesktop.DBus.Properties", "PropertiesChanged", this, SLOT(PropertiesChanged(QString, QMap<QString, QVariant>, QStringList)));
-                     QMap<QString, QVariant> properties = value.value("org.bluez.Adapter1");
-                     if(properties.contains("Powered"))
-                        powered |= properties.value("Powered").toBool();
-                }
+                    if (value.contains("org.bluez.Device1")) {
+                         mBus.connect("org.bluez", key, "org.freedesktop.DBus.Properties", "PropertiesChanged", this, SLOT(PropertiesChanged(QString, QMap<QString, QVariant>, QStringList)));
+                         QMap<QString, QVariant> properties = value.value("org.bluez.Device1");
+                         if(properties.contains("Connected"))
+                            connected |= properties.value("Connected").toBool();
+                    }
+            }
+            argument.endMap();
         }
-        argument.endMap();
     }
 
     if(powered != mPowered) {
         mPowered = powered;
         emit poweredChanged();
-    }
-}
-
-void BluetoothStatus::updateConnected()
-{
-    bool connected = false;
-    QDBusInterface remoteOm("org.bluez", "/", "org.freedesktop.DBus.ObjectManager", mBus);
-
-    QDBusMessage result = remoteOm.call("GetManagedObjects");
-
-    const QDBusArgument argument = result.arguments().at(0).value<QDBusArgument>();
-    if (argument.currentType() == QDBusArgument::MapType) {
-        argument.beginMap();
-        while (!argument.atEnd()) {
-                QString key;
-                InterfaceList value;
-
-                argument.beginMapEntry();
-                argument >> key >> value;
-                argument.endMapEntry();
-
-                if (value.contains("org.bluez.Device1")) {
-                     mBus.connect("org.bluez", key, "org.freedesktop.DBus.Properties", "PropertiesChanged", this, SLOT(PropertiesChanged(QString, QMap<QString, QVariant>, QStringList)));
-                     QMap<QString, QVariant> properties = value.value("org.bluez.Device1");
-                     if(properties.contains("Connected"))
-                        connected |= properties.value("Connected").toBool();
-                }
-        }
-        argument.endMap();
     }
 
     if(connected != mConnected) {
@@ -135,20 +125,17 @@ void BluetoothStatus::updateConnected()
 
 void BluetoothStatus::InterfacesAdded(QDBusObjectPath, InterfaceList)
 {
-    updatePowered();
-    updateConnected();
+    refresh();
 }
 
 void BluetoothStatus::InterfacesRemoved(QDBusObjectPath, QStringList)
 {
-    updatePowered();
-    updateConnected();
+    refresh();
 }
 
 void BluetoothStatus::PropertiesChanged(QString, QMap<QString, QVariant>, QStringList)
 {
-    updatePowered();
-    updateConnected();
+    refresh();
 }
 
 bool BluetoothStatus::getPowered()
