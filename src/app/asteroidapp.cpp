@@ -36,7 +36,6 @@
 #include <QSettings>
 #include <QTranslator>
 #include <QUrl>
-#include <mdeclarativecache6/MDeclarativeCache>
 
 static QString applicationPath()
 {
