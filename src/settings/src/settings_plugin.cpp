@@ -13,7 +13,6 @@
 #include "datetimesettings.h"
 #include "aboutsettings.h"
 #include "languagemodel.h"
-#include "profilecontrol.h"
 
 SettingsPlugin::SettingsPlugin(QObject *parent) : QQmlExtensionPlugin(parent)
 {
@@ -27,5 +26,4 @@ void SettingsPlugin::registerTypes(const char *uri)
     qmlRegisterType<DateTimeSettings>(uri, 1, 0, "DateTimeSettings");
     qmlRegisterType<AboutSettings>(uri, 1, 0, "AboutSettings");
     qmlRegisterType<LanguageModel>(uri, 1, 0, "LanguageModel");
-    qmlRegisterType<ProfileControl>(uri, 1, 0, "ProfileControl");
 }
