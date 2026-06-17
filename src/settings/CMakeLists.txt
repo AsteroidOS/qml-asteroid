@@ -4,16 +4,14 @@ set(SRC
 	src/displaysettings.cpp
 	src/datetimesettings.cpp
 	src/aboutsettings.cpp
-	src/languagemodel.cpp
-	src/profilecontrol.cpp)
+	src/languagemodel.cpp)
 set(HEADERS
 	src/settings_plugin.h
 	src/mceconfig.h
 	src/displaysettings.h
 	src/datetimesettings.h
 	src/aboutsettings.h
-	src/languagemodel.h
-	src/profilecontrol.h)
+	src/languagemodel.h)
 
 add_library(asteroidsettingsplugin ${SRC} ${HEADERS})
 
