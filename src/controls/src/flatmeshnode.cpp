@@ -121,15 +121,14 @@ void FlatMeshNode::setAnimated(bool animated)
 
 void FlatMeshNode::maybeAnimate()
 {
-    static QElapsedTimer t;
     bool firstFrame = false;
-    if(!t.isValid()) {
-        t.start();
+    if(!m_animTimer.isValid()) {
+        m_animTimer.start();
         firstFrame = true;
     }
 
-    if (firstFrame || (m_animated && t.elapsed() >= 80)) {
-        t.restart();
+    if (firstFrame || (m_animated && m_animTimer.elapsed() >= 80)) {
+        m_animTimer.restart();
         m_animationState += 0.02f;
 
         float shiftMix = m_animationState;

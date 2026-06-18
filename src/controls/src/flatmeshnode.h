@@ -33,6 +33,7 @@
 #include <QObject>
 #include <QQuickWindow>
 #include <QSGSimpleRectNode>
+#include <QElapsedTimer>
 
 #define NUM_POINTS_X 13
 #define NUM_POINTS_Y 13
@@ -73,6 +74,7 @@ private:
     QQuickWindow *m_window;
     int m_loopCount;
     float m_screenScaleFactor;
+    QElapsedTimer m_animTimer;
     Point m_points[NUM_POINTS_X*NUM_POINTS_Y];
 };
 
