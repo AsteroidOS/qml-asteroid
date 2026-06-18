@@ -50,25 +50,48 @@ QList<Language> LanguageModel::loadSupportedLanguages() const
 
 void LanguageModel::readCurrentLocale()
 {
-    QFile f("/etc/locale.conf");
-    if (!f.open(QIODevice::ReadOnly | QIODevice::Text))
-        return;
-    while (!f.atEnd()) {
-        const QString line = QString::fromUtf8(f.readLine()).trimmed();
-        if (line.startsWith("LANG=")) {
-            QString lang = line.mid(5);
-            if (lang.startsWith('"') && lang.endsWith('"') && lang.size() >= 2)
-                lang = lang.mid(1, lang.size() - 2);
-            m_currentIndex = indexForLocale(lang);
-            break;
-        }
-    }
+    QString lang = qEnvironmentVariable("LANG");
+    if (lang.isEmpty() || lang == "C" || lang == "POSIX")
+        lang = "en";
+    m_currentIndex = indexForLocale(lang);
+}
+
+// Normalize a locale code to its lowercase base, dropping the ".utf8"/"@mod"
+// suffix: "en_GB.utf8" -> "en_gb", "fr.utf8" -> "fr".
+static QString localeBase(const QString &code)
+{
+    QString s = code;
+    int cut = s.indexOf('.');
+    if (cut >= 0) s = s.left(cut);
+    cut = s.indexOf('@');
+    if (cut >= 0) s = s.left(cut);
+    return s.toLower();
+}
+
+// Language part only: "en_gb" -> "en".
+static QString langPart(const QString &code)
+{
+    const QString b = localeBase(code);
+    const int us = b.indexOf('_');
+    return us >= 0 ? b.left(us) : b;
 }
 
 int LanguageModel::indexForLocale(const QString &localeCode) const
 {
+    const QString wantBase = localeBase(localeCode);
+    const QString wantLang = langPart(localeCode);
+
+    // 1. exact (normalized) match on the full base, e.g. en_gb == en_gb
     for (int i = 0; i < m_languages.size(); ++i)
-        if (m_languages.at(i).localeCode == localeCode)
+        if (localeBase(m_languages.at(i).localeCode) == wantBase)
+            return i;
+    // 2. language-only entry with no region, e.g. "fr.utf8" for "fr"
+    for (int i = 0; i < m_languages.size(); ++i)
+        if (localeBase(m_languages.at(i).localeCode) == wantLang)
+            return i;
+    // 3. any entry sharing the language, e.g. "en" -> "en_GB.utf8"
+    for (int i = 0; i < m_languages.size(); ++i)
+        if (langPart(m_languages.at(i).localeCode) == wantLang)
             return i;
     return -1;
 }
