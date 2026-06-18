@@ -29,7 +29,7 @@
  */
 
 import QtQuick
-import Qt5Compat.GraphicalEffects
+import QtQuick.Effects
 import org.asteroid.controls
 
 /*!
@@ -235,11 +235,16 @@ Item {
     }
 
     layer.enabled: true
-    layer.effect: OpacityMask {
-        maskSource: Item {
-            width: valueMeter.width
-            height: valueMeter.height
-            Rectangle { anchors.fill: parent; radius: outline.radius }
+    layer.effect: MultiEffect {
+        maskEnabled: true
+        maskSource: ShaderEffectSource {
+            smooth: true
+            hideSource: true
+            sourceItem: Rectangle {
+                width: valueMeter.width
+                height: valueMeter.height
+                radius: outline.radius
+            }
         }
     }
 }

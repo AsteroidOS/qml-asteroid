@@ -19,8 +19,8 @@
  */
 
 import QtQuick
+import QtQuick.Effects
 import org.asteroid.controls
-import Qt5Compat.GraphicalEffects
 
 /*!
     \qmltype IntSelector
@@ -125,11 +125,16 @@ ListRow {
         color: Qt.rgba(0, 0, 0, 0)
 
         layer.enabled: true
-        layer.effect: OpacityMask {
-            maskSource: Rectangle {
-                width: track.width
-                height: track.height
-                radius: track.radius
+        layer.effect: MultiEffect {
+            maskEnabled: true
+            maskSource: ShaderEffectSource {
+                smooth: true
+                hideSource: true
+                sourceItem: Rectangle {
+                    width: track.width
+                    height: track.height
+                    radius: track.radius
+                }
             }
         }
 
