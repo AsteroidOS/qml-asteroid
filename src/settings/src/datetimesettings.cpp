@@ -48,3 +48,9 @@ void DateTimeSettings::setTimezone(const QString &timezone)
     // SetTimezone(name, interactive=false)
     iface.asyncCall("SetTimezone", timezone, false);
 }
+
+QString DateTimeSettings::currentTimezone() const
+{
+    QDBusInterface iface(TD_SERVICE, TD_PATH, TD_IFACE, QDBusConnection::systemBus());
+    return iface.property("Timezone").toString();
+}
