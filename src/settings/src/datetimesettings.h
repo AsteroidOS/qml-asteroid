@@ -23,6 +23,7 @@ public:
     Q_INVOKABLE void setTime(int hour, int minute);
     Q_INVOKABLE void setDate(const QDate &date);
     Q_INVOKABLE void setTimezone(const QString &timezone);
+    Q_INVOKABLE QString currentTimezone() const;
 
 private:
     void applyEpoch(qint64 secsSinceEpoch);
