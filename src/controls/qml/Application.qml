@@ -77,6 +77,7 @@ Application_p {
     FlatMesh {
         id: fm
         anchors.fill: parent
+        anchors.bottomMargin: -DeviceSpecs.flatTireHeight
     }
 
     /*!
