@@ -76,6 +76,10 @@ MouseArea {
     /*! alias to receive boolean forceOn to act like a controlled radio button */
     property bool forceOn: false
 
+    property color activeColor: "#33ffffff"
+    property color inactiveColor: "#00ffffff"
+    property alias color: highlight.color
+
     hoverEnabled: true
 
     anchors.fill: parent
@@ -83,7 +87,7 @@ MouseArea {
     Rectangle {
         id: highlight
         anchors.fill: parent
-        color: parent.containsPress || parent.forceOn ? "#33ffffff" : "#00ffffff"
+        color: parent.containsPress || parent.forceOn ? parent.activeColor : parent.inactiveColor
         Behavior on color {
             ColorAnimation {
                 duration: 150;
