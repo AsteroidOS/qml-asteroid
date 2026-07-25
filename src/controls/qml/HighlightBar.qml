@@ -72,28 +72,23 @@ import org.asteroid.controls
     }
     \endqml
 */
-Rectangle {
-    /*! forward the clicked() signal to parent */
-    signal clicked()
+MouseArea {
     /*! alias to receive boolean forceOn to act like a controlled radio button */
     property bool forceOn: false
 
+    hoverEnabled: true
+
     anchors.fill: parent
-    /*! the default color may be overridden */
-    color: rowClick.containsPress || forceOn ? "#33ffffff" : "#00ffffff"
 
-    Behavior on color {
-        ColorAnimation {
-            duration: 150;
-            easing.type: Easing.OutQuad
-        }
-    }
-
-    MouseArea {
-        id: rowClick
-
+    Rectangle {
+        id: highlight
         anchors.fill: parent
-        hoverEnabled: true
-        onClicked: parent.clicked()
+        color: parent.containsPress || parent.forceOn ? "#33ffffff" : "#00ffffff"
+        Behavior on color {
+            ColorAnimation {
+                duration: 150;
+                easing.type: Easing.OutQuad
+            }
+        }
     }
 }
