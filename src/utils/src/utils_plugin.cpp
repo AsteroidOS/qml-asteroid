@@ -20,6 +20,7 @@
 #include "bluetoothstatus.h"
 #include "devicespecs.h"
 #include "fileinfo.h"
+#include "wallclock.h"
 
 UtilsPlugin::UtilsPlugin(QObject *parent) : QQmlExtensionPlugin(parent)
 {
@@ -32,5 +33,6 @@ void UtilsPlugin::registerTypes(const char *uri)
     qmlRegisterSingletonType<DeviceSpecs>(uri, 1,0, "DeviceSpecs", &DeviceSpecs::qmlInstance);
     qmlRegisterSingletonType<FileInfo>(uri, 1, 0, "FileInfo", &FileInfo::qmlInstance);
     qmlRegisterType<BluetoothStatus>(uri, 1, 0, "BluetoothStatus");
+    qmlRegisterType<WallClock>(uri, 1, 0, "WallClock");
 }
 
