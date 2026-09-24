@@ -30,17 +30,11 @@
 #include "flatmeshnode.h"
 #include "flatmeshgeometry.h"
 
-#include <math.h>
-
 #include <QSGVertexColorMaterial>
 
 /* Used to compute a triangle color from its distance to the center */
 static inline QColor interpolateColors(const QColor& color1, const QColor& color2, qreal ratio)
 {
-    /* Linear scale is too harsh, this looks better. This is not supposed to be called very often */
-    ratio = pow(ratio, 1.7);
-    if (ratio>1) ratio=1;
-
     int r = color1.red()*(1-ratio) + color2.red()*ratio;
     int g = color1.green()*(1-ratio) + color2.green()*ratio;
     int b = color1.blue()*(1-ratio) + color2.blue()*ratio;
