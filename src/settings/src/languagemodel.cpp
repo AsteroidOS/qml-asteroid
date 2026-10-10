@@ -15,7 +15,8 @@
 #include <QFileInfoList>
 #include <QSettings>
 #include <QDBusConnection>
-#include <QDBusInterface>
+#include <QDBusMessage>
+#include <QDBusPendingCall>
 #include <algorithm>
 
 static const char *LanguageSupportDirectory = "/usr/share/supported-languages";
@@ -138,9 +139,10 @@ QString LanguageModel::locale(int index) const
 void LanguageModel::setSystemLocale(const QString &localeCode, LocaleUpdateMode updateMode)
 {
     // Apply persistently via systemd-localed (writes /etc/locale.conf).
-    QDBusInterface localed("org.freedesktop.locale1", "/org/freedesktop/locale1",
-                           "org.freedesktop.locale1", QDBusConnection::systemBus());
-    localed.asyncCall("SetLocale", QStringList{ "LANG=" + localeCode }, false /* interactive */);
+    QDBusMessage setLocale = QDBusMessage::createMethodCall("org.freedesktop.locale1", "/org/freedesktop/locale1",
+                                                            "org.freedesktop.locale1", "SetLocale");
+    setLocale << QStringList{ "LANG=" + localeCode } << false /* interactive */;
+    QDBusConnection::systemBus().asyncCall(setLocale);
 
     const int oldIndex = m_currentIndex;
     m_currentIndex = indexForLocale(localeCode);
@@ -148,12 +150,14 @@ void LanguageModel::setSystemLocale(const QString &localeCode, LocaleUpdateMode 
         emit currentIndexChanged();
 
     if (updateMode == UpdateAndReboot) {
-        QDBusInterface login1("org.freedesktop.login1", "/org/freedesktop/login1",
-                              "org.freedesktop.login1.Manager", QDBusConnection::systemBus());
-        login1.asyncCall("Reboot", false);
+        QDBusMessage reboot = QDBusMessage::createMethodCall("org.freedesktop.login1", "/org/freedesktop/login1",
+                                                             "org.freedesktop.login1.Manager", "Reboot");
+        reboot << false;
+        QDBusConnection::systemBus().asyncCall(reboot);
     } else {
-        QDBusInterface lipstick("org.nemomobile.lipstick", "/org/nemomobile/lipstick/localemanager",
-                               "org.nemomobile.lipstick", QDBusConnection::systemBus());
-        lipstick.asyncCall("selectLocale", localeCode);
+        QDBusMessage selectLocale = QDBusMessage::createMethodCall("org.nemomobile.lipstick", "/org/nemomobile/lipstick/localemanager",
+                                                                   "org.nemomobile.lipstick", "selectLocale");
+        selectLocale << localeCode;
+        QDBusConnection::systemBus().asyncCall(selectLocale);
     }
 }
